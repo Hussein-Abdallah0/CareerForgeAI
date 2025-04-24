@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('interviews', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('job_role', 150);
+            $table->text('feedback');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

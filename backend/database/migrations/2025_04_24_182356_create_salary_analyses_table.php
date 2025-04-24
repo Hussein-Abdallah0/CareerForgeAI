@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('salary_analyses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->constrained()->onDelete('cascade');
-            $table->string("job_title", 150);
-            $table->string("location", 100);
-            $table->string("experience_level", 100);
-            $table->string("suggested_range", 100);
-            $table->text("market_analysis");
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('job_title', 150);
+            $table->string('location', 100);
+            $table->string('experience_level', 100);
+            $table->string('suggested_range', 100);
+            $table->text('market_analysis');
             $table->timestamp('created_at')->useCurrent();
         });
     }
