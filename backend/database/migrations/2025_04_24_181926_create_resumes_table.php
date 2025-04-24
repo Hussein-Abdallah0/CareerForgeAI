@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('resumes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('job_title', 150);
+            $table->text('experience');
+            $table->text('skills');
+            $table->text('education');
+            $table->text('tailored_resume');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
