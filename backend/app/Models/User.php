@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'plan',
     ];
 
     /**
@@ -30,7 +31,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -41,8 +41,22 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'created_at' => 'datetime',
         ];
+    }
+
+    public function resumes()
+    {
+        return $this->hasMany(Resume::class);
+    }
+
+    public function interviews()
+    {
+        return $this->hasMany(Interview::class);
+    }
+
+    public function salaryAnalysis()
+    {
+        return $this->hasMany(SalaryAnalysis::class);
     }
 }
