@@ -9,4 +9,15 @@ class Interview extends Model
 {
     /** @use HasFactory<\Database\Factories\InterviewFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'job_role',
+        'feedback',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
