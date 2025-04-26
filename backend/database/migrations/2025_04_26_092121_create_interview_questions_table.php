@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('interview_questions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('session_id')->constrained('interview_sessions')->onDelete('cascade');
+            $table->text('question');
+            $table->text('user_answer')->nullable();
+            $table->text('ai_comment')->nullable();
             $table->timestamps();
         });
     }
