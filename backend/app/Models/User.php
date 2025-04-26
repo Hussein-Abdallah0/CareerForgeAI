@@ -18,7 +18,8 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
         'plan',
@@ -50,9 +51,9 @@ class User extends Authenticatable
         return $this->hasMany(Resume::class);
     }
 
-    public function interviews()
+    public function sessions()
     {
-        return $this->hasMany(Interview::class);
+        return $this->hasMany(InterviewSession::class);
     }
 
     public function salaryAnalysis()

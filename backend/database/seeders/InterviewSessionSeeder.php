@@ -2,22 +2,22 @@
 
 namespace Database\Seeders;
 
-use App\Models\Resume;
+use App\Models\InterviewSession;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ResumeSeeder extends Seeder
+class InterviewSessionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run()
+    public function run(): void
     {
-        // For each user, create 1 resume
+        // Create 2 interviews for each user
         User::all()->each(function ($user) {
-            Resume::factory()->create([
-                'user_id' => $user->id,
+            InterviewSession::factory()->count(2)->create([
+                'user_id' => $user->id
             ]);
         });
     }

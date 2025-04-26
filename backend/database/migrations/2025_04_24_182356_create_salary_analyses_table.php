@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('job_title', 150);
             $table->string('location', 100);
             $table->string('experience_level', 100);
+            $table->decimal('current_salary', 10, 2)->nullable();
             $table->string('suggested_range', 100);
-            $table->text('market_analysis');
             $table->timestamp('created_at')->useCurrent();
         });
     }

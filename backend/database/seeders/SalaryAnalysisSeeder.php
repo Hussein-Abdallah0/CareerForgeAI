@@ -14,22 +14,11 @@ class SalaryAnalysisSeeder extends Seeder
      */
     public function run()
     {
-        // Create 1 salary analysis for each user
+        // For each user, create 1 salary analysis
         User::all()->each(function ($user) {
             SalaryAnalysis::factory()->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
         });
-
-        // Create a detailed analysis for test user
-        $testUser = User::where('email', 'test@example.com')->first();
-        SalaryAnalysis::factory()->create([
-            'user_id' => $testUser->id,
-            'job_title' => 'Senior Software Engineer',
-            'location' => 'San Francisco, CA',
-            'experience_level' => 'Senior',
-            'suggested_range' => '$120k - $160k',
-            'market_analysis' => 'Competitive salary for SF area with 5+ years experience',
-        ]);
     }
 }

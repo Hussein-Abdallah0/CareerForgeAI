@@ -15,12 +15,5 @@ class UserSeeder extends Seeder
     {
         // Create 10 regular users
         User::factory()->count(10)->create();
-
-        // Create a specific test user
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'plan' => 'premium',
-        ]);
     }
 }
