@@ -14,15 +14,11 @@ class InterviewQuestionSeeder extends Seeder
      */
     public function run()
     {
-        // Make sure you have interview sessions first!
-        $sessions = InterviewSession::all();
-
-        foreach ($sessions as $session) {
-            InterviewQuestion::factory()
-                ->count(5) // 5 questions per session
-                ->create([
-                    'session_id' => $session->id,
-                ]);
-        }
+        // For each interview session, create 5 questions
+        InterviewSession::all()->each(function ($session) {
+            InterviewQuestion::factory(5)->create([
+                'session_id' => $session->id,
+            ]);
+        });
     }
 }
