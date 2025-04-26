@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\InterviewSession;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class InterviewQuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'session_id' => InterviewSession::factory(),
+            'question' => $this->faker->sentence(),
+            'user_answer' => $this->faker->paragraph(),
+            'ai_comment' => $this->faker->sentence(),
         ];
     }
 }
