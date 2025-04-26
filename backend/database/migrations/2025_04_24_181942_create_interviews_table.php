@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('interview_sessions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('job_role', 150);
-            $table->text('feedback');
+            $table->string('job_title', 150);
+            $table->text('ai_feedback');
             $table->timestamp('created_at')->useCurrent();
         });
     }
