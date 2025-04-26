@@ -14,19 +14,11 @@ class ResumeSeeder extends Seeder
      */
     public function run()
     {
-        // Create 3 resumes for each user
+        // For each user, create 1 resume
         User::all()->each(function ($user) {
-            Resume::factory()->count(3)->create([
-                'user_id' => $user->id
+            Resume::factory()->create([
+                'user_id' => $user->id,
             ]);
         });
-
-        // Create a specific test resume for the test user
-        $testUser = User::where('email', 'test@example.com')->first();
-        Resume::factory()->create([
-            'user_id' => $testUser->id,
-            'job_title' => 'Senior Software Engineer',
-            'skills' => 'PHP, Laravel, JavaScript, Vue.js, MySQL',
-        ]);
     }
 }
