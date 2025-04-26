@@ -15,8 +15,8 @@ class SalaryAnalysis extends Model
         'job_title',
         'location',
         'experience_level',
+        'current_salary',
         'suggested_range',
-        'market_analysis',
     ];
 
     public function user()

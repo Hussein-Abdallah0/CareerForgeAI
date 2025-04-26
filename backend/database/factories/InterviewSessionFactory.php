@@ -19,8 +19,8 @@ class InterviewSessionFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'job_role' => $this->faker->jobTitle(),
-            'feedback' => $this->faker->paragraphs(3, true),
+            'job_title' => $this->faker->jobTitle(),
+            'ai_feedback' => $this->faker->paragraphs(3, true),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }

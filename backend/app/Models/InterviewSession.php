@@ -12,8 +12,8 @@ class InterviewSession extends Model
 
     protected $fillable = [
         'user_id',
-        'job_role',
-        'feedback',
+        'job_title',
+        'ai_feedback',
     ];
 
     public function user()
