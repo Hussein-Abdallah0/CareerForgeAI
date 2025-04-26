@@ -50,9 +50,9 @@ class User extends Authenticatable
         return $this->hasMany(Resume::class);
     }
 
-    public function interviews()
+    public function sessions()
     {
-        return $this->hasMany(Interview::class);
+        return $this->hasMany(InterviewSession::class);
     }
 
     public function salaryAnalysis()
