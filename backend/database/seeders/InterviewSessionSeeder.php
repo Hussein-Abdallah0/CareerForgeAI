@@ -20,13 +20,5 @@ class InterviewSessionSeeder extends Seeder
                 'user_id' => $user->id
             ]);
         });
-
-        // Create a specific test interview
-        $testUser = User::where('email', 'test@example.com')->first();
-        InterviewSession::factory()->create([
-            'user_id' => $testUser->id,
-            'job_role' => 'Tech Lead',
-            'feedback' => 'Excellent technical skills but needs more leadership experience',
-        ]);
     }
 }
