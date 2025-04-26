@@ -39,4 +39,18 @@ class AuthTest extends TestCase
         $response->assertStatus(201);
         $response->assertJsonStructure(['success', 'payload']);
     }
+
+    public function test_user_cannot_login_with_invalid_credentials()
+    {
+        $response = $this->postJson('/api/v1/login', [
+            'email' => 'fail@example.com',
+            'password' => 'wrongpass',
+        ]);
+
+        $response->assertStatus(401);
+        $response->assertJson([
+            'success' => false,
+            'error' => 'Unauthorized'
+        ]);
+    }
 }
