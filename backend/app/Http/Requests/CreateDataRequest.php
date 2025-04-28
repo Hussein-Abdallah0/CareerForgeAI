@@ -11,7 +11,7 @@ class CreateDataRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class CreateDataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "first_name" => "string|max:255",
+            "last_name" => "string|max:255",
+            "email" => "required|email",
+            "password" => "required|min:8"
         ];
     }
 }
