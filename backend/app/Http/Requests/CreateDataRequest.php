@@ -28,4 +28,19 @@ class CreateDataRequest extends FormRequest
             "password" => "required|min:8"
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            "email.required" => "Your email is required!",
+            "password.required" => "Your password is required!",
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            "email" => "Email Address"
+        ];
+    }
 }
