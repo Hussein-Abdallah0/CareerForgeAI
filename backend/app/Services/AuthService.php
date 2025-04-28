@@ -18,4 +18,10 @@ class AuthService
 
         return JWTAuth::fromUser($user);
     }
+
+    public function attemptLogin($request)
+    {
+        $credentials = $request->only('email', 'password');
+        return JWTAuth::attempt($credentials);
+    }
 }
