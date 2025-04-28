@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('skills');
             $table->text('education');
             $table->text('tailored_resume');
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps(0);
         });
     }
 
