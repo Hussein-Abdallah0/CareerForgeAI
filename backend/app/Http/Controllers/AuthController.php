@@ -20,4 +20,15 @@ class AuthController extends Controller
         $token = $this->authService->registerUser($request);
         return $this->successResponse($token, 201);
     }
+
+    public function login(CreateDataRequest $request)
+    {
+        $token = $this->authService->attemptLogin($request);
+
+        if (!$token) {
+            return $this->errorResponse("Unauthorized", 401);
+        }
+
+        return $this->successResponse($token, 201);
+    }
 }
