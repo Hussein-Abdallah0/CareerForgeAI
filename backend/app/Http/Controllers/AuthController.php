@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateDataRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -30,5 +31,16 @@ class AuthController extends Controller
         }
 
         return $this->successResponse($token, 201);
+    }
+
+    public function me()
+    {
+        return response()->json(Auth::user());
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return $this->successResponse('successfully logged out');
     }
 }
