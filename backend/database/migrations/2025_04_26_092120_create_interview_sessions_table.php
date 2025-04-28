@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('job_title', 150);
             $table->text('ai_feedback');
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps(0);
         });
     }
 
