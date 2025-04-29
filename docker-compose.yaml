@@ -1,0 +1,69 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: careerForgeDB
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_ROOT_HOST: "%"
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -u root -p12345 || exit 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 30
+      start_period: 30s
+    command: --default-authentication-plugin=mysql_native_password
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./backend:/var/www/html
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_HOST=mysql
+      - DB_DATABASE=careerForgeDB
+      - DB_USERNAME=root
+      - DB_PASSWORD=12345
+      - JWT_SECRET=IMwuRQxdfNuxrqJTlfUnm2JkGxopiP2CfuvTA22VrTjvYod5ikV9GpralIVeeKuJ
+    command: >
+      sh -c "apt-get update && apt-get install -y default-mysql-client &&
+      echo 'Waiting for MySQL to be ready...' &&
+      while ! mysqladmin ping -h mysql -u root -p12345 --silent; do
+        sleep 5
+      done &&
+      echo 'MySQL is ready! Running migrations...' &&
+      php artisan migrate --force &&
+      php artisan optimize &&
+      echo 'Starting Apache...' &&
+      chown -R www-data:www-data /var/www/html/storage &&
+      chown -R www-data:www-data /var/www/html/bootstrap/cache &&
+      docker-php-entrypoint apache2-foreground"
+
+  react:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:80"
+
+  nodejs:
+    build:
+      context: ./node-server
+    ports:
+      - "3000:3000"
+    dns: # Add this section
+      - 8.8.8.8
+      - 8.8.4.4
+
+volumes:
+  db_data:
