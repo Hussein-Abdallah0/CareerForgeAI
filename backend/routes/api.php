@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\InterviewSessionController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
     //Authorized Users
     Route::group(["middleware" => "auth:api"], function () {
+        //Interview session Api
+        Route::post('interview', [InterviewSessionController::class, 'createInterviewSession']);
+
+
 
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('me', [AuthController::class, 'me']);
