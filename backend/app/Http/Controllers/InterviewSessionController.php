@@ -38,9 +38,10 @@ class InterviewSessionController extends Controller
     public function viewSessionDetails($session_id)
     {
         try {
-            return $this->successResponse("$", 201);
+            $session = $this->Service->getSession($session_id);
+            return $this->successResponse($session, 201);
         } catch (\Exception $e) {
-            return $this->errorResponse("Failed to finish session: " . $e->getMessage(), 500);
+            return $this->errorResponse("Failed to fetch session details: " . $e->getMessage(), 500);
         }
     }
 }
