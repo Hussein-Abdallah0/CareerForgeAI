@@ -20,15 +20,17 @@ class InterviewQuestionController extends Controller
             $question = $this->Service->createQuestion($request, $session_id);
             return $this->successResponse($question, 201);
         } catch (\Exception $e) {
-            return $this->errorResponse("Failed to create session: " . $e->getMessage(), 500);
+            return $this->errorResponse("Failed to add question: " . $e->getMessage(), 500);
         }
     }
 
-    public function answerQuestion(CreateQuestionRequest $request, $questionId)
+    public function answerQuestion(CreateQuestionRequest $request, $question_id)
     {
         try {
-            //code...
+            $question = $this->Service->answerQuestion($request, $question_id);
+            return $this->successResponse($question, 201);
         } catch (\Exception $e) {
+            return $this->errorResponse("Failed to answer question: " . $e->getMessage(), 500);
         }
     }
 }
