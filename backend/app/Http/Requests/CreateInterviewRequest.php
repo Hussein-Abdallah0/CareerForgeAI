@@ -23,6 +23,8 @@ class CreateInterviewRequest extends FormRequest
     {
         return [
             'job_title' => 'required|string|max:150',
+            'session_id' => 'required|exists:interview_sessions,id',
+            'question' => 'required|string',
         ];
     }
 }
