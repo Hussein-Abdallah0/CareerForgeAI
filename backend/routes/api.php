@@ -11,6 +11,7 @@ Route::group(['prefix' => 'v1'], function () {
         //Interview session Api
         Route::post('interview', [InterviewSessionController::class, 'createSession']);
         Route::patch('interview/{session_id}/finish', [InterviewSessionController::class, 'finishSession']);
+        Route::get('interview/{session_id}', [InterviewSessionController::class, 'viewSessionDetails']);
 
 
         //Interview question Api
