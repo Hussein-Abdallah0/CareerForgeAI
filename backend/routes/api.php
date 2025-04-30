@@ -9,7 +9,7 @@ Route::group(['prefix' => 'v1'], function () {
     //Authorized Users
     Route::group(["middleware" => "auth:api"], function () {
         //Interview session Api
-        Route::post('interview', [InterviewSessionController::class, 'createInterviewSession']);
+        Route::post('interview', [InterviewSessionController::class, 'createSession']);
 
 
         //Interview question Api
