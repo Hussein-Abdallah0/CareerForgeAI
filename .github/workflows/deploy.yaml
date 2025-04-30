@@ -145,13 +145,13 @@ jobs:
                 image: $FRONTEND_IMAGE:$TAG
                 container_name: frontend
                 ports:
-                  - "3000:3000"
+                  - "5173:80"
 
               node:
                 image: $NODE_IMAGE:$TAG
                 container_name: node
                 ports:
-                  - "5000:5000"
+                  - "3000:3000"
 
               mysql:
                 image: mysql:8.0
