@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateInterviewRequest;
 use App\Services\InterviewQuestionService;
 
 class InterviewQuestionController extends Controller
@@ -12,4 +13,6 @@ class InterviewQuestionController extends Controller
     {
         $this->Service = $Service;
     }
+
+    public function addInterviewQuestion(CreateInterviewRequest $request) {}
 }
