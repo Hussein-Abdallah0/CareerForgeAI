@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateInterviewRequest;
+use App\Models\InterviewSession;
 use App\Services\InterviewQuestionService;
 
 class InterviewQuestionController extends Controller
@@ -14,10 +15,10 @@ class InterviewQuestionController extends Controller
         $this->Service = $Service;
     }
 
-    public function addInterviewQuestion(CreateInterviewRequest $request)
+    public function addInterviewQuestion(CreateInterviewRequest $request, InterviewSession $session)
     {
         try {
-            $question = $this->Service->createQuestion($request);
+            $question = $this->Service->createQuestion($request, $session->id);
             return $this->successResponse($question, 201);
         } catch (\Exception $e) {
             return $this->errorResponse("Failed to create session: " . $e->getMessage(), 500);
