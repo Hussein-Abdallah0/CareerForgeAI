@@ -113,10 +113,10 @@ jobs:
             sudo chown -R $USER:$USER $APP_PATH
             cd $APP_PATH
 
-            docker-compose down -v || true
-            docker pull $BACKEND_IMAGE:$TAG
-            docker pull $FRONTEND_IMAGE:$TAG
-            docker pull $NODE_IMAGE:$TAG
+            sudo docker-compose down -v || true
+            sudo docker pull $BACKEND_IMAGE:$TAG
+            sudo docker pull $FRONTEND_IMAGE:$TAG
+            sudo docker pull $NODE_IMAGE:$TAG
 
             cat << EOF > docker-compose.yml
             version: '3.8'
@@ -169,10 +169,10 @@ jobs:
               backend_storage:
             EOF
 
-            docker-compose up -d
+            sudo docker-compose up -d
 
             sleep 15
 
-            docker exec backend php artisan migrate --force
-            docker exec backend php artisan config:cache
-            docker exec backend php artisan route:cache
+            sudo docker exec backend php artisan migrate --force
+            sudo docker exec backend php artisan config:cache
+            sudo docker exec backend php artisan route:cache
