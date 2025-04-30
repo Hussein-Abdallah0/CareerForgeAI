@@ -14,4 +14,16 @@ class InterviewQuestionService
             'question' => $request->question,
         ]);
     }
+
+    public function answerQuestion($request, $questionId)
+    {
+        $question = InterviewQuestion::findOrFail($questionId);
+
+        $question->update([
+            'answer' => $request->answer,
+            'updated_at' => now(),
+        ]);
+
+        return $question;
+    }
 }
