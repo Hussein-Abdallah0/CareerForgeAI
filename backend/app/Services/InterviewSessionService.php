@@ -18,4 +18,16 @@ class InterviewSessionService
 
         return $session;
     }
+
+    public function finishSession($request, $session_id)
+    {
+        $session = InterviewSession::findOrFail($session_id);
+
+        $session->update([
+            'ai_feedback' => $request->answer,
+            'updated_at' => now(),
+        ]);
+
+        return $session;
+    }
 }

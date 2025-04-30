@@ -30,7 +30,7 @@ class InterviewSessionController extends Controller
         try {
             return $this->successResponse("$", 201);
         } catch (\Exception $e) {
-            return $this->errorResponse("Failed to answer question: " . $e->getMessage(), 500);
+            return $this->errorResponse("Failed to finish session: " . $e->getMessage(), 500);
         }
     }
 }
