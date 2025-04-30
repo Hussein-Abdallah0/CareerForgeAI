@@ -17,7 +17,11 @@ class InterviewSessionController extends Controller
 
     public function createInterviewSession(CreateInterviewRequest $request)
     {
-        $this->Service->createSession($request);
-        return $this->successResponse("session created", 201);
+        try {
+            $this->Service->createSession($request);
+            return $this->successResponse("session created", 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse("Failed to create session: " . $e->getMessage(), 500);
+        }
     }
 }
