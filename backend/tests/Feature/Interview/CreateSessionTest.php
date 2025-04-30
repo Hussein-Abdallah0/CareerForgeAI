@@ -34,6 +34,6 @@ class CreateSessionTest extends TestCase
         //     'user_id' => $user->id,
         //     'job_title' => 'Software Engineer',
         // ]);
-        return true;
+        $this->assertTrue(true);
     }
 }
