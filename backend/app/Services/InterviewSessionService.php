@@ -14,7 +14,6 @@ class InterviewSessionService
         $session = InterviewSession::create([
             'user_id' => $user->id,
             'job_title' => $request->job_title,
-            'ai_feedback' => '', // initially empty
         ]);
 
         return $session;
