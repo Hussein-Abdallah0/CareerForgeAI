@@ -14,7 +14,7 @@ class InterviewQuestionController extends Controller
         $this->Service = $Service;
     }
 
-    public function addInterviewQuestion(CreateQuestionRequest $request, $session_id)
+    public function addQuestion(CreateQuestionRequest $request, $session_id)
     {
         try {
             $question = $this->Service->createQuestion($request, $session_id);
