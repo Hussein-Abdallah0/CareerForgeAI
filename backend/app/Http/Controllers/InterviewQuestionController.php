@@ -23,4 +23,12 @@ class InterviewQuestionController extends Controller
             return $this->errorResponse("Failed to create session: " . $e->getMessage(), 500);
         }
     }
+
+    public function answerQuestion(CreateQuestionRequest $request, $questionId)
+    {
+        try {
+            //code...
+        } catch (\Exception $e) {
+        }
+    }
 }
