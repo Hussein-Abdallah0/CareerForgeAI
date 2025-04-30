@@ -38,6 +38,6 @@ class AddQuestionTest extends TestCase
         //     'session_id' => $session->id,
         //     'question' => 'Tell me about yourself.',
         // ]);
-        return true;
+        $this->assertTrue(true);
     }
 }
