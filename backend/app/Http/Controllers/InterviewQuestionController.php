@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateInterviewRequest;
-use App\Models\InterviewSession;
+use App\Http\Requests\CreateQuestionRequest;
 use App\Services\InterviewQuestionService;
 
 class InterviewQuestionController extends Controller
@@ -15,7 +14,7 @@ class InterviewQuestionController extends Controller
         $this->Service = $Service;
     }
 
-    public function addInterviewQuestion(CreateInterviewRequest $request, $session_id)
+    public function addInterviewQuestion(CreateQuestionRequest $request, $session_id)
     {
         try {
             $question = $this->Service->createQuestion($request, $session_id);
