@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Services\InterviewQuestionService;
 
 class InterviewQuestionController extends Controller
 {
-    //
+    protected $Service;
+
+    public function __construct(InterviewQuestionService $Service)
+    {
+        $this->Service = $Service;
+    }
 }
