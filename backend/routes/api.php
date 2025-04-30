@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InterviewQuestionController;
 use App\Http\Controllers\InterviewSessionController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,9 @@ Route::group(['prefix' => 'v1'], function () {
         //Interview session Api
         Route::post('interview', [InterviewSessionController::class, 'createInterviewSession']);
 
+
+        //Interview question Api
+        Route::post('question', [InterviewQuestionController::class, 'answerQuestion']);
 
 
         Route::post('logout', [AuthController::class, 'logout']);
