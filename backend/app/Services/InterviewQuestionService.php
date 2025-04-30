@@ -7,17 +7,17 @@ use App\Models\InterviewQuestion;
 class InterviewQuestionService
 {
 
-    public function createQuestion($request, $sessionId)
+    public function createQuestion($request, $session_id)
     {
         return InterviewQuestion::create([
-            'session_id' => $sessionId,
+            'session_id' => $session_id,
             'question' => $request->question,
         ]);
     }
 
-    public function answerQuestion($request, $questionId)
+    public function answerQuestion($request, $question_id)
     {
-        $question = InterviewQuestion::findOrFail($questionId);
+        $question = InterviewQuestion::findOrFail($question_id);
 
         $question->update([
             'answer' => $request->answer,
