@@ -11,12 +11,11 @@ class InterviewQuestionService
     {
         $user = $request->user();
 
-        $session = InterviewQuestion::create([
-            'user_id' => $user->id,
-            'job_title' => $request->job_title,
-            'ai_feedback' => '', // initially empty
+        $question = InterviewQuestion::create([
+            'session_id' => $request->session_id,
+            'question' => $request->question,
         ]);
 
-        return $session;
+        return $question;
     }
 }
