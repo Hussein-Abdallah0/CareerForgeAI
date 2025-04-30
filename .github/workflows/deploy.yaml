@@ -106,6 +106,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}
+            FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}
+            NODE_IMAGE=${{ env.NODE_IMAGE }}
             APP_PATH=${{ steps.set-env.outputs.path }}
             TAG=${{ steps.set-env.outputs.tag }}
 
