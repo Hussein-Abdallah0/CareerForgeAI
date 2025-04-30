@@ -18,8 +18,12 @@ class AuthController extends Controller
 
     public function register(CreateDataRequest $request)
     {
-        $token = $this->authService->registerUser($request);
-        return $this->successResponse($token, 201);
+        try {
+            $token = $this->authService->registerUser($request);
+            return $this->successResponse($token, 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse("Failed to register: " . $e->getMessage(), 500);
+        }
     }
 
     public function login(CreateDataRequest $request)
