@@ -15,5 +15,9 @@ class InterviewSessionController extends Controller
         $this->Service = $Service;
     }
 
-    public function createSession(CreateInterviewRequest $request) {}
+    public function createInterviewSession(CreateInterviewRequest $request)
+    {
+        $this->Service->createSession($request);
+        return $this->successResponse("session created", 201);
+    }
 }
