@@ -10,6 +10,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(["middleware" => "auth:api"], function () {
         //Interview session Api
         Route::post('interview', [InterviewSessionController::class, 'createSession']);
+        Route::patch('interview/{session_id}/finish', [InterviewSessionController::class, 'finishSession']);
 
 
         //Interview question Api
