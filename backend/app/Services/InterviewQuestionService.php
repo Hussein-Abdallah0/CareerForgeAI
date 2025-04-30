@@ -7,13 +7,11 @@ use App\Models\InterviewQuestion;
 class InterviewQuestionService
 {
 
-    public function createQuestion($request)
+    public function createQuestion($request, $sessionId)
     {
-        $question = InterviewQuestion::create([
-            'session_id' => $request->session_id,
+        return InterviewQuestion::create([
+            'session_id' => $sessionId,
             'question' => $request->question,
         ]);
-
-        return $question;
     }
 }
