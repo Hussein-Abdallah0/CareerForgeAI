@@ -13,7 +13,8 @@ Route::group(['prefix' => 'v1'], function () {
 
 
         //Interview question Api
-        Route::post('question', [InterviewQuestionController::class, 'answerQuestion']);
+        Route::post('question', [InterviewQuestionController::class, 'addQuestion']);
+        Route::patch('question', [InterviewQuestionController::class, 'answerQuestion']);
 
 
         Route::post('logout', [AuthController::class, 'logout']);
