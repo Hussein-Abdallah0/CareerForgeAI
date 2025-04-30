@@ -23,7 +23,6 @@ class CreateInterviewRequest extends FormRequest
     {
         return [
             'job_title' => 'required|string|max:150',
-            'question' => 'required|string',
         ];
     }
 }
