@@ -34,4 +34,13 @@ class InterviewSessionController extends Controller
             return $this->errorResponse("Failed to finish session: " . $e->getMessage(), 500);
         }
     }
+
+    public function viewSessionDetails($session_id)
+    {
+        try {
+            return $this->successResponse("$", 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse("Failed to finish session: " . $e->getMessage(), 500);
+        }
+    }
 }
