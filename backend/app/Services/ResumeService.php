@@ -3,12 +3,16 @@
 namespace App\Services;
 
 use App\Models\Resume;
+use Illuminate\Support\Facades\Auth;
 
 class ResumeService
 {
     public function createResume($request)
     {
+        $user_id = Auth::id(); // Get the authenticated user's ID
+
         return Resume::create([
+            'user_id' => $user_id,
             'summary' => $request->summary,
             'job_title' => $request->job_title,
             'experience' => $request->experience,

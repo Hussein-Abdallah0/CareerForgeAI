@@ -20,6 +20,12 @@ class Resume extends Model
 
     ];
 
+    protected $casts = [
+        'experience' => 'array',
+        'skills' => 'array',
+        'education' => 'array',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
