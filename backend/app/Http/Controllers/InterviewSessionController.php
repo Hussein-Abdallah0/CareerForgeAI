@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateInterviewRequest;
+use App\Http\Requests\FinishInterviewRequest;
 use App\Services\InterviewSessionService;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class InterviewSessionController extends Controller
         }
     }
 
-    public function finishSession(CreateInterviewRequest $request, $session_id)
+    public function finishSession(FinishInterviewRequest $request, $session_id)
     {
         try {
             $session = $this->Service->finishSession($request, $session_id);
