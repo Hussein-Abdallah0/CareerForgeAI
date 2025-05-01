@@ -29,7 +29,7 @@ class InterviewQuestionController extends Controller
     {
         try {
             $question = $this->Service->answerQuestion($request, $question_id);
-            return $this->successResponse($question, 201);
+            return $this->successResponse($question, 200);
         } catch (\Exception $e) {
             return $this->errorResponse("Failed to answer question: " . $e->getMessage(), 500);
         }
