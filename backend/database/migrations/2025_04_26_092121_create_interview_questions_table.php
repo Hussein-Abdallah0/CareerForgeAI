@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('question');
             $table->text('user_answer')->nullable();
             // $table->text('ai_comment')->nullable();
-            $table->timestamps();
+            $table->timestamps(0);
         });
     }
 
