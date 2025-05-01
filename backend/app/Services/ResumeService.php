@@ -23,7 +23,8 @@ class ResumeService
 
     public function viewResume($resume_id)
     {
-        return Resume::findOrFail($resume_id);
+        return Resume::where('user_id', Auth::id())
+            ->findOrFail($resume_id);
     }
 
     public function listResumes($user_id)
