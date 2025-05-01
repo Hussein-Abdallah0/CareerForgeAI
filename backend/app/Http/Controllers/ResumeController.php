@@ -38,8 +38,8 @@ class ResumeController extends Controller
     public function listResumes()
     {
         try {
-            $user_id = Auth::user();
-            $resumes = $this->Service->listResumes($user_id);
+            $user = Auth::user();
+            $resumes = $this->Service->listResumes($user->id);
             return $this->successResponse($resumes, 201);
         } catch (\Exception $e) {
             return $this->errorResponse("Failed to fetch resumes: " . $e->getMessage(), 500);
