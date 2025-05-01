@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateInterviewRequest;
-use App\Http\Requests\FinishInterviewRequest;
+use App\Http\Requests\interview\CreateInterviewRequest;
+use App\Http\Requests\interview\FinishInterviewRequest;
 use App\Services\InterviewSessionService;
 use Illuminate\Http\Request;
 
