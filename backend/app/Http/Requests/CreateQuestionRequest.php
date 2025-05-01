@@ -11,7 +11,7 @@ class CreateQuestionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,6 @@ class CreateQuestionRequest extends FormRequest
     {
         return [
             'question' => 'required|string',
-            'answer' => 'required|string',
         ];
     }
 }
