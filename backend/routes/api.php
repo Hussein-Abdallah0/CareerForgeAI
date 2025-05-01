@@ -14,13 +14,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::patch('interview/{session_id}/finish', [InterviewSessionController::class, 'finishSession']);
         Route::get('interview/{session_id}', [InterviewSessionController::class, 'viewSessionDetails']);
 
-
         //Interview question Api
         Route::post('interview/{session_id}/question', [InterviewQuestionController::class, 'addQuestion']);
         Route::patch('question/{question_id}/answer', [InterviewQuestionController::class, 'answerQuestion']);
 
         //Resume api
         Route::post('resume', [ResumeController::class, 'createResume']);
+        Route::get('resume', [ResumeController::class, 'listResumes']);
         Route::get('resume/{resume_id}', [ResumeController::class, 'viewResume']);
 
 
