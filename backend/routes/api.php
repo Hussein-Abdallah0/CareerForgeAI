@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InterviewQuestionController;
 use App\Http\Controllers\InterviewSessionController;
+use App\Http\Controllers\ResumeController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
@@ -17,6 +18,9 @@ Route::group(['prefix' => 'v1'], function () {
         //Interview question Api
         Route::post('interview/{session_id}/question', [InterviewQuestionController::class, 'addQuestion']);
         Route::patch('question/{question_id}/answer', [InterviewQuestionController::class, 'answerQuestion']);
+
+        //Resume api
+        Route::post('resume', [ResumeController::class, 'createResume']);
 
 
         Route::post('logout', [AuthController::class, 'logout']);
