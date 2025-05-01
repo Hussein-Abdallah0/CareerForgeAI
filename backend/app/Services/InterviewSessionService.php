@@ -24,7 +24,7 @@ class InterviewSessionService
         $session = InterviewSession::findOrFail($session_id);
 
         $session->update([
-            'ai_feedback' => $request->answer,
+            'ai_feedback' => $request->ai_feedback,
             'updated_at' => now(),
         ]);
 
