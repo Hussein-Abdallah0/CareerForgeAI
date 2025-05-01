@@ -19,7 +19,7 @@ class ViewResumeTest extends TestCase
         $resume = Resume::factory()->create(['user_id' => $user->id]);
 
         //get resume
-        $response = $this->actingAs($user)->getJson("/api/resumes/{$resume->id}");
+        $response = $this->actingAs($user)->getJson("/api/v1/resume/{$resume->id}");
 
         $response->assertStatus(200)
             ->assertJson([
