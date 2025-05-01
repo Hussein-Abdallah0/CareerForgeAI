@@ -33,4 +33,14 @@ class ResumeController extends Controller
             return $this->errorResponse("Failed to fetch resume: " . $e->getMessage(), 500);
         }
     }
+
+    public function listResumes($user_id)
+    {
+        try {
+            $resumes = $this->Service->listResumes($user_id);
+            return $this->successResponse($resumes, 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse("Failed to fetch resumes: " . $e->getMessage(), 500);
+        }
+    }
 }
