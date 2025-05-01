@@ -35,7 +35,8 @@ class ResumeService
     public function deleteResume($resume_id)
     {
         //used this not destroy since destroy fails silently
-        $resume = Resume::findOrFail($resume_id);
+        $resume = Resume::where('user_id', Auth::id())
+            ->findOrFail($resume_id);
         $resume->delete();
     }
 }
