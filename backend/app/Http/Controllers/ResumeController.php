@@ -43,4 +43,14 @@ class ResumeController extends Controller
             return $this->errorResponse("Failed to fetch resumes: " . $e->getMessage(), 500);
         }
     }
+
+    public function deleteResume($resume_id)
+    {
+        try {
+            $this->Service->deleteResume($resume_id);
+            return $this->successResponse("Resume deleted successfully", 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse("Failed to fetch resumes: " . $e->getMessage(), 500);
+        }
+    }
 }
