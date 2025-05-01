@@ -14,7 +14,7 @@ class InterviewQuestion extends Model
         'session_id',
         'question',
         'user_answer',
-        'ai_comment',
+        // 'ai_comment',
     ];
 
     public function session()

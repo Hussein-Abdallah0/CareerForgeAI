@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('last_name', 50);
             $table->string('email', 255)->unique();
             $table->string('password', 255);
+            $table->enum('role', ['user', 'admin'])->default('user');
             $table->string('plan', 10)->default('free');
             $table->timestamps(0);
         });

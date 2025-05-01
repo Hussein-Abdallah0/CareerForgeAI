@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('session_id')->constrained('interview_sessions')->onDelete('cascade');
             $table->text('question');
             $table->text('user_answer')->nullable();
-            $table->text('ai_comment')->nullable();
+            // $table->text('ai_comment')->nullable();
             $table->timestamps(0);
         });
     }

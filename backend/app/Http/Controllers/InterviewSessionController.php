@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\CreateInterviewRequest;
+use App\Http\Requests\FinishInterviewRequest;
+use App\Services\InterviewSessionService;
+use Illuminate\Http\Request;
+
+class InterviewSessionController extends Controller
+{
+    protected $Service;
+
+    public function __construct(InterviewSessionService $Service)
+    {
+        $this->Service = $Service;
+    }
+
+    public function createSession(CreateInterviewRequest $request)
+    {
+        try {
+            $session = $this->Service->createSession($request);
+            return $this->successResponse($session, 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse("Failed to create session: " . $e->getMessage(), 500);
+        }
+    }
+
+    public function finishSession(FinishInterviewRequest $request, $session_id)
+    {
+        try {
+            $session = $this->Service->finishSession($request, $session_id);
+            return $this->successResponse($session, 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse("Failed to finish session: " . $e->getMessage(), 500);
+        }
+    }
+
+    public function viewSessionDetails($session_id)
+    {
+        try {
+            $session = $this->Service->getSession($session_id);
+            return $this->successResponse($session, 201);
+        } catch (\Exception $e) {
+            return $this->errorResponse("Failed to fetch session details: " . $e->getMessage(), 500);
+        }
+    }
+}

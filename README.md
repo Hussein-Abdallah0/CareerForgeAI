@@ -25,7 +25,8 @@
 
 ### Sexy Features
 
-- Interview Simulator, AI conducts a realtime voice interview and gives you instant feedback on your answers.
+
+- Interview Simulator AI conducts a realtime voice interview Interview Simulator, AI conducts a realtime voice interview and gives you feedback on your answers.
 - AI Resume Tailoring Input your information, and AI writes it for your desired job and following ATS.
 - Salary Negotiator Analyzes market data to suggest optimal pay ranges for your desired job.
 
