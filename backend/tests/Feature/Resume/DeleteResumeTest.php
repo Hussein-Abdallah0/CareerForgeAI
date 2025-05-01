@@ -19,7 +19,7 @@ class DeleteResumeTest extends TestCase
         $resume = Resume::factory()->create(['user_id' => $user->id]);
 
         //delete resume
-        $response = $this->actingAs($user)->deleteJson("/api/resumes/{$resume->id}");
+        $response = $this->actingAs($user)->deleteJson("/api/v1/resume/{$resume->id}");
 
         $response->assertStatus(204);
 
