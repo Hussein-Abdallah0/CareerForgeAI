@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateResumeRequest;
 use App\Services\ResumeService;
+use Illuminate\Support\Facades\Auth;
 
 class ResumeController extends Controller
 {
@@ -34,9 +35,10 @@ class ResumeController extends Controller
         }
     }
 
-    public function listResumes($user_id)
+    public function listResumes()
     {
         try {
+            $user_id = Auth::user();
             $resumes = $this->Service->listResumes($user_id);
             return $this->successResponse($resumes, 201);
         } catch (\Exception $e) {
