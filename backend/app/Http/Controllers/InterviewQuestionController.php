@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnswerQuestionRequest;
 use App\Http\Requests\CreateQuestionRequest;
 use App\Services\InterviewQuestionService;
 
@@ -24,7 +25,7 @@ class InterviewQuestionController extends Controller
         }
     }
 
-    public function answerQuestion(CreateQuestionRequest $request, $question_id)
+    public function answerQuestion(AnswerQuestionRequest $request, $question_id)
     {
         try {
             $question = $this->Service->answerQuestion($request, $question_id);
