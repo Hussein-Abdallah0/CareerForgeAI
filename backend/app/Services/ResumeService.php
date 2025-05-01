@@ -6,7 +6,6 @@ use App\Models\Resume;
 
 class ResumeService
 {
-
     public function createResume($request)
     {
         return Resume::create([
@@ -16,5 +15,10 @@ class ResumeService
             'skills' => $request->skills,
             'education' => $request->education,
         ]);
+    }
+
+    public function viewResume($resume_id)
+    {
+        return Resume::findOrFail($resume_id);
     }
 }
