@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('resumes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->text('summary');
             $table->string('job_title', 150);
-            $table->text('experience');
-            $table->text('skills');
-            $table->text('education');
-            $table->text('tailored_resume');
+            $table->json('experience');
+            $table->json('skills');
+            $table->json('education');
             $table->timestamps(0);
         });
     }
