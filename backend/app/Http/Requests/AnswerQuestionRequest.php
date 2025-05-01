@@ -22,7 +22,7 @@ class AnswerQuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'answer' => 'required|string',
+            'user_answer' => 'required|string',
         ];
     }
 }
