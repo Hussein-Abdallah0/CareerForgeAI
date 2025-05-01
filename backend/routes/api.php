@@ -21,6 +21,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         //Resume api
         Route::post('resume', [ResumeController::class, 'createResume']);
+        Route::get('resume/{resume_id}', [ResumeController::class, 'viewResume']);
 
 
         Route::post('logout', [AuthController::class, 'logout']);
