@@ -11,12 +11,12 @@ class Resume extends Model
     use HasFactory;
 
     protected $fillable = [
+        'summary',
         'user_id',
         'job_title',
         'experience',
         'skills',
         'education',
-        'summary',
 
     ];
 
