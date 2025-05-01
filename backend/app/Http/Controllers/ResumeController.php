@@ -29,7 +29,7 @@ class ResumeController extends Controller
     {
         try {
             $resume = $this->Service->viewResume($resume_id);
-            return $this->successResponse($resume, 201);
+            return $this->successResponse($resume, 200);
         } catch (\Exception $e) {
             return $this->errorResponse("Failed to fetch resume: " . $e->getMessage(), 500);
         }
@@ -40,7 +40,7 @@ class ResumeController extends Controller
         try {
             $user = Auth::user();
             $resumes = $this->Service->listResumes($user->id);
-            return $this->successResponse($resumes, 201);
+            return $this->successResponse($resumes, 200);
         } catch (\Exception $e) {
             return $this->errorResponse("Failed to fetch resumes: " . $e->getMessage(), 500);
         }
@@ -50,7 +50,7 @@ class ResumeController extends Controller
     {
         try {
             $this->Service->deleteResume($resume_id);
-            return $this->successResponse("Resume deleted successfully", 201);
+            return $this->successResponse("Resume deleted successfully", 200);
         } catch (\Exception $e) {
             return $this->errorResponse("Failed to fetch resumes: " . $e->getMessage(), 500);
         }
