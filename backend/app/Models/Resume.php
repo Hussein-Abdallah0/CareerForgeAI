@@ -16,7 +16,7 @@ class Resume extends Model
         'experience',
         'skills',
         'education',
-        'tailored_resume',
+        'summary',
 
     ];
 
