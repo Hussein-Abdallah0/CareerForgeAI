@@ -34,17 +34,17 @@ class AuthController extends Controller
             return $this->errorResponse("Unauthorized", 401);
         }
 
-        return $this->successResponse($token, 201);
+        return $this->successResponse($token, 200);
     }
 
     public function me()
     {
-        return response()->json(Auth::user());
+        return $this->successResponse(Auth::user(), 200);
     }
 
     public function logout()
     {
         Auth::logout();
-        return $this->successResponse('successfully logged out');
+        return $this->successResponse('Successfully logged out', 200);
     }
 }

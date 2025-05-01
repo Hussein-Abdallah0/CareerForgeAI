@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\interview;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateInterviewRequest extends FormRequest
+class AnswerQuestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class CreateInterviewRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_title' => 'required|string|max:150',
+            'user_answer' => 'required|string',
         ];
     }
 }

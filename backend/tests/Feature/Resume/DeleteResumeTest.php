@@ -14,18 +14,17 @@ class DeleteResumeTest extends TestCase
 
     public function test_user_can_delete_resume()
     {
-        // //create user and resume
-        // $user = User::factory()->create();
-        // $resume = Resume::factory()->create(['user_id' => $user->id]);
+        //create user and resume
+        $user = User::factory()->create();
+        $resume = Resume::factory()->create(['user_id' => $user->id]);
 
-        // //delete resume
-        // $response = $this->actingAs($user)->deleteJson("/api/resumes/{$resume->id}");
+        //delete resume
+        $response = $this->actingAs($user)->deleteJson("/api/v1/resume/{$resume->id}");
 
-        // $response->assertStatus(204);
+        $response->assertStatus(204);
 
-        // $this->assertDatabaseMissing('resumes', [
-        //     'id' => $resume->id,
-        // ]);
-        $this->assertTrue(true);
+        $this->assertDatabaseMissing('resumes', [
+            'id' => $resume->id,
+        ]);
     }
 }

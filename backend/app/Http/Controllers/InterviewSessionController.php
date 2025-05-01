@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateInterviewRequest;
-use App\Http\Requests\FinishInterviewRequest;
+use App\Http\Requests\interview\CreateInterviewRequest;
+use App\Http\Requests\interview\FinishInterviewRequest;
 use App\Services\InterviewSessionService;
 use Illuminate\Http\Request;
 
@@ -30,7 +30,7 @@ class InterviewSessionController extends Controller
     {
         try {
             $session = $this->Service->finishSession($request, $session_id);
-            return $this->successResponse($session, 201);
+            return $this->successResponse($session, 200);
         } catch (\Exception $e) {
             return $this->errorResponse("Failed to finish session: " . $e->getMessage(), 500);
         }
@@ -40,7 +40,7 @@ class InterviewSessionController extends Controller
     {
         try {
             $session = $this->Service->getSession($session_id);
-            return $this->successResponse($session, 201);
+            return $this->successResponse($session, 200);
         } catch (\Exception $e) {
             return $this->errorResponse("Failed to fetch session details: " . $e->getMessage(), 500);
         }
