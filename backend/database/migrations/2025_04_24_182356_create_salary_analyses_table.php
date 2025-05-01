@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('experience_level', 100);
             $table->decimal('current_salary', 10, 2)->nullable();
             $table->string('suggested_range', 100);
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps(0);
         });
     }
 
