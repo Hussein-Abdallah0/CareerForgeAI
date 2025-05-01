@@ -33,8 +33,6 @@ class InterviewSessionService
 
     public function getSession($session_id)
     {
-        $session = InterviewSession::findOrFail($session_id);
-
-        return $session;
+        return InterviewSession::findOrFail($session_id);
     }
 }
