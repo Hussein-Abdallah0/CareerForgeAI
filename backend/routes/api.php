@@ -22,6 +22,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('resume', [ResumeController::class, 'createResume']);
         Route::get('resume', [ResumeController::class, 'listResumes']);
         Route::get('resume/{resume_id}', [ResumeController::class, 'viewResume']);
+        Route::delete('resume/{resume_id}', [ResumeController::class, 'deleteResume']);
 
 
         Route::post('logout', [AuthController::class, 'logout']);
