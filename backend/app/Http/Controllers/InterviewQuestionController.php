@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AnswerQuestionRequest;
-use App\Http\Requests\CreateQuestionRequest;
+use App\Http\Requests\interview\AnswerQuestionRequest;
+use App\Http\Requests\interview\CreateQuestionRequest;
 use App\Services\InterviewQuestionService;
 
 class InterviewQuestionController extends Controller
