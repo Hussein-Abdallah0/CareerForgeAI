@@ -21,4 +21,9 @@ class ResumeService
     {
         return Resume::findOrFail($resume_id);
     }
+
+    public function listResumes($user_id)
+    {
+        return Resume::where('user_id', $user_id)->get();
+    }
 }
