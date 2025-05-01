@@ -20,7 +20,7 @@ class InterviewQuestionService
         $question = InterviewQuestion::findOrFail($question_id);
 
         $question->update([
-            'user_answer' => $request->answer,
+            'user_answer' => $request->user_answer,
             'updated_at' => now(),
         ]);
 
