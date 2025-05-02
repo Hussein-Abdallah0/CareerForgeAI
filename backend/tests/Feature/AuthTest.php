@@ -24,21 +24,20 @@ class AuthTest extends TestCase
 
     public function test_user_can_login()
     {
-        // //create user with credentials
-        // $user = User::factory()->create([
-        //     'email' => 'test@example.com',
-        //     'password' => bcrypt('password'),
-        // ]);
+        //create user with credentials
+        $user = User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => bcrypt('password'),
+        ]);
 
-        // //test login with the above user credentials 
-        // $response = $this->postJson('/api/v1/login', [
-        //     'email' => 'test@example.com',
-        //     'password' => 'password',
-        // ]);
+        //test login with the above user credentials 
+        $response = $this->postJson('/api/v1/login', [
+            'email' => 'test@example.com',
+            'password' => 'password',
+        ]);
 
-        // $response->assertStatus(201);
-        // $response->assertJsonStructure(['success', 'payload']);
-        $this->assertTrue(true);
+        $response->assertStatus(201);
+        $response->assertJsonStructure(['success', 'payload']);
     }
 
     public function test_user_cannot_login_with_invalid_credentials()
