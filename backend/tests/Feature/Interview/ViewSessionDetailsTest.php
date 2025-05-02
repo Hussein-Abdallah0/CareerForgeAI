@@ -21,7 +21,7 @@ class ViewSessionDetailsTest extends TestCase
         InterviewQuestion::factory()->count(2)->create(['session_id' => $session->id]);
 
         //get interview session details
-        $response = $this->actingAs($user)->getJson("/api/interview/{$session->id}");
+        $response = $this->actingAs($user)->getJson("/api/v1/interview/{$session->id}");
 
         $response->assertStatus(200)
             ->assertJsonStructure([

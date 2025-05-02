@@ -29,7 +29,6 @@ class AddQuestionTest extends TestCase
                 'session_id',
                 'question',
                 'user_answer',
-                'ai_comment',
                 'created_at',
                 'updated_at',
             ]);
