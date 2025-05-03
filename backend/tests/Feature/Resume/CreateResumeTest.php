@@ -41,7 +41,7 @@ class CreateResumeTest extends TestCase
             ]
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->jwtAuth($user)
             ->postJson('/api/v1/resume', $resumeData);
 
         $response->assertStatus(201)
