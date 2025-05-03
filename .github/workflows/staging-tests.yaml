@@ -42,4 +42,5 @@ jobs:
           php artisan migrate:fresh --env=testing
           php artisan cache:clear
           php artisan route:clear
+          php artisan passport:install --env=testing
           php artisan test
