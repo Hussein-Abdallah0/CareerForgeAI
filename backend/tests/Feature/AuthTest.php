@@ -15,7 +15,6 @@ class AuthTest extends TestCase
     {
         parent::setUp();
         \Artisan::call('migrate:fresh');
-        \Artisan::call('passport:install');
     }
 
     public function test_user_can_register()
