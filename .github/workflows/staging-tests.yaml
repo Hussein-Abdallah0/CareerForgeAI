@@ -36,11 +36,9 @@ jobs:
         run: |
           cd backend
           composer install --no-interaction --prefer-dist
-          cp .env.test .env
+          cp .env.testing .env
           php artisan key:generate
           php artisan config:clear
-          php artisan migrate:fresh --env=testing
-          php artisan cache:clear
-          php artisan route:clear
           php artisan jwt:secret
+          php artisan migrate:fresh
           php artisan test
