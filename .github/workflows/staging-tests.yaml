@@ -39,4 +39,5 @@ jobs:
           cp .env.test .env
           php artisan key:generate
           php artisan config:clear
+          php artisan migrate:fresh --env=testing
           php artisan test
