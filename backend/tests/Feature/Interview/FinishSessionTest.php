@@ -22,7 +22,7 @@ class FinishSessionTest extends TestCase
         ]);
 
         //finish session and get feedback
-        $response = $this->actingAs($user)->postJson("/api/v1/interview/{$session->id}/finish");
+        $response = $this->jwtAuth($user)->postJson("/api/v1/interview/{$session->id}/finish");
 
         $response->assertStatus(200)
             ->assertJsonStructure([
