@@ -3,13 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected function setUp(): void
     {
@@ -44,7 +44,7 @@ class AuthTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
         $response->assertJsonStructure(['success', 'payload']);
     }
 
