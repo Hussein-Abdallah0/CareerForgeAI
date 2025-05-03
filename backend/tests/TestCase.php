@@ -14,14 +14,7 @@ abstract class TestCase extends BaseTestCase
 
         // Disable SQLite foreign key constraints during migration
         if (config('database.default') === 'sqlite') {
-            \DB::statement('PRAGMA foreign_keys=off;');
-        }
-
-        \Artisan::call('migrate:fresh');
-        \Artisan::call('jwt:secret');
-
-        if (config('database.default') === 'sqlite') {
-            \DB::statement('PRAGMA foreign_keys=on;');
+            \DB::statement('PRAGMA foreign_keys=ON;');
         }
     }
 
