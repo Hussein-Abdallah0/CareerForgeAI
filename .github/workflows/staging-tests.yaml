@@ -24,14 +24,19 @@ jobs:
         with:
           php-version: "8.2"
           extensions: mbstring, xml, mysql, zip, gd
-      - name: Setup test environment
+      - name: Setup environment
         run: |
-          cp backend/.env.example backend/.env.test
-          echo "APP_ENV=testing" >> backend/.env.test
-          echo "DB_CONNECTION=sqlite" >> backend/.env.test
-          echo "DB_DATABASE=:memory:" >> backend/.env.test
-          echo "SESSION_DRIVER=array" >> backend/.env.test
-          echo "CACHE_STORE=array" >> backend/.env.test
+          cd backend
+          # Create .env.testing if it doesn't exist
+          [ -f .env.testing ] || cp .env.example .env.testing
+          # Set testing-specific values
+          echo "APP_ENV=testing" >> .env.testing
+          echo "DB_CONNECTION=sqlite" >> .env.testing
+          echo "DB_DATABASE=:memory:" >> .env.testing
+          echo "JWT_SECRET=$(php artisan jwt:secret --show)" >> .env.testing
+          # Use .env.testing as the main .env
+          cp .env.testing .env
+          php artisan config:clear
       - name: Run tests
         run: |
           cd backend
