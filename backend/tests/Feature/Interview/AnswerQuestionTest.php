@@ -5,13 +5,13 @@ namespace Tests\Feature\Interview;
 use App\Models\InterviewQuestion;
 use App\Models\InterviewSession;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AnswerQuestionTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function test_user_can_answer_a_question()
     {
@@ -27,8 +27,11 @@ class AnswerQuestionTest extends TestCase
         ]);
 
         $response->assertStatus(200)
-            ->assertJsonFragment([
-                'user_answer' => 'I am passionate about software engineering.',
+            ->assertJsonStructure([
+                'success',
+                'payload' => [
+                    'user_answer' => 'I am passionate about software engineering.',
+                ]
             ]);
 
         $this->assertDatabaseHas('interview_questions', [
