@@ -28,7 +28,6 @@ class CreateSessionTest extends TestCase
                     'id',
                     'user_id',
                     'job_title',
-                    'ai_feedback',
                     'created_at',
                 ]
             ]);
