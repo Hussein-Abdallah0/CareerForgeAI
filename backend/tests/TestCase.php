@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 abstract class TestCase extends BaseTestCase
 {
-    protected function jwtAuth(User $user)
+    protected function jwtAuth($user, $guard = 'api')
     {
-        $token = Auth::attempt([
+        $token = auth($guard)->attempt([
             'email' => $user->email,
-            'password' => 'password'
+            'password' => 'password' // Must match factory password
         ]);
 
         $this->withHeader('Authorization', 'Bearer ' . $token);
