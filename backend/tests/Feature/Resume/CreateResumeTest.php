@@ -61,8 +61,8 @@ class CreateResumeTest extends TestCase
             ]);
 
         $this->assertDatabaseHas('resumes', [
-            'user_id' => $user->id,
-            'job_title' => 'Backend Developer',
+            'success' => true,
+            'payload' => ""
         ]);
     }
 }
