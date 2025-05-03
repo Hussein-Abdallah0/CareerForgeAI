@@ -19,7 +19,7 @@ class ListResumesTest extends TestCase
         Resume::factory()->count(3)->create(['user_id' => $user->id]);
 
         //get resumes
-        $response = $this->actingAs($user)->getJson('/api/v1/resume');
+        $response = $this->jwtAuth($user)->getJson('/api/v1/resume');
 
         $response->assertStatus(200)
             ->assertJsonCount(3);
