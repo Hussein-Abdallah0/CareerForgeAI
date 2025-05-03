@@ -30,6 +30,13 @@ jobs:
           php artisan jwt:secret
           php artisan config:clear
 
+      - name: Prepare SQLite Database
+        run: |
+          cd backend
+          mkdir -p database
+          touch database/database.sqlite
+          chmod 777 database/database.sqlite
+
       - name: Run Tests
         run: |
           cd backend
