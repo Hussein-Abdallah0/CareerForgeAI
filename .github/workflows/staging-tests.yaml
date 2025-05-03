@@ -19,31 +19,35 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
           extensions: mbstring, xml, mysql, zip, gd
-      - name: Setup environment
-        run: |
-          cd backend
-          # Create .env.testing if it doesn't exist
-          [ -f .env.testing ] || cp .env.example .env.testing
-          # Set testing-specific values
-          echo "APP_ENV=testing" >> .env.testing
-          echo "DB_CONNECTION=sqlite" >> .env.testing
-          echo "DB_DATABASE=:memory:" >> .env.testing
-          echo "JWT_SECRET=$(php artisan jwt:secret --show)" >> .env.testing
-          # Use .env.testing as the main .env
-          cp .env.testing .env
-          php artisan config:clear
-      - name: Run tests
+
+      - name: Install Composer dependencies
         run: |
           cd backend
           composer install --no-interaction --prefer-dist
+
+      - name: Setup test environment
+        run: |
+          cd backend
+          # Create .env file from example
+          cp .env.example .env.testing
+          # Set testing-specific values
+          echo "APP_ENV=testing" > .env.testing
+          echo "DB_CONNECTION=sqlite" >> .env.testing
+          echo "DB_DATABASE=:memory:" >> .env.testing
+          # Use .env.testing as the main .env
           cp .env.testing .env
           php artisan key:generate
-          php artisan config:clear
           php artisan jwt:secret
+          php artisan config:clear
+
+      - name: Run migrations and tests
+        run: |
+          cd backend
           php artisan migrate:fresh
           php artisan test
