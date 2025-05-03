@@ -21,7 +21,6 @@ class InterviewQuestionFactory extends Factory
             'session_id' => InterviewSession::factory(),
             'question' => $this->faker->sentence(),
             'user_answer' => $this->faker->paragraph(),
-            'ai_comment' => $this->faker->sentence(),
         ];
     }
 }
