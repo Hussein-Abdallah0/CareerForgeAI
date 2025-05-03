@@ -31,12 +31,12 @@ class ResumeController extends Controller
     {
         $user = Auth::user();
         $function = fn() => $this->Service->listResumes($user->id);
-        return $this->tryCatchResponse($function, 200, 'Failed to fetch resumes');
+        return $this->tryCatchResponse($function, 200, 'Failed to fetch resumes:');
     }
 
     public function deleteResume($resume_id)
     {
         $function = fn() => $this->Service->deleteResume($resume_id);
-        return $this->tryCatchResponse($function, 200, 'Failed to delete resume');
+        return $this->tryCatchResponse($function, 200, 'Failed to delete resume:');
     }
 }
