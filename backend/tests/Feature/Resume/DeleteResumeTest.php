@@ -21,7 +21,7 @@ class DeleteResumeTest extends TestCase
         //delete resume
         $response = $this->jwtAuth($user)->deleteJson("/api/v1/resume/{$resume->id}");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
 
         $this->assertDatabaseMissing('resumes', [
             'id' => $resume->id,
