@@ -22,7 +22,7 @@ class AnswerQuestionTest extends TestCase
         ]);
 
         //answer question
-        $response = $this->actingAs($user)->patchJson("/api/v1/question/{$question->id}/answer", [
+        $response = $this->jwtAuth($user)->patchJson("/api/v1/question/{$question->id}/answer", [
             'user_answer' => 'I am passionate about software engineering.',
         ]);
 
