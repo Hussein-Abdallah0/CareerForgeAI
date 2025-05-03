@@ -18,7 +18,7 @@ class ResumeController extends Controller
     public function createResume(CreateResumeRequest $request)
     {
         $function = fn() => $this->Service->createResume($request);
-        return $this->tryCatchResponse($function, 201, 'Failed to create resume');
+        return $this->tryCatchResponse($function, 201, 'Failed to create resume:');
     }
 
     public function viewResume($resume_id)
