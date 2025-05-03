@@ -18,12 +18,8 @@ class InterviewSessionController extends Controller
 
     public function createSession(CreateInterviewRequest $request)
     {
-        try {
-            $session = $this->Service->createSession($request);
-            return $this->successResponse($session, 201);
-        } catch (\Exception $e) {
-            return $this->errorResponse("Failed to create session: " . $e->getMessage(), 500);
-        }
+        $function = fn() => $this->Service->createSession($request);
+        return $this->tryCatchResponse($function, 'Failed to create session', 201);
     }
 
     public function finishSession(FinishInterviewRequest $request, $session_id)
