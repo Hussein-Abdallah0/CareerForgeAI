@@ -3,13 +3,13 @@
 namespace Tests\Feature\Interview;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CreateSessionTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function test_user_can_create_interview_session()
     {
@@ -23,11 +23,14 @@ class CreateSessionTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJsonStructure([
-                'id',
-                'user_id',
-                'job_title',
-                'ai_feedback',
-                'created_at',
+                'success',
+                'payload' => [
+                    'id',
+                    'user_id',
+                    'job_title',
+                    'ai_feedback',
+                    'created_at',
+                ]
             ]);
 
         $this->assertDatabaseHas('interview_sessions', [
