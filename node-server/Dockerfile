@@ -1,15 +1,13 @@
-FROM node:20-alpine
+FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY ./package*.json /app/
+
 RUN npm install
 
-# Install nodemon globally
-RUN npm install -g nodemon
+COPY . /app/
 
-COPY . .
+EXPOSE 3001
 
-EXPOSE 3000
-
-CMD ["nodemon", "server.js"]
+CMD [ "npm", "start" ]
