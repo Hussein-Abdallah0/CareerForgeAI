@@ -25,11 +25,17 @@ class ViewResumeTest extends TestCase
             ->assertJsonStructure([
                 'success',
                 'payload' => [
+                    'id',
+                    'job_title',
+                    'experience',
+                    'skills',
+                    'education',
+                ]
+            ])
+            ->assertJson([
+                'payload' => [
                     'id' => $resume->id,
-                    'job_title' => $resume->job_title,
-                    'experience' => $resume->experience,
-                    'skills' => $resume->skills,
-                    'education' => $resume->education,
+                    'job_title' => $resume->job_title
                 ]
             ]);
     }
