@@ -4,13 +4,13 @@ namespace Tests\Feature\Salary;
 
 use App\Models\SalaryAnalysis;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ListSalaryAnalysisTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function test_user_can_list_their_salary_analyses()
     {
