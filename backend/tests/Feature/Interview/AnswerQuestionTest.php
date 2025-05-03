@@ -30,8 +30,16 @@ class AnswerQuestionTest extends TestCase
             ->assertJsonStructure([
                 'success',
                 'payload' => [
-                    'user_answer' => 'I am passionate about software engineering.',
+                    'id',
+                    'session_id',
+                    'question',
+                    'user_answer', // Check structure exists
+                    'created_at',
+                    'updated_at',
                 ]
+            ])
+            ->assertJsonFragment([
+                'user_answer' => 'I am passionate about software engineering.'
             ]);
 
         $this->assertDatabaseHas('interview_questions', [
