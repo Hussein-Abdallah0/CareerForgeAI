@@ -19,7 +19,7 @@ class AddQuestionTest extends TestCase
         $session = InterviewSession::factory()->create(['user_id' => $user->id]);
 
         //add question
-        $response = $this->actingAs($user)->postJson("/api/v1/interview/{$session->id}/question", [
+        $response = $this->jwtAuth($user)->postJson("/api/v1/interview/{$session->id}/question", [
             'question' => 'Tell me about yourself.',
         ]);
 
