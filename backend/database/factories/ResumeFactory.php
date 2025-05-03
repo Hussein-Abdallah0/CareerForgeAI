@@ -49,7 +49,7 @@ class ResumeFactory extends Factory
             'education' => [
                 [
                     'degree' => $this->faker->randomElement(['BSc', 'MSc', 'PhD']) . ' in ' . $this->faker->randomElement(['Computer Science', 'Software Engineering', 'Information Technology']),
-                    'institution' => $this->faker->university(),
+                    'institution' => $this->faker->company(),
                     'year' => $this->faker->year()
                 ]
             ],
