@@ -16,12 +16,12 @@ class ListResumesTest extends TestCase
     {
         //create user and resumes for this user
         $user = User::factory()->create();
-        Resume::factory()->count(3)->create(['user_id' => $user->id]);
+        Resume::factory()->count(2)->create(['user_id' => $user->id]);
 
         //get resumes
         $response = $this->jwtAuth($user)->getJson('/api/v1/resume');
 
         $response->assertStatus(200)
-            ->assertJsonCount(3);
+            ->assertJsonCount(2);
     }
 }
