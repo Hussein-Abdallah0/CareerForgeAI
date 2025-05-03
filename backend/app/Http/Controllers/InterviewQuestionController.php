@@ -17,12 +17,8 @@ class InterviewQuestionController extends Controller
 
     public function addQuestion(CreateQuestionRequest $request, $session_id)
     {
-        try {
-            $question = $this->Service->createQuestion($request, $session_id);
-            return $this->successResponse($question, 201);
-        } catch (\Exception $e) {
-            return $this->errorResponse("Failed to add question: " . $e->getMessage(), 500);
-        }
+        $function = fn() => $this->Service->createQuestion($request, $session_id);
+        return $this->tryCatchResponse($function, 201, 'Failed to add question');
     }
 
     public function answerQuestion(AnswerQuestionRequest $request, $question_id)
