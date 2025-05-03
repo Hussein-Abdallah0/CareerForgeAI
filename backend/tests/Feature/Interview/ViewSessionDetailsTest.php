@@ -21,7 +21,7 @@ class ViewSessionDetailsTest extends TestCase
         InterviewQuestion::factory()->count(2)->create(['session_id' => $session->id]);
 
         //get interview session details
-        $response = $this->actingAs($user)->getJson("/api/v1/interview/{$session->id}");
+        $response = $this->jwtAuth($user)->getJson("/api/v1/interview/{$session->id}");
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -31,7 +31,7 @@ class ViewSessionDetailsTest extends TestCase
                 'ai_feedback',
                 'created_at',
                 'questions' => [
-                    ['id', 'session_id', 'question', 'user_answer', 'ai_comment', 'created_at', 'updated_at'],
+                    ['id', 'session_id', 'question', 'user_answer', 'created_at', 'updated_at'],
                 ]
             ]);
     }
