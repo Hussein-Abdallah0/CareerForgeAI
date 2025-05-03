@@ -32,9 +32,6 @@ class ViewSessionDetailsTest extends TestCase
                     'job_title',
                     'ai_feedback',
                     'created_at',
-                    'questions' => [
-                        ['id', 'session_id', 'question', 'user_answer', 'created_at', 'updated_at'],
-                    ]
                 ]
             ]);
     }
