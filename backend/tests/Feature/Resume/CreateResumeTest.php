@@ -3,12 +3,12 @@
 namespace Tests\Feature\Resume;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class CreateResumeTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function test_user_can_create_resume()
     {
@@ -41,7 +41,7 @@ class CreateResumeTest extends TestCase
             ]
         ];
 
-        $response = $this->actingAs($user)
+        $response = $this->jwtAuth($user)
             ->postJson('/api/v1/resume', $resumeData);
 
         $response->assertStatus(201)
@@ -62,7 +62,7 @@ class CreateResumeTest extends TestCase
 
         $this->assertDatabaseHas('resumes', [
             'user_id' => $user->id,
-            'job_title' => 'Backend Developer',
+            'job_title' => 'Backend Developer'
         ]);
     }
 }

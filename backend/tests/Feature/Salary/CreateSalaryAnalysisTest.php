@@ -3,13 +3,13 @@
 namespace Tests\Feature\Salary;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CreateSalaryAnalysisTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function test_user_can_create_salary_analysis()
     {
@@ -17,7 +17,7 @@ class CreateSalaryAnalysisTest extends TestCase
         // $user = User::factory()->create();
 
         // //create analysis
-        // $response = $this->actingAs($user)->postJson('/api/salaries', [
+        // $response = $this->jwtAuth($user)->postJson('/api/salaries', [
         //     'job_title' => 'Software Engineer',
         //     'location' => 'New York',
         //     'experience_level' => 'Mid-Level',

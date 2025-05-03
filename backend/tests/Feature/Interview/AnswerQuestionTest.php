@@ -5,13 +5,13 @@ namespace Tests\Feature\Interview;
 use App\Models\InterviewQuestion;
 use App\Models\InterviewSession;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AnswerQuestionTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function test_user_can_answer_a_question()
     {
@@ -22,13 +22,24 @@ class AnswerQuestionTest extends TestCase
         ]);
 
         //answer question
-        $response = $this->actingAs($user)->patchJson("/api/v1/question/{$question->id}/answer", [
+        $response = $this->jwtAuth($user)->patchJson("/api/v1/question/{$question->id}/answer", [
             'user_answer' => 'I am passionate about software engineering.',
         ]);
 
         $response->assertStatus(200)
+            ->assertJsonStructure([
+                'success',
+                'payload' => [
+                    'id',
+                    'session_id',
+                    'question',
+                    'user_answer', // Check structure exists
+                    'created_at',
+                    'updated_at',
+                ]
+            ])
             ->assertJsonFragment([
-                'user_answer' => 'I am passionate about software engineering.',
+                'user_answer' => 'I am passionate about software engineering.'
             ]);
 
         $this->assertDatabaseHas('interview_questions', [

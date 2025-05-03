@@ -18,6 +18,7 @@ services:
       retries: 30
       start_period: 30s
     command: --default-authentication-plugin=mysql_native_password
+    restart: always
   backend:
     build:
       context: ./backend
@@ -36,34 +37,23 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=12345
       - JWT_SECRET=IMwuRQxdfNuxrqJTlfUnm2JkGxopiP2CfuvTA22VrTjvYod5ikV9GpralIVeeKuJ
-    command: >
-      sh -c "apt-get update && apt-get install -y default-mysql-client &&
-      echo 'Waiting for MySQL to be ready...' &&
-      while ! mysqladmin ping -h mysql -u root -p12345 --silent; do
-        sleep 5
-      done &&
-      echo 'MySQL is ready! Running migrations...' &&
-      php artisan migrate --force &&
-      php artisan optimize &&
-      echo 'Starting Apache...' &&
-      chown -R www-data:www-data /var/www/html/storage &&
-      chown -R www-data:www-data /var/www/html/bootstrap/cache &&
-      docker-php-entrypoint apache2-foreground"
+    restart: always
+    command: ./docker-entrypoint.sh
 
   react:
     build:
       context: ./frontend
     ports:
-      - "5173:80"
-
+      - "80:80"
+    restart: always
   nodejs:
     build:
       context: ./node-server
     ports:
-      - "3000:3000"
+      - "3001:3001"
     dns: # Add this section
       - 8.8.8.8
       - 8.8.4.4
-
+    restart: always
 volumes:
   db_data:
