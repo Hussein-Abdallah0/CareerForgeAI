@@ -17,7 +17,7 @@ class CreateSessionTest extends TestCase
         $user = User::factory()->create();
 
         //test if created user can create an interview session
-        $response = $this->actingAs($user)->postJson('/api/v1/interview', [
+        $response = $this->jwtAuth($user)->postJson('/api/v1/interview', [
             'job_title' => 'Software Engineer',
         ]);
 
