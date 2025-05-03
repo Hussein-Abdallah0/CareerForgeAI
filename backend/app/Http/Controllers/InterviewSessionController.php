@@ -19,7 +19,7 @@ class InterviewSessionController extends Controller
     public function createSession(CreateInterviewRequest $request)
     {
         $function = fn() => $this->Service->createSession($request);
-        return $this->tryCatchResponse($function, 'Failed to create session', 201);
+        return $this->tryCatchResponse($function, 201, 'Failed to create session');
     }
 
     public function finishSession(FinishInterviewRequest $request, $session_id)
@@ -34,11 +34,7 @@ class InterviewSessionController extends Controller
 
     public function viewSessionDetails($session_id)
     {
-        try {
-            $session = $this->Service->getSession($session_id);
-            return $this->successResponse($session, 200);
-        } catch (\Exception $e) {
-            return $this->errorResponse("Failed to fetch session details: " . $e->getMessage(), 500);
-        }
+        $function = fn() => $this->Service->getSession($session_id);
+        return $this->tryCatchResponse($function, 200, 'Failed to fetch session details');
     }
 }
