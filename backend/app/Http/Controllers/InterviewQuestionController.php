@@ -23,11 +23,7 @@ class InterviewQuestionController extends Controller
 
     public function answerQuestion(AnswerQuestionRequest $request, $question_id)
     {
-        try {
-            $question = $this->Service->answerQuestion($request, $question_id);
-            return $this->successResponse($question, 200);
-        } catch (\Exception $e) {
-            return $this->errorResponse("Failed to answer question: " . $e->getMessage(), 500);
-        }
+        $function = fn() => $this->Service->answerQuestion($request, $question_id);
+        return $this->tryCatchResponse($function, 200, 'Failed to answer question');
     }
 }
