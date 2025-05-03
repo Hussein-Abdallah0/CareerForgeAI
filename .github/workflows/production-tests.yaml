@@ -1,0 +1,42 @@
+name: Production Tests
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: 1234
+          MYSQL_DATABASE: testdb
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, xml, mysql, zip, gd
+      - name: Setup test environment
+        run: |
+          cp backend/.env.example backend/.env.test
+          echo "APP_ENV=testing" >> backend/.env.test
+          echo "DB_HOST=127.0.0.1" >> backend/.env.test
+          echo "DB_DATABASE=testdb" >> backend/.env.test
+          echo "DB_USERNAME=root" >> backend/.env.test
+          echo "DB_PASSWORD=1234" >> backend/.env.test
+      - name: Run tests
+        run: |
+          cd backend
+          composer install --no-interaction --prefer-dist
+          cp .env.test .env
+          php artisan key:generate
+          php artisan config:clear
+          php artisan test
