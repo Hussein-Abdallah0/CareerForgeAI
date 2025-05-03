@@ -17,7 +17,7 @@ class CreateSalaryAnalysisTest extends TestCase
         // $user = User::factory()->create();
 
         // //create analysis
-        // $response = $this->actingAs($user)->postJson('/api/salaries', [
+        // $response = $this->jwtAuth($user)->postJson('/api/salaries', [
         //     'job_title' => 'Software Engineer',
         //     'location' => 'New York',
         //     'experience_level' => 'Mid-Level',
