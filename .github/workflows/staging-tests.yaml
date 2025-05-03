@@ -1,4 +1,4 @@
-name: Staging Tests
+name: Run Laravel Tests with SQLite
 
 on:
   pull_request:
@@ -7,52 +7,31 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: 1234
-          MYSQL_DATABASE: testdb
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup PHP
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
-          extensions: mbstring, xml, mysql, zip, gd
+          extensions: mbstring, xml, sqlite, zip, gd
 
-      - name: Install Composer dependencies
+      - name: Install Composer Dependencies
         run: |
           cd backend
           composer install --no-interaction --prefer-dist
 
-      - name: Setup test environment
+      - name: Set up Environment File
         run: |
           cd backend
-          # Create .env file from example
-          cp .env.example .env.testing
-          # Set testing-specific values
-          echo "APP_ENV=testing" > .env.testing
-          echo "DB_CONNECTION=sqlite" >> .env.testing
-          echo "DB_DATABASE=:memory:" >> .env.testing
-          # Use .env.testing as the main .env
           cp .env.testing .env
           php artisan key:generate
           php artisan jwt:secret
           php artisan config:clear
 
-      - name: Run tests
+      - name: Run Tests
         run: |
           cd backend
-          composer install --no-interaction --prefer-dist
-          cp .env.testing .env
-          php artisan key:generate
-          php artisan config:clear
-          php artisan jwt:secret
           php artisan migrate:fresh --env=testing
           php artisan test
