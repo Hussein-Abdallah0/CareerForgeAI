@@ -30,7 +30,6 @@ class AddQuestionTest extends TestCase
                     'id',
                     'session_id',
                     'question',
-                    'user_answer',
                     'created_at',
                     'updated_at',
                 ]
