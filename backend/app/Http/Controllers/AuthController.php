@@ -24,13 +24,8 @@ class AuthController extends Controller
 
     public function login(CreateDataRequest $request)
     {
-        $token = $this->authService->attemptLogin($request);
-
-        if (!$token) {
-            return $this->errorResponse("Unauthorized", 401);
-        }
-
-        return $this->successResponse($token, 200);
+        $function = fn() => $this->authService->attemptLogin($request);
+        return $this->tryCatchResponse($function, 200, 'Failed to login:');
     }
 
     public function me()
