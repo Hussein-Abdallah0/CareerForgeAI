@@ -29,13 +29,9 @@ class ResumeController extends Controller
 
     public function listResumes()
     {
-        try {
-            $user = Auth::user();
-            $resumes = $this->Service->listResumes($user->id);
-            return $this->successResponse($resumes, 200);
-        } catch (\Exception $e) {
-            return $this->errorResponse("Failed to fetch resumes: " . $e->getMessage(), 500);
-        }
+        $user = Auth::user();
+        $function = fn() => $this->Service->listResumes($user->id);
+        return $this->tryCatchResponse($function, 200, 'Failed to fetch resumes');
     }
 
     public function deleteResume($resume_id)
