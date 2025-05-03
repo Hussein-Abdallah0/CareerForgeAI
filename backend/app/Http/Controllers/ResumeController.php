@@ -24,7 +24,7 @@ class ResumeController extends Controller
     public function viewResume($resume_id)
     {
         $function = fn() => $this->Service->viewResume($resume_id);
-        return $this->tryCatchResponse($function, 200, 'Failed to fetch resume');
+        return $this->tryCatchResponse($function, 200, 'Failed to fetch resume:');
     }
 
     public function listResumes()
