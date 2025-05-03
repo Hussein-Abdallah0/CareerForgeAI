@@ -1,181 +1,181 @@
-name: CI/CD Pipeline
+# name: CI/CD Pipeline
 
-on:
-  push:
-    branches:
-      - main
-      - staging
+# on:
+#   push:
+#     branches:
+#       - main
+#       - staging
 
-env:
-  BACKEND_IMAGE: ${{ secrets.DOCKER_HUB_USERNAME }}/laravel-app-backend
-  FRONTEND_IMAGE: ${{ secrets.DOCKER_HUB_USERNAME }}/laravel-app-frontend
-  NODE_IMAGE: ${{ secrets.DOCKER_HUB_USERNAME }}/laravel-app-node
+# env:
+#   BACKEND_IMAGE: ${{ secrets.DOCKER_HUB_USERNAME }}/laravel-app-backend
+#   FRONTEND_IMAGE: ${{ secrets.DOCKER_HUB_USERNAME }}/laravel-app-frontend
+#   NODE_IMAGE: ${{ secrets.DOCKER_HUB_USERNAME }}/laravel-app-node
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: 1234
-          MYSQL_DATABASE: testdb
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     services:
+#       mysql:
+#         image: mysql:8.0
+#         env:
+#           MYSQL_ROOT_PASSWORD: 1234
+#           MYSQL_DATABASE: testdb
+#         ports:
+#           - 3306:3306
+#         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
-    steps:
-      - uses: actions/checkout@v3
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.2"
-          extensions: mbstring, xml, mysql, zip, gd
-          coverage: none
+#       - name: Setup PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: "8.2"
+#           extensions: mbstring, xml, mysql, zip, gd
+#           coverage: none
 
-      - name: Copy .env for testing
-        run: |
-          cp backend/.env.example backend/.env.test
-          echo "APP_ENV=testing" >> backend/.env.test
-          echo "DB_HOST=127.0.0.1" >> backend/.env.test
-          echo "DB_DATABASE=testdb" >> backend/.env.test
-          echo "DB_USERNAME=root" >> backend/.env.test
-          echo "DB_PASSWORD=1234" >> backend/.env.test
+#       - name: Copy .env for testing
+#         run: |
+#           cp backend/.env.example backend/.env.test
+#           echo "APP_ENV=testing" >> backend/.env.test
+#           echo "DB_HOST=127.0.0.1" >> backend/.env.test
+#           echo "DB_DATABASE=testdb" >> backend/.env.test
+#           echo "DB_USERNAME=root" >> backend/.env.test
+#           echo "DB_PASSWORD=1234" >> backend/.env.test
 
-      - name: Install dependencies and run tests
-        run: |
-          cd backend
-          composer install --no-interaction --prefer-dist
-          cp .env.test .env
-          php artisan key:generate
-          php artisan config:clear
-          php artisan test
+#       - name: Install dependencies and run tests
+#         run: |
+#           cd backend
+#           composer install --no-interaction --prefer-dist
+#           cp .env.test .env
+#           php artisan key:generate
+#           php artisan config:clear
+#           php artisan test
 
-  build-and-push:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+#   build-and-push:
+#     needs: test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v3
+#         with:
+#           username: ${{ secrets.DOCKER_HUB_USERNAME }}
+#           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Set Docker tag
-        id: set-tag
-        run: echo "tag=${{ github.ref_name == 'main' && 'latest' || 'staging' }}" >> $GITHUB_OUTPUT
+#       - name: Set Docker tag
+#         id: set-tag
+#         run: echo "tag=${{ github.ref_name == 'main' && 'latest' || 'staging' }}" >> $GITHUB_OUTPUT
 
-      - name: Build and push Docker images
-        run: |
-          docker build -t $BACKEND_IMAGE:${{ steps.set-tag.outputs.tag }} ./backend
-          docker build -t $FRONTEND_IMAGE:${{ steps.set-tag.outputs.tag }} ./frontend
-          docker build -t $NODE_IMAGE:${{ steps.set-tag.outputs.tag }} ./node-server
+#       - name: Build and push Docker images
+#         run: |
+#           docker build -t $BACKEND_IMAGE:${{ steps.set-tag.outputs.tag }} ./backend
+#           docker build -t $FRONTEND_IMAGE:${{ steps.set-tag.outputs.tag }} ./frontend
+#           docker build -t $NODE_IMAGE:${{ steps.set-tag.outputs.tag }} ./node-server
 
-          docker push $BACKEND_IMAGE:${{ steps.set-tag.outputs.tag }}
-          docker push $FRONTEND_IMAGE:${{ steps.set-tag.outputs.tag }}
-          docker push $NODE_IMAGE:${{ steps.set-tag.outputs.tag }}
+#           docker push $BACKEND_IMAGE:${{ steps.set-tag.outputs.tag }}
+#           docker push $FRONTEND_IMAGE:${{ steps.set-tag.outputs.tag }}
+#           docker push $NODE_IMAGE:${{ steps.set-tag.outputs.tag }}
 
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+#   deploy:
+#     needs: build-and-push
+#     runs-on: ubuntu-latest
+#     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging'
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v3
 
-      - name: Set environment variables
-        id: set-env
-        run: |
-          if [[ "${{ github.ref_name }}" == "main" ]]; then
-            echo "host=${{ secrets.PROD_HOST }}" >> $GITHUB_OUTPUT
-            echo "path=/var/www/fullstack-app" >> $GITHUB_OUTPUT
-            echo "tag=latest" >> $GITHUB_OUTPUT
-          else
-            echo "host=${{ secrets.STAGING_HOST }}" >> $GITHUB_OUTPUT
-            echo "path=/var/www/fullstack-staging" >> $GITHUB_OUTPUT
-            echo "tag=staging" >> $GITHUB_OUTPUT
-          fi
+#       - name: Set environment variables
+#         id: set-env
+#         run: |
+#           if [[ "${{ github.ref_name }}" == "main" ]]; then
+#             echo "host=${{ secrets.PROD_HOST }}" >> $GITHUB_OUTPUT
+#             echo "path=/var/www/fullstack-app" >> $GITHUB_OUTPUT
+#             echo "tag=latest" >> $GITHUB_OUTPUT
+#           else
+#             echo "host=${{ secrets.STAGING_HOST }}" >> $GITHUB_OUTPUT
+#             echo "path=/var/www/fullstack-staging" >> $GITHUB_OUTPUT
+#             echo "tag=staging" >> $GITHUB_OUTPUT
+#           fi
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ steps.set-env.outputs.host }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}
-            FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}
-            NODE_IMAGE=${{ env.NODE_IMAGE }}
-            APP_PATH=${{ steps.set-env.outputs.path }}
-            TAG=${{ steps.set-env.outputs.tag }}
+#       - name: Deploy via SSH
+#         uses: appleboy/ssh-action@v1.0.3
+#         with:
+#           host: ${{ steps.set-env.outputs.host }}
+#           username: ${{ secrets.SSH_USERNAME }}
+#           key: ${{ secrets.SSH_KEY }}
+#           script: |
+#             BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}
+#             FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}
+#             NODE_IMAGE=${{ env.NODE_IMAGE }}
+#             APP_PATH=${{ steps.set-env.outputs.path }}
+#             TAG=${{ steps.set-env.outputs.tag }}
 
-            sudo mkdir -p $APP_PATH
-            sudo chown -R $USER:$USER $APP_PATH
-            cd $APP_PATH
+#             sudo mkdir -p $APP_PATH
+#             sudo chown -R $USER:$USER $APP_PATH
+#             cd $APP_PATH
 
-            sudo docker-compose down -v || true
-            sudo docker pull $BACKEND_IMAGE:$TAG
-            sudo docker pull $FRONTEND_IMAGE:$TAG
-            sudo docker pull $NODE_IMAGE:$TAG
+#             sudo docker-compose down -v || true
+#             sudo docker pull $BACKEND_IMAGE:$TAG
+#             sudo docker pull $FRONTEND_IMAGE:$TAG
+#             sudo docker pull $NODE_IMAGE:$TAG
 
-            cat << EOF > docker-compose.yml
-            version: '3.8'
-            services:
-              backend:
-                image: $BACKEND_IMAGE:$TAG
-                container_name: backend
-                ports:
-                  - "8000:80"
-                environment:
-                  - APP_ENV=production
-                  - DB_HOST=mysql
-                  - DB_DATABASE=appdb
-                  - DB_USERNAME=root
-                  - DB_PASSWORD=1234
-                depends_on:
-                  mysql:
-                    condition: service_healthy
-                volumes:
-                  - backend_storage:/var/www/html/storage
+#             cat << EOF > docker-compose.yml
+#             version: '3.8'
+#             services:
+#               backend:
+#                 image: $BACKEND_IMAGE:$TAG
+#                 container_name: backend
+#                 ports:
+#                   - "8000:80"
+#                 environment:
+#                   - APP_ENV=production
+#                   - DB_HOST=mysql
+#                   - DB_DATABASE=appdb
+#                   - DB_USERNAME=root
+#                   - DB_PASSWORD=1234
+#                 depends_on:
+#                   mysql:
+#                     condition: service_healthy
+#                 volumes:
+#                   - backend_storage:/var/www/html/storage
 
-              frontend:
-                image: $FRONTEND_IMAGE:$TAG
-                container_name: frontend
-                ports:
-                  - "5173:80"
+#               frontend:
+#                 image: $FRONTEND_IMAGE:$TAG
+#                 container_name: frontend
+#                 ports:
+#                   - "5173:80"
 
-              node:
-                image: $NODE_IMAGE:$TAG
-                container_name: node
-                ports:
-                  - "3000:3000"
+#               node:
+#                 image: $NODE_IMAGE:$TAG
+#                 container_name: node
+#                 ports:
+#                   - "3000:3000"
 
-              mysql:
-                image: mysql:8.0
-                container_name: mysql
-                environment:
-                  - MYSQL_ROOT_PASSWORD=1234
-                  - MYSQL_DATABASE=appdb
-                volumes:
-                  - db_data:/var/lib/mysql
-                healthcheck:
-                  test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-                  interval: 10s
-                  timeout: 5s
-                  retries: 5
+#               mysql:
+#                 image: mysql:8.0
+#                 container_name: mysql
+#                 environment:
+#                   - MYSQL_ROOT_PASSWORD=1234
+#                   - MYSQL_DATABASE=appdb
+#                 volumes:
+#                   - db_data:/var/lib/mysql
+#                 healthcheck:
+#                   test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+#                   interval: 10s
+#                   timeout: 5s
+#                   retries: 5
 
-            volumes:
-              db_data:
-              backend_storage:
-            EOF
+#             volumes:
+#               db_data:
+#               backend_storage:
+#             EOF
 
-            sudo docker-compose up -d
+#             sudo docker-compose up -d
 
-            sleep 15
+#             sleep 15
 
-            sudo docker exec backend php artisan migrate --force
-            sudo docker exec backend php artisan config:cache
-            sudo docker exec backend php artisan route:cache
+#             sudo docker exec backend php artisan migrate --force
+#             sudo docker exec backend php artisan config:cache
+#             sudo docker exec backend php artisan route:cache
