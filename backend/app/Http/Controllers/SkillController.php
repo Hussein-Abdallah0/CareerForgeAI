@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSkillRequest;
+use App\Models\Skill;
 use App\Services\SkillService;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,6 +39,14 @@ class SkillController extends Controller
     public function removeUserSkill($skill_id)
     {
         $user_id = Auth::id();
+
+        if (!Skill::where('id', $skill_id)->exists()) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Skill not found'
+            ], 404);
+        }
+
         $function = fn() => $this->Service->removeUserSkill($user_id, $skill_id);
         return $this->tryCatchResponse($function, 200, 'Failed to remove skill from user');
     }
