@@ -51,7 +51,7 @@ class AuthTest extends TestCase
         $response->assertStatus(401);
         $response->assertJson([
             'success' => false,
-            'error' => 'Unauthorized'
+            'error' => 'Failed to login: Invalid credentials'
         ]);
     }
 }
