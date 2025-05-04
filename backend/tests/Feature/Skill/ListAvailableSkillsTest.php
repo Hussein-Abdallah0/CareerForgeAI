@@ -15,7 +15,10 @@ class ListAvailableSkillsTest extends TestCase
     public function test_user_can_list_available_skills()
     {
         $user = User::factory()->create();
-        Skill::factory()->count(3)->create();
+
+        Skill::create(['name' => 'Laravel']);
+        Skill::create(['name' => 'Vue.js']);
+        Skill::create(['name' => 'React']);
 
         $response = $this->jwtAuth($user)
             ->getJson('/api/v1/skill/available');
@@ -34,7 +37,6 @@ class ListAvailableSkillsTest extends TestCase
     public function test_returns_empty_array_when_no_skills_exist()
     {
         $user = User::factory()->create();
-        Skill::query()->delete();
 
         $response = $this->jwtAuth($user)
             ->getJson('/api/v1/skill/available');
