@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('skill_user', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('skill_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->integer('proficiency')->default(1);
+            $table->timestamps(0);
+
+            //a users can't have 2 or more of the same skill 
+            $table->unique(['skill_id', 'user_id']);
         });
     }
 
