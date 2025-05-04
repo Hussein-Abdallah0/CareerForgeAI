@@ -21,4 +21,10 @@ class SalaryAnalysisService
             'suggested_range' => $request->suggested_range,
         ]);
     }
+
+    public function viewAnalysis($analysis_id)
+    {
+        return SalaryAnalysis::where('user_id', Auth::id())
+            ->findOrFail($analysis_id);
+    }
 }
