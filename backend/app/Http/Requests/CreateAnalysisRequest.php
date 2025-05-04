@@ -29,4 +29,15 @@ class CreateAnalysisRequest extends FormRequest
             'suggested_range'   => 'required|string|max:100',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'job_title.required'       => 'The job title is required.',
+            'location.required'         => 'The location is required.',
+            'experience_level.required' => 'The experience level is required.',
+            'current_salary.numeric'   => 'The current salary must be a valid number.',
+            'suggested_range.required'  => 'The suggested salary range is required.',
+        ];
+    }
 }
