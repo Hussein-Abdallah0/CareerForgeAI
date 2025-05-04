@@ -26,4 +26,15 @@ class RemoveUserSkillTest extends TestCase
             'skill_id' => $skill->id
         ]);
     }
+
+    public function test_skill_remains_in_available_skills_after_removal()
+    {
+        $user = User::factory()->create();
+        $skill = $user->skills()->create(['name' => 'Flask']);
+
+        $this->jwtAuth($user)
+            ->deleteJson("/api/v1/skills/user/{$skill->id}");
+
+        $this->assertDatabaseHas('skills', ['id' => $skill->id]);
+    }
 }
