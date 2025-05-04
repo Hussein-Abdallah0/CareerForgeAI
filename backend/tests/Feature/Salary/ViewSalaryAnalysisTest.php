@@ -19,7 +19,7 @@ class ViewSalaryAnalysisTest extends TestCase
         $salaryAnalysis = SalaryAnalysis::factory()->create(['user_id' => $user->id]);
 
         //get analysis
-        $response = $this->jwtAuth($user)->getJson("/api/salaries/{$salaryAnalysis->id}");
+        $response = $this->jwtAuth($user)->getJson("/api/v1/analysis/{$salaryAnalysis->id}");
 
         $response->assertStatus(200)
             ->assertJson([
