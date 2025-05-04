@@ -31,4 +31,14 @@ class ViewSalaryAnalysisTest extends TestCase
                 'suggested_range' => $salaryAnalysis->suggested_range,
             ]);
     }
+
+    public function test_user_cannot_view_another_users_analysis()
+    {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $salaryAnalysis = SalaryAnalysis::factory()->create(['user_id' => $user1->id]);
+
+        $response = $this->jwtAuth($user2)->getJson("/api/v1/analysis/{$salaryAnalysis->id}");
+        $response->assertStatus(403);
+    }
 }
