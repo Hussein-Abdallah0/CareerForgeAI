@@ -35,7 +35,7 @@ Route::group(['prefix' => 'v1'], function () {
         //Salary analysis api
         Route::post('analysis', [SalaryAnalysisController::class, 'createAnalysis']);
         Route::get('analysis', [SalaryAnalysisController::class, 'listAnalysis']);
-
+        Route::get('analysis/{analysis_id}', [SalaryAnalysisController::class, 'viewAnalysis']);
 
 
         Route::post('logout', [AuthController::class, 'logout']);
