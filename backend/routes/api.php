@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InterviewQuestionController;
 use App\Http\Controllers\InterviewSessionController;
 use App\Http\Controllers\ResumeController;
+use App\Http\Controllers\SalaryAnalysisController;
 use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('skill', [SkillController::class, 'listUserSkills']);
         Route::post('skill', [SkillController::class, 'addUserSkill']);
         Route::delete('skill/{skill_id}', [SkillController::class, 'removeUserSkill']);
+
+        //Salary analysis api
+        Route::post('analysis', [SalaryAnalysisController::class, 'createAnalysis']);
+
 
 
         Route::post('logout', [AuthController::class, 'logout']);
