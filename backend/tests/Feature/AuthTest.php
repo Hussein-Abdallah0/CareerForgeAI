@@ -48,7 +48,7 @@ class AuthTest extends TestCase
             'password' => 'wrongpass',
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(401);
         $response->assertJson([
             'success' => false,
             'error' => 'Unauthorized'
