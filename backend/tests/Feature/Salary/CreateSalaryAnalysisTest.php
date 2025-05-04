@@ -4,7 +4,6 @@ namespace Tests\Feature\Salary;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CreateSalaryAnalysisTest extends TestCase
