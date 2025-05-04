@@ -2,19 +2,28 @@
 
 namespace Tests\Feature\Skill;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class RemoveUserSkillTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
+    use DatabaseTransactions;
 
-        $response->assertStatus(200);
+    public function test_user_can_remove_skill()
+    {
+        $user = User::factory()->create();
+        $skill = $user->skills()->create(['name' => 'Django']);
+
+        $response = $this->jwtAuth($user)
+            ->deleteJson("/api/v1/skills/user/{$skill->id}");
+
+        $response->assertStatus(200)
+            ->assertJson(['message' => 'Skill removed successfully']);
+
+        $this->assertDatabaseMissing('skill_user', [
+            'user_id' => $user->id,
+            'skill_id' => $skill->id
+        ]);
     }
 }
