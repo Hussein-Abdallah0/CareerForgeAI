@@ -26,10 +26,6 @@ class CreateResumeTest extends TestCase
                     'description' => 'Developed web applications'
                 ]
             ],
-            'skills' => [
-                ['name' => 'PHP', 'level' => 'expert'],
-                ['name' => 'Laravel', 'level' => 'advanced']
-            ],
             'education' => [
                 [
                     'institution' => 'State University',
@@ -53,7 +49,6 @@ class CreateResumeTest extends TestCase
                     'summary',
                     'job_title',
                     'experience',
-                    'skills',
                     'education',
                     'created_at',
                     'updated_at'
