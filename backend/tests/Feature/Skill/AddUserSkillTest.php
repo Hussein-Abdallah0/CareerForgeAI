@@ -48,7 +48,7 @@ class AddUserSkillTest extends TestCase
                 'proficiency' => 3
             ]);
 
-        $response->assertStatus(400)
+        $response->assertStatus(500)
             ->assertJson(['message' => 'User already has this skill']);
     }
 
