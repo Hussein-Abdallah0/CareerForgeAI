@@ -26,7 +26,10 @@ class ListAvailableSkillsTest extends TestCase
             ->getJson('/api/v1/skill/available');
 
         $response->assertStatus(200)
-            ->assertJsonCount(3);
+            ->assertJsonCount(3)
+            ->assertJsonFragment(['name' => 'Laravel'])
+            ->assertJsonFragment(['name' => 'Vue.js'])
+            ->assertJsonFragment(['name' => 'React']);
     }
 
     public function test_returns_empty_array_when_no_skills_exist()
