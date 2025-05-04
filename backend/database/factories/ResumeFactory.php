@@ -34,18 +34,6 @@ class ResumeFactory extends Factory
                     'responsibilities' => $this->faker->sentences(4)
                 ]
             ],
-            'skills' => $this->faker->randomElements([
-                'PHP',
-                'Laravel',
-                'JavaScript',
-                'Vue.js',
-                'React',
-                'MySQL',
-                'PostgreSQL',
-                'Git',
-                'Docker',
-                'AWS'
-            ], 5),
             'education' => [
                 [
                     'degree' => $this->faker->randomElement(['BSc', 'MSc', 'PhD']) . ' in ' . $this->faker->randomElement(['Computer Science', 'Software Engineering', 'Information Technology']),
