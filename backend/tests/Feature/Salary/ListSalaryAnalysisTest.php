@@ -19,7 +19,7 @@ class ListSalaryAnalysisTest extends TestCase
         SalaryAnalysis::factory()->count(2)->create(['user_id' => $user->id]);
 
         //get all analysis
-        $response = $this->jwtAuth($user)->getJson('/api/salaries');
+        $response = $this->jwtAuth($user)->getJson('/api/v1/analysis');
 
         $response->assertStatus(200)
             ->assertJsonCount(2);
