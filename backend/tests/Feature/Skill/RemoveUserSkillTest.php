@@ -37,4 +37,14 @@ class RemoveUserSkillTest extends TestCase
 
         $this->assertDatabaseHas('skills', ['id' => $skill->id]);
     }
+
+    public function test_cannot_remove_nonexistent_skill()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->jwtAuth($user)
+            ->deleteJson("/api/v1/skills/user/999");
+
+        $response->assertStatus(404);
+    }
 }
