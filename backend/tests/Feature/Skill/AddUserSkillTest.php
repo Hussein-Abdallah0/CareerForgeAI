@@ -49,7 +49,10 @@ class AddUserSkillTest extends TestCase
             ]);
 
         $response->assertStatus(500)
-            ->assertJson(['message' => 'User already has this skill']);
+            ->assertJson([
+                'success' => false,
+                'error' => 'Failed to add skill to user: User already has this skill'
+            ]);
     }
 
     public function test_requires_valid_proficiency()
