@@ -17,42 +17,26 @@ class ResumeController extends Controller
 
     public function createResume(CreateResumeRequest $request)
     {
-        try {
-            $resume = $this->Service->createResume($request);
-            return $this->successResponse($resume, 201);
-        } catch (\Exception $e) {
-            return $this->errorResponse("Failed to create resume: " . $e->getMessage(), 500);
-        }
+        $function = fn() => $this->Service->createResume($request);
+        return $this->tryCatchResponse($function, 201, 'Failed to create resume');
     }
 
     public function viewResume($resume_id)
     {
-        try {
-            $resume = $this->Service->viewResume($resume_id);
-            return $this->successResponse($resume, 200);
-        } catch (\Exception $e) {
-            return $this->errorResponse("Failed to fetch resume: " . $e->getMessage(), 500);
-        }
+        $function = fn() => $this->Service->viewResume($resume_id);
+        return $this->tryCatchResponse($function, 200, 'Failed to fetch resume');
     }
 
     public function listResumes()
     {
-        try {
-            $user = Auth::user();
-            $resumes = $this->Service->listResumes($user->id);
-            return $this->successResponse($resumes, 200);
-        } catch (\Exception $e) {
-            return $this->errorResponse("Failed to fetch resumes: " . $e->getMessage(), 500);
-        }
+        $user = Auth::user();
+        $function = fn() => $this->Service->listResumes($user->id);
+        return $this->tryCatchResponse($function, 200, 'Failed to fetch resumes');
     }
 
     public function deleteResume($resume_id)
     {
-        try {
-            $this->Service->deleteResume($resume_id);
-            return $this->successResponse("Resume deleted successfully", 200);
-        } catch (\Exception $e) {
-            return $this->errorResponse("Failed to fetch resumes: " . $e->getMessage(), 500);
-        }
+        $function = fn() => $this->Service->deleteResume($resume_id);
+        return $this->tryCatchResponse($function, 200, 'Failed to delete resume');
     }
 }

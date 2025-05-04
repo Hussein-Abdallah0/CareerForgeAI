@@ -18,23 +18,17 @@ class AuthController extends Controller
 
     public function register(CreateDataRequest $request)
     {
-        try {
-            $token = $this->authService->registerUser($request);
-            return $this->successResponse($token, 201);
-        } catch (\Exception $e) {
-            return $this->errorResponse("Failed to register: " . $e->getMessage(), 500);
-        }
+        $function = fn() => $this->authService->registerUser($request);
+        return $this->tryCatchResponse($function, 201, 'Failed to register');
     }
 
     public function login(CreateDataRequest $request)
     {
-        $token = $this->authService->attemptLogin($request);
+        //added the exception since if login fails it doesnt give error
+        $function = fn() => $this->authService->attemptLogin($request)
+            ?: throw new \Exception('Invalid credentials', 401);
 
-        if (!$token) {
-            return $this->errorResponse("Unauthorized", 401);
-        }
-
-        return $this->successResponse($token, 200);
+        return $this->tryCatchResponse($function, 200, 'Failed to login', 401);
     }
 
     public function me()
