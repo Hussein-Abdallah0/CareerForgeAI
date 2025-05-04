@@ -20,4 +20,9 @@ class SkillService
         $user->skills()->attach($skill->id, ['proficiency' => $proficiency]);
         return $user->skills()->where('skill_id', $skill->id)->first();
     }
+
+    public function listUserSkills($user_id)
+    {
+        return User::findOrFail($user_id)->skills()->get();
+    }
 }
