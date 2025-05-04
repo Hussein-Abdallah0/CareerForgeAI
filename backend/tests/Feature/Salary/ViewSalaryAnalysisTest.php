@@ -23,12 +23,15 @@ class ViewSalaryAnalysisTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'id' => $salaryAnalysis->id,
-                'job_title' => $salaryAnalysis->job_title,
-                'location' => $salaryAnalysis->location,
-                'experience_level' => $salaryAnalysis->experience_level,
-                'current_salary' => $salaryAnalysis->current_salary,
-                'suggested_range' => $salaryAnalysis->suggested_range,
+                'success' => true,
+                'payload' => [
+                    'id' => $salaryAnalysis->id,
+                    'job_title' => $salaryAnalysis->job_title,
+                    'location' => $salaryAnalysis->location,
+                    'experience_level' => $salaryAnalysis->experience_level,
+                    'current_salary' => $salaryAnalysis->current_salary,
+                    'suggested_range' => $salaryAnalysis->suggested_range,
+                ]
             ]);
     }
 
