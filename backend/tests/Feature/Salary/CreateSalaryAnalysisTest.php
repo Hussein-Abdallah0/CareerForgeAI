@@ -21,6 +21,7 @@ class CreateSalaryAnalysisTest extends TestCase
             'location' => 'New York',
             'experience_level' => 'Mid-Level',
             'current_salary' => 85000.00,
+            'suggested_range' => '$80,000 - $100,000',
         ]);
 
         $response->assertStatus(201)
