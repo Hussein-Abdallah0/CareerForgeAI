@@ -23,4 +23,15 @@ class ListAvailableSkillsTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonCount(3);
     }
+
+    public function test_returns_empty_array_when_no_skills_exist()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->jwtAuth($user)
+            ->getJson('/api/v1/skill/available');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(0);
+    }
 }
