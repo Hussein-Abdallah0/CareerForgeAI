@@ -19,7 +19,7 @@ class AuthController extends Controller
     public function register(CreateDataRequest $request)
     {
         $function = fn() => $this->authService->registerUser($request);
-        return $this->tryCatchResponse($function, 201, 'Failed to register:');
+        return $this->tryCatchResponse($function, 201, 'Failed to register');
     }
 
     public function login(CreateDataRequest $request)
@@ -28,7 +28,7 @@ class AuthController extends Controller
         $function = fn() => $this->authService->attemptLogin($request)
             ?: throw new \Exception('Invalid credentials', 401);
 
-        return $this->tryCatchResponse($function, 200, 'Failed to login:', 401);
+        return $this->tryCatchResponse($function, 200, 'Failed to login', 401);
     }
 
     public function me()
