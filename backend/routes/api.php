@@ -29,6 +29,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('skill/available', [SkillController::class, 'listAvailableSkills']);
         Route::get('skill', [SkillController::class, 'listUserSkills']);
         Route::post('skill', [SkillController::class, 'addUserSkill']);
+        Route::delete('skill/{skill_id}', [SkillController::class, 'removeUserSkill']);
 
 
         Route::post('logout', [AuthController::class, 'logout']);
