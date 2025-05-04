@@ -32,7 +32,7 @@ class ListUserSkillsTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->jwtAuth($user)
-            ->getJson('/api/v1/skills/user');
+            ->getJson('/api/v1/skill');
 
         $response->assertStatus(200)
             ->assertJsonCount(0);
