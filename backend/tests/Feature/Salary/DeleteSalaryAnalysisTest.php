@@ -14,18 +14,17 @@ class DeleteSalaryAnalysisTest extends TestCase
 
     public function test_user_can_delete_salary_analysis()
     {
-        // //create user and analysis
-        // $user = User::factory()->create();
-        // $salaryAnalysis = SalaryAnalysis::factory()->create(['user_id' => $user->id]);
+        //create user and analysis
+        $user = User::factory()->create();
+        $salaryAnalysis = SalaryAnalysis::factory()->create(['user_id' => $user->id]);
 
-        // //delete analysis
-        // $response = $this->jwtAuth($user)->deleteJson("/api/salaries/{$salaryAnalysis->id}");
+        //delete analysis
+        $response = $this->jwtAuth($user)->deleteJson("/api/v1/analysis/{$salaryAnalysis->id}");
 
-        // $response->assertStatus(204);
+        $response->assertStatus(200);
 
-        // $this->assertDatabaseMissing('salary_analysis', [
-        //     'id' => $salaryAnalysis->id,
-        // ]);
-        $this->assertTrue(true);
+        $this->assertDatabaseMissing('salary_analysis', [
+            'id' => $salaryAnalysis->id,
+        ]);
     }
 }
