@@ -36,4 +36,19 @@ class AddUserSkillTest extends TestCase
             'proficiency' => 4
         ]);
     }
+
+    public function test_cannot_add_duplicate_skill()
+    {
+        $user = User::factory()->create();
+        $user->skills()->create(['name' => 'Laravel']);
+
+        $response = $this->jwtAuth($user)
+            ->postJson('/api/v1/skills/user', [
+                'skill_name' => 'Laravel',
+                'proficiency' => 3
+            ]);
+
+        $response->assertStatus(400)
+            ->assertJson(['message' => 'User already has this skill']);
+    }
 }
