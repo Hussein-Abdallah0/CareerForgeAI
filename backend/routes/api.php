@@ -36,7 +36,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('analysis', [SalaryAnalysisController::class, 'createAnalysis']);
         Route::get('analysis', [SalaryAnalysisController::class, 'listAnalysis']);
         Route::get('analysis/{analysis_id}', [SalaryAnalysisController::class, 'viewAnalysis']);
-
+        Route::delete('analysis/{analysis_id}', [SalaryAnalysisController::class, 'deleteAnalysis']);
 
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('me', [AuthController::class, 'me']);
