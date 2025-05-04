@@ -19,7 +19,7 @@ class DeleteSalaryAnalysisTest extends TestCase
         $salaryAnalysis = SalaryAnalysis::factory()->create(['user_id' => $user->id]);
 
         //delete analysis
-        $response = $this->jwtAuth($user)->deleteJson("/api/salaries/{$salaryAnalysis->id}");
+        $response = $this->jwtAuth($user)->deleteJson("/api/v1/analysis/{$salaryAnalysis->id}");
 
         $response->assertStatus(204);
 
