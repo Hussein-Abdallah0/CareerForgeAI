@@ -12,6 +12,11 @@ class SkillService
         return Skill::all();
     }
 
+    public function listUserSkills($user_id)
+    {
+        return User::findOrFail($user_id)->skills()->get();
+    }
+
     public function addUserSkill($user_id, $skill_name, $proficiency)
     {
         $skill = Skill::firstOrCreate(['name' => $skill_name]);
@@ -25,8 +30,10 @@ class SkillService
         return $user->skills()->where('skill_id', $skill->id)->first();
     }
 
-    public function listUserSkills($user_id)
+    public function removeUserSkill($user_id, $skill_id)
     {
-        return User::findOrFail($user_id)->skills()->get();
+        $user = User::findOrFail($user_id);
+        $user->skills()->detach($skill_id);
+        return ['message' => 'Skill removed successfully'];
     }
 }
