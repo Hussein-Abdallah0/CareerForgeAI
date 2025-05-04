@@ -31,7 +31,7 @@ class SkillController extends Controller
     public function addUserSkill(CreateSkillRequest $request)
     {
         $user_id = Auth::id();
-        $function = fn() => $this->Service->addUserSkill($user_id, $request->skill_id, $request->proficiency ?? 1);
+        $function = fn() => $this->Service->addUserSkill($user_id, $request->skill_name, $request->proficiency ?? 1);
         return $this->tryCatchResponse($function, 201, 'Failed to add skill to user');
     }
 
