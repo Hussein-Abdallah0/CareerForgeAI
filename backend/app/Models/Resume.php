@@ -21,7 +21,6 @@ class Resume extends Model
 
     protected $casts = [
         'experience' => 'array',
-        'skills' => 'array',
         'education' => 'array',
     ];
 
