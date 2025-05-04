@@ -33,4 +33,10 @@ class SalaryAnalysisController extends Controller
         $function = fn() => $this->Service->listAnalysis($user->id);
         return $this->tryCatchResponse($function, 200, 'Failed to fetch analysis');
     }
+
+    public function deleteSalaryAnalysis($analysis_id)
+    {
+        $function = fn() => $this->Service->deleteAnalysis($analysis_id);
+        return $this->tryCatchResponse($function, 200, 'Failed to delete analysis');
+    }
 }
