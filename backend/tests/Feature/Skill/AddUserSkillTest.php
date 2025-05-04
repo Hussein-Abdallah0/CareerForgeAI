@@ -15,7 +15,7 @@ class AddUserSkillTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->jwtAuth($user)
-            ->postJson('/api/v1/skills/user', [
+            ->postJson('/api/v1/skill', [
                 'skill_name' => 'Laravel',
                 'proficiency' => 4
             ]);
@@ -43,7 +43,7 @@ class AddUserSkillTest extends TestCase
         $user->skills()->create(['name' => 'Laravel']);
 
         $response = $this->jwtAuth($user)
-            ->postJson('/api/v1/skills/user', [
+            ->postJson('/api/v1/skill', [
                 'skill_name' => 'Laravel',
                 'proficiency' => 3
             ]);
@@ -57,7 +57,7 @@ class AddUserSkillTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->jwtAuth($user)
-            ->postJson('/api/v1/skills/user', [
+            ->postJson('/api/v1/skill', [
                 'skill_name' => 'React',
                 'proficiency' => 6 // Invalid
             ]);
