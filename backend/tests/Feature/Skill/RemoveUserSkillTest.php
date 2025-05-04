@@ -16,7 +16,7 @@ class RemoveUserSkillTest extends TestCase
         $skill = $user->skills()->create(['name' => 'Django']);
 
         $response = $this->jwtAuth($user)
-            ->deleteJson("/api/v1/skills/user/{$skill->id}");
+            ->deleteJson("/api/v1/skill/{$skill->id}");
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Skill removed successfully']);
@@ -33,7 +33,7 @@ class RemoveUserSkillTest extends TestCase
         $skill = $user->skills()->create(['name' => 'Flask']);
 
         $this->jwtAuth($user)
-            ->deleteJson("/api/v1/skills/user/{$skill->id}");
+            ->deleteJson("/api/v1/skill/{$skill->id}");
 
         $this->assertDatabaseHas('skills', ['id' => $skill->id]);
     }
@@ -43,7 +43,7 @@ class RemoveUserSkillTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->jwtAuth($user)
-            ->deleteJson("/api/v1/skills/user/999");
+            ->deleteJson("/api/v1/skill/999");
 
         $response->assertStatus(404);
     }
