@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Resume\CreateResumeRequest;
+use App\Http\Requests\CreateResumeRequest;
 use App\Services\ResumeService;
 use Illuminate\Support\Facades\Auth;
 
