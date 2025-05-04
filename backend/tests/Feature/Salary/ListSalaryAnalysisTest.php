@@ -12,7 +12,7 @@ class ListSalaryAnalysisTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_user_can_list_their_salary_analyses()
+    public function test_user_can_list_their_salary_analysis()
     {
         //create user and analysis
         $user = User::factory()->create();
