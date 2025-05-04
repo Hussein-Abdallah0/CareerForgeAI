@@ -15,7 +15,9 @@ class ListAvailableSkillsTest extends TestCase
     public function test_user_can_list_available_skills()
     {
         $user = User::factory()->create();
-        Skill::factory()->count(3)->create();
+        Skill::factory()->create(['name' => 'Laravel']);
+        Skill::factory()->create(['name' => 'Vue.js']);
+        Skill::factory()->create(['name' => 'React']);
 
         $response = $this->jwtAuth($user)
             ->getJson('/api/v1/skill/available');
@@ -32,6 +34,6 @@ class ListAvailableSkillsTest extends TestCase
             ->getJson('/api/v1/skill/available');
 
         $response->assertStatus(200)
-            ->assertJsonCount(0);
+            ->assertJson([]);
     }
 }
