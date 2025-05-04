@@ -19,18 +19,18 @@ class InterviewSessionController extends Controller
     public function createSession(CreateInterviewRequest $request)
     {
         $function = fn() => $this->Service->createSession($request);
-        return $this->tryCatchResponse($function, 201, 'Failed to create session:');
+        return $this->tryCatchResponse($function, 201, 'Failed to create session');
     }
 
     public function finishSession(FinishInterviewRequest $request, $session_id)
     {
         $function = fn() => $this->Service->finishSession($request, $session_id);
-        return $this->tryCatchResponse($function, 200, 'Failed to finish session:');
+        return $this->tryCatchResponse($function, 200, 'Failed to finish session');
     }
 
     public function viewSessionDetails($session_id)
     {
         $function = fn() => $this->Service->getSession($session_id);
-        return $this->tryCatchResponse($function, 200, 'Failed to fetch session details:');
+        return $this->tryCatchResponse($function, 200, 'Failed to fetch session details');
     }
 }
