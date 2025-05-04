@@ -22,7 +22,11 @@ class CreateAnalysisRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'job_title'         => 'required|string|max:150',
+            'location'           => 'required|string|max:100',
+            'experience_level'   => 'required|string|max:100',
+            'current_salary'     => 'nullable|numeric|min:0|max:99999999.99',
+            'suggested_range'   => 'required|string|max:100',
         ];
     }
 }
