@@ -14,5 +14,11 @@ class SkillController extends Controller
         $this->Service = $Service;
     }
 
+    public function listAvailableSkills()
+    {
+        $function = fn() => $this->Service->listAvailableSkills();
+        return $this->tryCatchResponse($function, 200, 'Failed to fetch available skills');
+    }
+
     public function addSkill(CreateSkillRequest $request) {}
 }
