@@ -15,7 +15,6 @@ class Resume extends Model
         'user_id',
         'job_title',
         'experience',
-        'skills',
         'education',
 
     ];
