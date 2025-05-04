@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Skill;
 
+use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -13,13 +14,19 @@ class RemoveUserSkillTest extends TestCase
     public function test_user_can_remove_skill()
     {
         $user = User::factory()->create();
-        $skill = $user->skills()->create(['name' => 'Django']);
+        $skill = Skill::factory()->create(['name' => 'Django']);
+        $user->skills()->attach($skill->id, ['proficiency' => 3]);
 
         $response = $this->jwtAuth($user)
             ->deleteJson("/api/v1/skill/{$skill->id}");
 
         $response->assertStatus(200)
-            ->assertJson(['message' => 'Skill removed successfully']);
+            ->assertJson([
+                'success' => true,
+                'payload' => [
+                    'message' => 'Skill removed successfully'
+                ]
+            ]);
 
         $this->assertDatabaseMissing('skill_user', [
             'user_id' => $user->id,
