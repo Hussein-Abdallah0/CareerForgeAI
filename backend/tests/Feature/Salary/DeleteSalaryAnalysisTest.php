@@ -21,7 +21,7 @@ class DeleteSalaryAnalysisTest extends TestCase
         //delete analysis
         $response = $this->jwtAuth($user)->deleteJson("/api/v1/analysis/{$salaryAnalysis->id}");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
 
         $this->assertDatabaseMissing('salary_analysis', [
             'id' => $salaryAnalysis->id,
