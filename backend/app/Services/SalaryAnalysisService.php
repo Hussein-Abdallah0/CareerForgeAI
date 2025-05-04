@@ -32,4 +32,12 @@ class SalaryAnalysisService
     {
         return SalaryAnalysis::where('user_id', $user_id)->get();
     }
+
+    public function deleteSalary($analysis_id)
+    {
+        //used this not destroy since destroy fails silently
+        $analysis = SalaryAnalysis::where('user_id', Auth::id())
+            ->findOrFail($analysis_id);
+        $analysis->delete();
+    }
 }
