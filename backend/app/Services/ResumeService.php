@@ -16,7 +16,6 @@ class ResumeService
             'summary' => $request->summary,
             'job_title' => $request->job_title,
             'experience' => $request->experience,
-            'skills' => $request->skills,
             'education' => $request->education,
         ]);
     }

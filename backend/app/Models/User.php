@@ -72,4 +72,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(SalaryAnalysis::class);
     }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class)
+            ->withPivot('proficiency')
+            ->withTimestamps();
+    }
 }

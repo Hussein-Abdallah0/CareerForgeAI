@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Resume;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateResumeRequest extends FormRequest
+class CreateSkillRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,8 @@ class CreateResumeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'summary'     => 'required|string',
-            'job_title'   => 'required|string|max:150',
-            'experience'  => 'array',
-            'education'   => 'required|array',
+            'skill_name' => 'required|string|max:255',
+            'proficiency' => 'sometimes|integer|min:1|max:5'
         ];
     }
 }

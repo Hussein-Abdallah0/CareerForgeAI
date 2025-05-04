@@ -15,14 +15,12 @@ class Resume extends Model
         'user_id',
         'job_title',
         'experience',
-        'skills',
         'education',
 
     ];
 
     protected $casts = [
         'experience' => 'array',
-        'skills' => 'array',
         'education' => 'array',
     ];
 
