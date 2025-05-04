@@ -25,7 +25,6 @@ class CreateResumeRequest extends FormRequest
             'summary'     => 'required|string',
             'job_title'   => 'required|string|max:150',
             'experience'  => 'array',
-            'skills'      => 'required|array',
             'education'   => 'required|array',
         ];
     }
