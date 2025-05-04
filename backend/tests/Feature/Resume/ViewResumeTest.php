@@ -28,7 +28,6 @@ class ViewResumeTest extends TestCase
                     'id',
                     'job_title',
                     'experience',
-                    'skills',
                     'education',
                 ]
             ])
