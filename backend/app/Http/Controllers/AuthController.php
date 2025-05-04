@@ -24,8 +24,11 @@ class AuthController extends Controller
 
     public function login(CreateDataRequest $request)
     {
-        $function = fn() => $this->authService->attemptLogin($request);
-        return $this->tryCatchResponse($function, 200, 'Failed to login:');
+        //added the exception since if login fails it doesnt give error
+        $function = fn() => $this->authService->attemptLogin($request)
+            ?: throw new \Exception('Invalid credentials', 401);
+
+        return $this->tryCatchResponse($function, 200, 'Failed to login:', 401);
     }
 
     public function me()
