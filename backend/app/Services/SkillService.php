@@ -7,6 +7,10 @@ use App\Models\User;
 
 class SkillService
 {
+    public function listAvailableSkills()
+    {
+        return Skill::all();
+    }
 
     public function addUserSkill($user_id, $skill_name, $proficiency)
     {
