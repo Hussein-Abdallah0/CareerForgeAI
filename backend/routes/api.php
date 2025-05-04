@@ -26,6 +26,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::delete('resume/{resume_id}', [ResumeController::class, 'deleteResume']);
 
         //Skill api
+        Route::get('skill/available', [SkillController::class, 'listAvailableSkills']);
         Route::get('skill', [SkillController::class, 'listUserSkills']);
         Route::post('skill', [SkillController::class, 'addUserSkill']);
 
