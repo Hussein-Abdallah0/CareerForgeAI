@@ -26,4 +26,15 @@ class ListUserSkillsTest extends TestCase
                 '*' => ['id', 'name', 'pivot' => ['proficiency']]
             ]);
     }
+
+    public function test_returns_empty_array_when_user_has_no_skills()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->jwtAuth($user)
+            ->getJson('/api/v1/skills/user');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(0);
+    }
 }
