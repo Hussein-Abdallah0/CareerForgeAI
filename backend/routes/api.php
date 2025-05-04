@@ -33,10 +33,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::delete('skill/{skill_id}', [SkillController::class, 'removeUserSkill']);
 
         //Salary analysis api
-        Route::post('analysis', [SalaryAnalysisController::class, 'createAnalysis']);
-        Route::get('analysis', [SalaryAnalysisController::class, 'listAnalysis']);
-        Route::get('analysis/{analysis_id}', [SalaryAnalysisController::class, 'viewAnalysis']);
-        Route::delete('analysis/{analysis_id}', [SalaryAnalysisController::class, 'deleteAnalysis']);
+        Route::post('analysis', [SalaryAnalysisController::class, 'createSalaryAnalysis']);
+        Route::get('analysis', [SalaryAnalysisController::class, 'listSalaryAnalysis']);
+        Route::get('analysis/{analysis_id}', [SalaryAnalysisController::class, 'viewSalaryAnalysis']);
+        Route::delete('analysis/{analysis_id}', [SalaryAnalysisController::class, 'deleteSalaryAnalysis']);
 
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('me', [AuthController::class, 'me']);
