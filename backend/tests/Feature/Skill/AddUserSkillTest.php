@@ -51,4 +51,18 @@ class AddUserSkillTest extends TestCase
         $response->assertStatus(400)
             ->assertJson(['message' => 'User already has this skill']);
     }
+
+    public function test_requires_valid_proficiency()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->jwtAuth($user)
+            ->postJson('/api/v1/skills/user', [
+                'skill_name' => 'React',
+                'proficiency' => 6 // Invalid
+            ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['proficiency']);
+    }
 }
