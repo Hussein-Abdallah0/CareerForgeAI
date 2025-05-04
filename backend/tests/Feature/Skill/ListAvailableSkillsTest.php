@@ -2,19 +2,25 @@
 
 namespace Tests\Feature\Skill;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Skill;
+use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 use Tests\TestCase;
 
 class ListAvailableSkillsTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
+    use DatabaseTransactions;
 
-        $response->assertStatus(200);
+    public function test_user_can_list_available_skills()
+    {
+        $user = User::factory()->create();
+        Skill::factory()->count(3)->create();
+
+        $response = $this->jwtAuth($user)
+            ->getJson('/api/v1/skill/available');
+
+        $response->assertStatus(200)
+            ->assertJsonCount(3);
     }
 }
