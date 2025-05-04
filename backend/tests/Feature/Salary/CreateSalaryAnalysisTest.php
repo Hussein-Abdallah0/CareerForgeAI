@@ -26,14 +26,17 @@ class CreateSalaryAnalysisTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJsonStructure([
-                'id',
-                'user_id',
-                'job_title',
-                'location',
-                'experience_level',
-                'current_salary',
-                'suggested_range',
-                'created_at'
+                'success',
+                'payload' => [
+                    'id',
+                    'user_id',
+                    'job_title',
+                    'location',
+                    'experience_level',
+                    'current_salary',
+                    'suggested_range',
+                    'created_at'
+                ]
             ]);
 
         $this->assertDatabaseHas('salary_analysis', [
