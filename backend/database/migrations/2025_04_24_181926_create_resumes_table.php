@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('summary');
             $table->string('job_title', 150);
             $table->json('experience');
-            $table->json('skills');
             $table->json('education');
             $table->timestamps(0);
         });
