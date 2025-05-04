@@ -27,4 +27,9 @@ class SalaryAnalysisService
         return SalaryAnalysis::where('user_id', Auth::id())
             ->findOrFail($analysis_id);
     }
+
+    public function listAnalysis($user_id)
+    {
+        return SalaryAnalysis::where('user_id', $user_id)->get();
+    }
 }
