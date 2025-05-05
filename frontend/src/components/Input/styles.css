@@ -1,0 +1,36 @@
+.input-div {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 100px;
+}
+
+.input-div > label {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.input {
+  margin-top: 10px;
+  height: 44px;
+  font-size: 20px;
+  border: 2px var(--primary) solid;
+  padding-left: 10px;
+}
+
+.input::placeholder {
+  color: gray;
+}
+
+@media (max-width: 576px) {
+  .login-div {
+    width: 100%;
+  }
+  .login-div > input {
+    width: 100%;
+  }
+
+  .login-div label {
+    margin-left: 5%;
+  }
+}
