@@ -1,8 +1,9 @@
 import React from "react";
+import "./styles.css";
 
 const Input = ({ label, name, value, type, onChange, required, placeholder }) => {
   return (
-    <div className="login-div">
+    <div className="input-div">
       <label htmlFor={name}>{label}</label>
       <input
         type={type}
