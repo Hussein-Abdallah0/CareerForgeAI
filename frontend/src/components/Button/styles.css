@@ -1,0 +1,31 @@
+.primary-btn {
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: var(--primary);
+  /* text-align: center; */
+  color: white;
+  font-size: var(--heading-4);
+  font-weight: 500;
+}
+
+.secondary-btn {
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: var(--secondary);
+  color: white;
+  font-size: var(--heading-4);
+  font-weight: 500;
+}
+
+.border-btn {
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  border: var(--primary) 1px solid;
+  background-color: transparent;
+  color: var(--primary);
+  font-size: var(--heading-4);
+  font-weight: 500;
+}
