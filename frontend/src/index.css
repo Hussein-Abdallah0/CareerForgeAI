@@ -2,6 +2,18 @@
   --primary: #2c3e50;
   --secondary: #3498db;
   --white: #ffffff;
+
+  --title: 48px;
+  --heading-1: 36px;
+  --heading-2: 30px;
+  --heading-3: 24px;
+  --heading-4: 20px;
+  --body-large: 18px;
+  --body-base: 16px;
+  --body-small: 14px;
+  --tiny: 12px;
+
+  font-family: "Inter", sans-serif;
 }
 
 a {
