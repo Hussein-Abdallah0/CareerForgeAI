@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUser, registerUser } from "../../../../Gallery/frontend/src/services/authService";
+import { loginUser, registerUser } from "../services/authService";
 
 export const useAuthForm = (type = "login") => {
   const [form, setForm] = useState(
