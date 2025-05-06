@@ -23,14 +23,14 @@
 }
 
 @media (max-width: 576px) {
-  .login-div {
+  .input-div {
     width: 100%;
   }
-  .login-div > input {
+  .input-div > input {
     width: 100%;
   }
 
-  .login-div label {
+  .input-div label {
     margin-left: 5%;
   }
 }
