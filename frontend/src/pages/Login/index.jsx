@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthForm } from "../../hooks/useAuthForm";
+import Input from "../../components/Input";
 import "./styles.css";
 
 const Login = () => {
@@ -17,31 +18,25 @@ const Login = () => {
         <h1 className="header">Log In</h1>
         {error && <div className="error-message">{error}</div>}
         <form className="login-form" onSubmit={(e) => handleSubmit(e, onLoginSuccess)}>
-          <div className="login-input">
-            <label htmlFor="email">Email</label>
-            <input
-              className="input"
-              type="email"
-              id="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <Input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            label="Email"
+            placeholder="Email"
+            required="true"
+          />
 
-          <div className="login-input">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="input"
-              value={form.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <Input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            label="Password"
+            placeholder="Password"
+            required="true"
+          />
 
           <button type="submit" className="primary-btn" disabled={isSubmitting}>
             {isSubmitting ? "Logging in..." : "Log In"}
