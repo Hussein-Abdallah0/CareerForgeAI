@@ -4,6 +4,13 @@
   --white: #ffffff;
 
   font-family: "Inter", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html {
+  height: 100%;
 }
 
 /* a {
