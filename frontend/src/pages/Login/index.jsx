@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthForm } from "../../hooks/useAuthForm";
 import Input from "../../components/Input";
+import Button from "../../components/Button";
 import "./styles.css";
 
 const Login = () => {
@@ -13,7 +14,6 @@ const Login = () => {
   };
   return (
     <div className="login-body">
-      {/* <img src="logo.svg" alt="logo" className="logo" /> */}
       <div className="login-section">
         <h1 className="header">Log In</h1>
         {error && <div className="error-message">{error}</div>}
@@ -38,9 +38,12 @@ const Login = () => {
             required="true"
           />
 
-          <button type="submit" className="primary-btn" disabled={isSubmitting}>
-            {isSubmitting ? "Logging in..." : "Log In"}
-          </button>
+          <Button
+            version="primary"
+            text={isSubmitting ? "Logging in..." : "Log In"}
+            type="submit"
+            disabled={isSubmitting}
+          />
         </form>
       </div>
     </div>
