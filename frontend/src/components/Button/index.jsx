@@ -1,29 +1,29 @@
 import React from "react";
 import "./styles.css";
 
-const Button = ({ type, text, onClick }) => {
-  switch (type) {
+const Button = ({ version, text, onClick, type }) => {
+  switch (version) {
     case "primary":
       return (
-        <button onClick={onClick} className="primary-btn">
+        <button onClick={onClick} type={type} className="primary-btn">
           {text}
         </button>
       );
     case "secondary":
       return (
-        <button onClick={onClick} className="secondary-btn">
+        <button onClick={onClick} type={type} className="secondary-btn">
           {text}
         </button>
       );
     case "border":
       return (
-        <button onClick={onClick} className="border-btn">
+        <button onClick={onClick} type={type} className="border-btn">
           {text}
         </button>
       );
     default:
       return (
-        <button onClick={onClick} className="default-btn">
+        <button onClick={onClick} type={type} className="default-btn">
           {text}
         </button>
       );
