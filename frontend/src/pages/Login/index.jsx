@@ -1,9 +1,10 @@
 import React from "react";
+import { useAuthForm } from "../../../../../Gallery/frontend/src/hooks/useAuthForm";
 import "./styles.css";
-import Button from "../../components/Button";
-import Input from "../../components/Input";
 
 const Login = () => {
+  const { form, isSubmitting, error, handleChange, handleSubmit } = useAuthForm("login");
+
   return (
     <div className="login-body">
       {/* <img src="logo.svg" alt="logo" className="logo" /> */}
