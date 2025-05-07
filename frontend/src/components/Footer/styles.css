@@ -1,6 +1,8 @@
 .footer {
-  position: relative;
-  background-color: #0081fe;
+  position: absolute;
+  bottom: 0;
+  background-color: var(--secondary);
+  left: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
