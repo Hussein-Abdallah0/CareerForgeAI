@@ -4,6 +4,17 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding-top: 650px;
+  padding-bottom: 100px;
+}
+
+.home2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* margin-bottom: 100px; */
 }
 
 .title {
@@ -14,4 +25,32 @@
 .home1 > p {
   font-size: 20px;
   width: 600px;
+}
+
+.feature-details {
+  font-size: 18px;
+}
+
+.feature > img {
+  width: 300px;
+  height: 300px;
+}
+
+.feature {
+  /* margin-top: 100px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 300px;
+}
+
+.feature p {
+  width: 330px;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  margin-top: 50px;
 }
