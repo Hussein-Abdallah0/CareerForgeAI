@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthForm } from "../../hooks/useAuthForm";
 import Input from "../../components/Input";
+import Button from "../../components/Button";
 import "./styles.css";
 
 const Signup = () => {
@@ -60,9 +61,12 @@ const Signup = () => {
             required="true"
           />
 
-          <button type="submit" className="primary-btn" disabled={isSubmitting}>
-            {isSubmitting ? "Creating account..." : "Sign Up"}
-          </button>
+          <Button
+            version="primary"
+            text={isSubmitting ? "Creating account..." : "Sign Up"}
+            type="submit"
+            disabled={isSubmitting}
+          />
         </form>
         <p>
           Have an account? <a href="/">Login</a>
