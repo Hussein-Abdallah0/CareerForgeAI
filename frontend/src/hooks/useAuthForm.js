@@ -3,7 +3,9 @@ import { loginUser, registerUser } from "../services/authService";
 
 export const useAuthForm = (type = "login") => {
   const [form, setForm] = useState(
-    type === "login" ? { email: "", password: "" } : { username: "", email: "", password: "" }
+    type === "login"
+      ? { email: "", password: "" }
+      : { first_name: "", last_name: "", email: "", password: "" }
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
