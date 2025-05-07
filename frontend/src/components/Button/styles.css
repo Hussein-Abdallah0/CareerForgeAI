@@ -42,7 +42,7 @@
 }
 
 .border-small {
-  width: 100px;
+  width: 103px;
   height: 45px;
   border-radius: 10px;
   border: var(--primary) 2px solid;
