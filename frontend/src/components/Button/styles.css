@@ -30,3 +30,24 @@
   font-size: 20px;
   font-weight: 700;
 }
+
+.primary-small {
+  width: 100px;
+  height: 45px;
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.border-small {
+  width: 100px;
+  height: 45px;
+  border-radius: 10px;
+  border: var(--primary) 2px solid;
+  background-color: transparent;
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: 700;
+}

@@ -21,7 +21,13 @@ const Button = ({ version, text, onClick, type, disabled }) => {
           {text}
         </button>
       );
-    default:
+    case "primary-small":
+      return (
+        <button onClick={onClick} type={type} disabled={disabled} className="default-btn">
+          {text}
+        </button>
+      );
+    case "secondary-small":
       return (
         <button onClick={onClick} type={type} disabled={disabled} className="default-btn">
           {text}
