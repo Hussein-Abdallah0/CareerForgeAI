@@ -23,13 +23,13 @@ const Button = ({ version, text, onClick, type, disabled }) => {
       );
     case "primary-small":
       return (
-        <button onClick={onClick} type={type} disabled={disabled} className="default-btn">
+        <button onClick={onClick} type={type} disabled={disabled} className="primary-small">
           {text}
         </button>
       );
     case "border-small":
       return (
-        <button onClick={onClick} type={type} disabled={disabled} className="default-btn">
+        <button onClick={onClick} type={type} disabled={disabled} className="border-small">
           {text}
         </button>
       );
