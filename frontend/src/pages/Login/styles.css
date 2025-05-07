@@ -2,7 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90vw;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  background-color: var(--secondary);
 }
 
 .login-section {
@@ -14,7 +17,7 @@
   max-width: 650px;
   height: 55vw;
   max-height: 489px;
-  background-color: var(--secondary);
+  background-color: white;
   text-align: center;
 }
 
