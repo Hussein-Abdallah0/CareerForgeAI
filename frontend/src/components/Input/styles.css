@@ -19,6 +19,15 @@
   padding-left: 10px;
 }
 
+.small {
+  margin-top: 10px;
+  height: 44px;
+  font-size: 20px;
+  border: 2px var(--primary) solid;
+  padding-left: 10px;
+  width: 229px;
+}
+
 .input::placeholder {
   color: gray;
 }
