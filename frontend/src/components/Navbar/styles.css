@@ -1,5 +1,5 @@
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -11,6 +11,7 @@
   background-color: transparent;
   transition: all 0.3s ease;
   z-index: 1000;
+  margin-bottom: 500px;
 }
 
 .logo-title {
