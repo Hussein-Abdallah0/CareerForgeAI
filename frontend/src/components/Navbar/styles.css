@@ -28,6 +28,11 @@
   gap: 70px;
 }
 
+.nav-btn {
+  display: flex;
+  gap: 20px;
+}
+
 .nav-user {
   width: 40px;
   height: 40px;
