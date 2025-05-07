@@ -15,7 +15,7 @@ const Login = () => {
   return (
     <div className="login-body">
       <div className="login-section">
-        <h1 className="header">Log In</h1>
+        <h1 className="header">Login</h1>
         {error && <div className="error-message">{error}</div>}
         <form className="login-form" onSubmit={(e) => handleSubmit(e, onLoginSuccess)}>
           <Input
@@ -40,11 +40,14 @@ const Login = () => {
 
           <Button
             version="primary"
-            text={isSubmitting ? "Logging in..." : "Log In"}
+            text={isSubmitting ? "Logging in..." : "Login"}
             type="submit"
             disabled={isSubmitting}
           />
         </form>
+        <p>
+          Don't have an account? <a href="/signup">Sign Up</a>
+        </p>
       </div>
     </div>
   );
