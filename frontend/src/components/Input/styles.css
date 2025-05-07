@@ -35,12 +35,13 @@
 @media (max-width: 576px) {
   .input-div {
     width: 100%;
+    margin: 0;
   }
   .input-div > input {
     width: 100%;
   }
 
-  .input-div label {
+  /* .input-div label {
     margin-left: 5%;
-  }
+  } */
 }
