@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 
-const Button = ({ version, text, onClick, type, disabled }) => {
+const Button = ({ version = "primary", text, onClick, type, disabled }) => {
   switch (version) {
     case "primary":
       return (
