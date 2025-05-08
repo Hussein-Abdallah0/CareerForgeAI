@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const navigate = useNavigate();
   return (
-    <div>
+    <div className="dashboard">
       <Navbar />
-      <div className="dashboard">
+      {/* ----------------1st section -------------------*/}
+      <div className="dashboard1">
         <h1 className="title">Welcome Back!</h1>
         <p className="text">What would you like to do today?</p>
         <div className="dash-features">
@@ -28,6 +29,25 @@ const Dashboard = () => {
             <h2>Salary Negotiator</h2>
             <p>Explore salary benchmarks and get negotiation tips</p>
             <Button text="Analyze Salary" onClick={() => navigate("/salary")} />
+          </div>
+        </div>
+      </div>
+      {/* ----------------2nd section -------------------*/}
+
+      <div className="dashboard2">
+        <h2 className="title">Daily Tips</h2>
+
+        <div className="tips">
+          <div>
+            <h3>Tip #1</h3>
+            <p>
+              Start each resume bullet with a verb like 'Improved', 'Designed', or 'Led' - action
+              words are powerful.
+            </p>
+          </div>
+          <div>
+            <h3>Tip #2</h3>
+            <p>Always tailor your resume to each job - generic resumes get overlooked.</p>
           </div>
         </div>
       </div>
