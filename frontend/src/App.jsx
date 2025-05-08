@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Interview from "./pages/Interview/Interview";
 import JobTitle from "./pages/Interview/JobTitle";
+import Question from "./pages/Interview/Question";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/interview" element={<Interview />} />
         <Route path="/interview/start" element={<JobTitle />} />
+        <Route path="/interview/questions" element={<Question />} />
       </Routes>
     </BrowserRouter>
   );
