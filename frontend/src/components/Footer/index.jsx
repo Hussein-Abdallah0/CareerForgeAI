@@ -7,11 +7,21 @@ const Footer = () => {
       <div className="footer-content footer-top">
         <img src="logo-white.svg" alt="logo" className="logo-title" />
         <ul className="footer-ul">
-          <li className="footer-link">Dashboard</li>
-          <li className="footer-link">Interview</li>
-          <li className="footer-link">Resume</li>
-          <li className="footer-link">Salary</li>
-          <li className="footer-link">Profile</li>
+          <li className="footer-link">
+            <a href="/dashboard">Dashboard</a>
+          </li>
+          <li className="footer-link">
+            <a href="">Interview</a>
+          </li>
+          <li className="footer-link">
+            <a href="">Resume</a>
+          </li>
+          <li className="footer-link">
+            <a href="">Salary</a>
+          </li>
+          <li className="footer-link">
+            <a href="">Profile</a>
+          </li>
         </ul>
       </div>
       <div className="footer-content footer-bottom">
