@@ -10,7 +10,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* margin-top: -500px; */
+  margin-top: 300px;
 }
 
 .title {
@@ -53,6 +53,17 @@
   display: flex;
   flex-direction: column;
   margin-top: 100px;
+  margin-left: -90px;
+  /* width: 60vw; */
+  /* align-items: center; */
+  justify-content: center;
+  /* margin-top: -500px; */
+}
+
+.dashboard3 {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
   /* width: 60vw; */
   /* align-items: center; */
   justify-content: center;
@@ -63,7 +74,7 @@
   display: flex;
   align-items: center;
   gap: 40px;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .tips > div {
@@ -87,6 +98,31 @@
   font-size: 16px;
   color: white;
   width: 440px;
+}
+
+.videos {
+  display: flex;
+  gap: 35px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.videos a {
+  color: black;
+}
+
+.videos div {
+  width: 350px;
+  height: 277px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px var(--secondary) solid;
+}
+
+.videos h4 {
+  font-size: 20px;
 }
 
 @media (max-width: 1100px) {
