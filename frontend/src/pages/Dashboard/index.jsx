@@ -52,6 +52,33 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* ----------------3rd section -------------------*/}
+
+      <div className="dashboard3">
+        <h2 className="title">Video Tutorials</h2>
+
+        <div className="videos">
+          <a href="https://www.youtube.com/watch?v=onUx22pgiBM">
+            <div>
+              <img src="dashboard/image7.png" alt="" />
+              <h4> Github Profile Page Tutorial</h4>
+            </div>
+          </a>
+          <a href="https://www.youtube.com/watch?v=R3abknwWX7k">
+            <div>
+              <img src="dashboard/image8.png" alt="" />
+              <h4> How To Write A Better Resume</h4>
+            </div>
+          </a>
+          <a href="https://www.youtube.com/watch?v=HG68Ymazo18">
+            <div>
+              <img src="dashboard/image9.png" alt="" />
+              <h4> Top Interview Tips</h4>
+            </div>
+          </a>
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
