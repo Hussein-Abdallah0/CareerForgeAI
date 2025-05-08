@@ -14,7 +14,7 @@ const Interview = () => {
       <div className="interview">
         <h2>Practice Real-Time AI-Powered Interviews</h2>
         <p>Get instant feedback, improve your responses, and prepare for your dream role</p>
-        <Button text="Start Interview" onClick={() => navigate("/questions")} />
+        <Button text="Start Interview" onClick={() => navigate("/interview/start")} />
       </div>
 
       <div className="instructions-section">
