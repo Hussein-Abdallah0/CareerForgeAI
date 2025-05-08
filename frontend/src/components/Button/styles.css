@@ -10,6 +10,12 @@
   margin: 10px;
 }
 
+.primary-btn span {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .secondary-btn {
   width: 200px;
   height: 50px;
