@@ -65,3 +65,9 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+@media (max-width: 768px) {
+  .nav-ul {
+    display: none;
+  }
+}
