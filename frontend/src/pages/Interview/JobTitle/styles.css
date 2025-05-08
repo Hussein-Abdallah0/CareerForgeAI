@@ -14,6 +14,11 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px;
+  cursor: pointer;
+}
+
+.job a {
+  color: black;
 }
 
 .job:hover {
