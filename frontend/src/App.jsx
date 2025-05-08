@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
-import Interview from "./pages/Interview";
+import Interview from "./pages/Interview/Interview";
 
 function App() {
   return (
