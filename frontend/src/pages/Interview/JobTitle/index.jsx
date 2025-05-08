@@ -1,9 +1,10 @@
 import React from "react";
 import "./styles.css";
-import { ArrowBigLeft, ArrowLeft, ChevronRight } from "lucide-react";
-import Navbar from "../../../components/Navbar";
+import { ArrowLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const JobTitle = () => {
+  const navigate = useNavigate();
   const jobs = [
     "Software Engineer",
     "Data Analytics",
@@ -18,7 +19,7 @@ const JobTitle = () => {
       <div className="jobs">
         {jobs.map((job, index) => {
           return (
-            <div key={index} className="job">
+            <div key={index} className="job" onClick={() => navigate("/questions")}>
               {job}
               <ChevronRight />
             </div>
