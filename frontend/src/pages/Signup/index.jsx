@@ -69,7 +69,7 @@ const Signup = () => {
           />
         </form>
         <p>
-          Have an account? <a href="/">Login</a>
+          Have an account? <a href="/login">Login</a>
         </p>
       </div>
     </div>
