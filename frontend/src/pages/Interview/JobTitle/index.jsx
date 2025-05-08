@@ -19,7 +19,7 @@ const JobTitle = () => {
       <div className="jobs">
         {jobs.map((job, index) => {
           return (
-            <div key={index} className="job" onClick={() => navigate("/questions")}>
+            <div key={index} className="job" onClick={() => navigate("/interview/questions")}>
               {job}
               <ChevronRight />
             </div>
