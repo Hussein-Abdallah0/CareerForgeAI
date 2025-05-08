@@ -29,6 +29,10 @@
   gap: 70px;
 }
 
+.nav-link a {
+  color: black;
+}
+
 .nav-btn {
   display: flex;
   gap: 20px;
