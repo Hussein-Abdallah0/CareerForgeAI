@@ -1,0 +1,27 @@
+.jobs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.job {
+  width: 500px;
+  height: 50px;
+  border: 2px var(--secondary) solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.job:hover {
+  transform: scale(1.01);
+}
+
+.job-title {
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 50px;
+}
