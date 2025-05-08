@@ -17,6 +17,24 @@ const Interview = () => {
         <Button text="Start Interview" onClick={() => navigate("/questions")} />
       </div>
 
+      <div className="instructions-section">
+        <h4 className="interview-how">How It Works?</h4>
+        <div className="instructions">
+          <div>
+            <img src="resume/image14.png" alt="" />
+            <p>Pick field of work</p>
+          </div>
+          <div>
+            <img src="resume/image16.png" alt="" />
+            <p>Answer questions</p>
+          </div>
+          <div>
+            <img src="resume/image15.png" alt="" />
+            <p>Get feedback</p>
+          </div>
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
