@@ -21,10 +21,18 @@ const Navbar = ({ type }) => {
         </ul>
       ) : (
         <ul className="nav-ul">
-          <li className="nav-link">Dashboard</li>
-          <li className="nav-link">Interview</li>
-          <li className="nav-link">Resume</li>
-          <li className="nav-link">Salary</li>
+          <li className="nav-link">
+            <a href="/dashboard">Dashboard</a>
+          </li>
+          <li className="nav-link">
+            <a href="">Interview</a>
+          </li>
+          <li className="nav-link">
+            <a href="">Resume</a>
+          </li>
+          <li className="nav-link">
+            <a href="">Salary</a>
+          </li>
         </ul>
       )}
 
