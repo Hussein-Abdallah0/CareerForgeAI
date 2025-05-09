@@ -144,4 +144,8 @@
   .tips {
     flex-direction: column;
   }
+
+  .videos {
+    flex-direction: column;
+  }
 }

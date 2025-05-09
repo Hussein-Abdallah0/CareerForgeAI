@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100vw;
+  width: 99.2vw;
   height: 200px;
   margin-top: 100px;
 }
@@ -32,5 +32,9 @@
 
 .footer-bottom {
   margin-top: 10px;
+  color: white;
+}
+
+.footer-link a {
   color: white;
 }
