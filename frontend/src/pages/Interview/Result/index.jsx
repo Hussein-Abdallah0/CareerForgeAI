@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../../../components/Button";
 import "./styles.css";
 
 const Result = () => {
@@ -79,6 +80,10 @@ const Result = () => {
                 it more impactful.
               </p>
             </div>
+          </div>
+
+          <div className="end-session">
+            <Button version="secondary" text="End Session" />
           </div>
         </div>
       </div>
