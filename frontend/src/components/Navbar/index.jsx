@@ -28,7 +28,7 @@ const Navbar = ({ type }) => {
             <a href="/interview">Interview</a>
           </li>
           <li className="nav-link">
-            <a href="">Resume</a>
+            <a href="/resume">Resume</a>
           </li>
           <li className="nav-link">
             <a href="">Salary</a>
