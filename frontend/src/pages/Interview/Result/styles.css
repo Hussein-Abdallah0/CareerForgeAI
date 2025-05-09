@@ -67,7 +67,11 @@
 .results {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 50px;
-  /* overflow-y: auto; Allows scrolling */
-  max-height: calc(100vh - 300px); /* Adjust based on your header height */
+  max-height: calc(100vh - 300px);
+}
+
+.end-session {
+  padding-bottom: 100px;
 }
