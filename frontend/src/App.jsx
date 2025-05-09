@@ -8,6 +8,7 @@ import Interview from "./pages/Interview/Interview";
 import JobTitle from "./pages/Interview/JobTitle";
 import Question from "./pages/Interview/Question";
 import Result from "./pages/Interview/Result";
+import Resume from "./pages/Resume/Resume";
 
 function App() {
   return (
@@ -17,10 +18,13 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        {/* interview */}
         <Route path="/interview" element={<Interview />} />
         <Route path="/interview/start" element={<JobTitle />} />
         <Route path="/interview/questions" element={<Question />} />
         <Route path="/interview/result" element={<Result />} />
+        {/* Resume */}
+        <Route path="/resume" element={<Resume />} />
       </Routes>
     </BrowserRouter>
   );
