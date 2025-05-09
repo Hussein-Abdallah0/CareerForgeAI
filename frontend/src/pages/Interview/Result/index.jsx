@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../../../components/Button";
 import "./styles.css";
 
 const Result = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="result">
@@ -83,7 +85,7 @@ const Result = () => {
           </div>
 
           <div className="end-session">
-            <Button version="secondary" text="End Session" />
+            <Button version="secondary" text="End Session" onClick={() => navigate("/interview")} />
           </div>
         </div>
       </div>
