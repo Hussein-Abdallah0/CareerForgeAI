@@ -12,6 +12,9 @@ function ResumeBuilderForm() {
     phone: "",
     linkdin: "",
     github: "",
+    education: [
+      { institution: "", degree: "", startDate: "", endDate: "", points: ["", "", "", ""] },
+    ],
   });
 
   const nextStep = () => setStep(step + 1);
@@ -29,6 +32,37 @@ function ResumeBuilderForm() {
 
   // Step names for the progress indicator
   const steps = ["Personal Info", "Contact Info", "Review"];
+
+  // Handle education field changes
+  const handleEducationChange = (index, field, value, pointIndex) => {
+    const updatedEducation = [...formData.education];
+
+    if (field === "points") {
+      updatedEducation[index].points[pointIndex] = value;
+    } else {
+      updatedEducation[index][field] = value;
+    }
+
+    setFormData({ ...formData, education: updatedEducation });
+  };
+
+  // Add new education entry
+  const addEducation = () => {
+    setFormData({
+      ...formData,
+      education: [
+        ...formData.education,
+        { institution: "", degree: "", startDate: "", endDate: "", points: ["", "", "", ""] },
+      ],
+    });
+  };
+
+  // Remove education entry
+  const removeEducation = (index) => {
+    if (formData.education.length <= 1) return; // Keep at least one
+    const updatedEducation = formData.education.filter((_, i) => i !== index);
+    setFormData({ ...formData, education: updatedEducation });
+  };
 
   return (
     <div className="multi-step-form">
@@ -112,27 +146,93 @@ function ResumeBuilderForm() {
         )}
 
         {step === 2 && (
-          <form>
-            <h2>Step 2: Contact Information</h2>
-            <input
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-            />
-            {/* Other fields */}
+          <form className="education-form">
+            <h2>Education</h2>
+            <div className="education-entries-container">
+              {formData.education.map((edu, eduIndex) => (
+                <div key={eduIndex} className="education-entry">
+                  <h3>Education #{eduIndex + 1}</h3>
+
+                  <Input
+                    type="text"
+                    label="Institution"
+                    placeholder="Institution"
+                    value={edu.institution}
+                    onChange={(e) => handleEducationChange(eduIndex, "institution", e.target.value)}
+                  />
+                  <Input
+                    type="text"
+                    label="Degree"
+                    placeholder="Degree"
+                    value={edu.degree}
+                    onChange={(e) => handleEducationChange(eduIndex, "degree", e.target.value)}
+                  />
+
+                  <div className="date-inputs">
+                    <Input
+                      type="text"
+                      label="Start Date"
+                      placeholder="Start Date (MM/YYYY)"
+                      value={edu.startDate}
+                      onChange={(e) => handleEducationChange(eduIndex, "startDate", e.target.value)}
+                      className="small"
+                    />
+                    <Input
+                      type="text"
+                      label="End Date"
+                      placeholder="End Date (MM/YYYY)"
+                      value={edu.endDate}
+                      onChange={(e) => handleEducationChange(eduIndex, "endDate", e.target.value)}
+                      className="small"
+                    />
+                  </div>
+
+                  <div className="education-points">
+                    <h4>Key Achievements/Points:</h4>
+                    {[0, 1, 2, 3].map((pointIndex) => (
+                      <div key={pointIndex} className="point-input">
+                        <textarea
+                          className="education-text"
+                          placeholder={`Point ${
+                            pointIndex + 1
+                          } (e.g., GPA 3.8, Dean's List, Thesis on...)`}
+                          value={edu.points[pointIndex]}
+                          onChange={(e) =>
+                            handleEducationChange(eduIndex, "points", e.target.value, pointIndex)
+                          }
+                          rows={2}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {eduIndex > 0 && (
+                    <button
+                      type="button"
+                      className="remove-btn"
+                      onClick={() => removeEducation(eduIndex)}
+                    >
+                      Remove Education
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <button type="button" className="add-btn" onClick={addEducation}>
+              + Add Another Education
+            </button>
+            {/* <Button text="+ Add Another Education" version="secondary" onClick={addEducation} /> */}
+
             <div className="form-actions">
-              <button type="button" onClick={prevStep}>
-                Back
-              </button>
-              <button type="button" onClick={nextStep}>
-                Next
-              </button>
+              <Button text="Back" version="border" onClick={prevStep} />
+
+              <Button text="Next" onClick={nextStep} />
             </div>
           </form>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <form onSubmit={handleSubmit}>
             <h2>Step 3: Review and Submit</h2>
             <div className="review-section">
