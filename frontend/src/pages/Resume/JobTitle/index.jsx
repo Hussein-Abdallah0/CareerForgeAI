@@ -26,7 +26,7 @@ const JobTitle = () => {
           );
         })}
       </div>
-      <a href="/interview">
+      <a href="/resume">
         <ArrowLeft className="arrow" />
       </a>
     </div>
