@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
+import SkillsInput from "../SkillsInput";
 import "./styles.css";
 
 function ResumeBuilderForm() {
@@ -18,6 +19,15 @@ function ResumeBuilderForm() {
     experience: [
       { company: "", position: "", startDate: "", endDate: "", points: ["", "", "", ""] },
     ],
+    skills: [
+      {
+        category: "Programming Languages",
+        items: [
+          { name: "JavaScript", level: "Intermediate" },
+          { name: "Python", level: "Beginner" },
+        ],
+      },
+    ],
   });
 
   const nextStep = () => setStep(step + 1);
@@ -34,7 +44,7 @@ function ResumeBuilderForm() {
   };
 
   // Step names for the progress indicator
-  const steps = ["Personal Info", "Education", "Experience", "Review"];
+  const steps = ["Personal Info", "Education", "Experience", "Skills", "Review"];
 
   // Handle education field changes
   const handleEducationChange = (index, field, value, pointIndex) => {
@@ -354,6 +364,16 @@ function ResumeBuilderForm() {
         )}
 
         {step === 4 && (
+          <div className="skills-form-container">
+            <SkillsInput formData={formData} setFormData={setFormData} />
+            <div className="form-actions">
+              <Button text="Back" version="border" onClick={prevStep} />
+              <Button text="Next" onClick={nextStep} />
+            </div>
+          </div>
+        )}
+
+        {step === 5 && (
           <form onSubmit={handleSubmit}>
             <h2>Step 3: Review and Submit</h2>
             <div className="review-section">
