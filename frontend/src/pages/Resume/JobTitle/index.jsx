@@ -15,7 +15,7 @@ const JobTitle = () => {
   ];
   return (
     <div>
-      <p className="job-title">What field do you want to practice for?</p>
+      <p className="job-title">What field do you want to tailor your resume for?</p>
       <div className="jobs">
         {jobs.map((job, index) => {
           return (
