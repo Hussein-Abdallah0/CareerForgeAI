@@ -6,6 +6,7 @@ import "./styles.css";
 import PersonalInfoForm from "../PersonalInfoForm";
 import EducationForm from "../EducationForm";
 import ExperienceForm from "../ExperienceForm";
+import ProjectsForm from "../ProjectsForm";
 
 function ResumeBuilderForm() {
   const [step, setStep] = useState(1);
@@ -58,44 +59,6 @@ function ResumeBuilderForm() {
 
   // Step names for the progress indicator
   const steps = ["Personal Info", "Education", "Experience", "Skills", "Projects", "Review"];
-
-  // Handle projects field changes
-  const handleProjectChange = (index, field, value, pointIndex) => {
-    const updatedProjects = [...formData.projects];
-
-    if (field === "points") {
-      updatedProjects[index].points[pointIndex] = value;
-    } else {
-      updatedProjects[index][field] = value;
-    }
-
-    setFormData({ ...formData, projects: updatedProjects });
-  };
-
-  // Add new project entry
-  const addProject = () => {
-    setFormData({
-      ...formData,
-      projects: [
-        ...formData.projects,
-        {
-          title: "",
-          description: "",
-          startDate: "",
-          endDate: "",
-          points: ["", "", "", ""],
-          technologies: "",
-        },
-      ],
-    });
-  };
-
-  // Remove project entry
-  const removeProject = (index) => {
-    if (formData.projects.length <= 1) return;
-    const updatedProjects = formData.projects.filter((_, i) => i !== index);
-    setFormData({ ...formData, projects: updatedProjects });
-  };
 
   return (
     <div className="multi-step-form">
@@ -153,103 +116,110 @@ function ResumeBuilderForm() {
         )}
 
         {step === 5 && (
-          <form className="projects-form">
-            <h2>Projects</h2>
-            <div className="projects-entries-container">
-              {formData.projects.map((project, projectIndex) => (
-                <div key={projectIndex} className="project-entry">
-                  <h3>Project #{projectIndex + 1}</h3>
+          <ProjectsForm
+            formData={formData}
+            setFormData={setFormData}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
 
-                  <Input
-                    type="text"
-                    label="Project Title"
-                    placeholder="Project Title"
-                    value={project.title}
-                    onChange={(e) => handleProjectChange(projectIndex, "title", e.target.value)}
-                  />
+          // <form className="projects-form">
+          //   <h2>Projects</h2>
+          //   <div className="projects-entries-container">
+          //     {formData.projects.map((project, projectIndex) => (
+          //       <div key={projectIndex} className="project-entry">
+          //         <h3>Project #{projectIndex + 1}</h3>
 
-                  <Input
-                    type="text"
-                    label="Description"
-                    placeholder="Brief description"
-                    value={project.description}
-                    onChange={(e) =>
-                      handleProjectChange(projectIndex, "description", e.target.value)
-                    }
-                  />
+          //         <Input
+          //           type="text"
+          //           label="Project Title"
+          //           placeholder="Project Title"
+          //           value={project.title}
+          //           onChange={(e) => handleProjectChange(projectIndex, "title", e.target.value)}
+          //         />
 
-                  <Input
-                    type="text"
-                    label="Technologies Used"
-                    placeholder="e.g., React, Node.js, MongoDB"
-                    value={project.technologies}
-                    onChange={(e) =>
-                      handleProjectChange(projectIndex, "technologies", e.target.value)
-                    }
-                  />
+          //         <Input
+          //           type="text"
+          //           label="Description"
+          //           placeholder="Brief description"
+          //           value={project.description}
+          //           onChange={(e) =>
+          //             handleProjectChange(projectIndex, "description", e.target.value)
+          //           }
+          //         />
 
-                  <div className="date-inputs">
-                    <Input
-                      type="text"
-                      label="Start Date"
-                      placeholder="Start Date (MM/YYYY)"
-                      value={project.startDate}
-                      onChange={(e) =>
-                        handleProjectChange(projectIndex, "startDate", e.target.value)
-                      }
-                      className="small"
-                    />
-                    <Input
-                      type="text"
-                      label="End Date"
-                      placeholder="End Date (MM/YYYY)"
-                      value={project.endDate}
-                      onChange={(e) => handleProjectChange(projectIndex, "endDate", e.target.value)}
-                      className="small"
-                    />
-                  </div>
+          //         <Input
+          //           type="text"
+          //           label="Technologies Used"
+          //           placeholder="e.g., React, Node.js, MongoDB"
+          //           value={project.technologies}
+          //           onChange={(e) =>
+          //             handleProjectChange(projectIndex, "technologies", e.target.value)
+          //           }
+          //         />
 
-                  <div className="project-points">
-                    <h4>Key Features/Accomplishments:</h4>
-                    {[0, 1, 2, 3].map((pointIndex) => (
-                      <div key={pointIndex} className="point-input">
-                        <textarea
-                          className="project-text"
-                          placeholder={`Point ${
-                            pointIndex + 1
-                          } (e.g., Implemented user authentication, Improved performance by 30%)`}
-                          value={project.points[pointIndex]}
-                          onChange={(e) =>
-                            handleProjectChange(projectIndex, "points", e.target.value, pointIndex)
-                          }
-                          rows={2}
-                        />
-                      </div>
-                    ))}
-                  </div>
+          //         <div className="date-inputs">
+          //           <Input
+          //             type="text"
+          //             label="Start Date"
+          //             placeholder="Start Date (MM/YYYY)"
+          //             value={project.startDate}
+          //             onChange={(e) =>
+          //               handleProjectChange(projectIndex, "startDate", e.target.value)
+          //             }
+          //             className="small"
+          //           />
+          //           <Input
+          //             type="text"
+          //             label="End Date"
+          //             placeholder="End Date (MM/YYYY)"
+          //             value={project.endDate}
+          //             onChange={(e) => handleProjectChange(projectIndex, "endDate", e.target.value)}
+          //             className="small"
+          //           />
+          //         </div>
 
-                  {projectIndex > 0 && (
-                    <button
-                      type="button"
-                      className="remove-btn"
-                      onClick={() => removeProject(projectIndex)}
-                    >
-                      Remove Project
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
+          //         <div className="project-points">
+          //           <h4>Key Features/Accomplishments:</h4>
+          //           {[0, 1, 2, 3].map((pointIndex) => (
+          //             <div key={pointIndex} className="point-input">
+          //               <textarea
+          //                 className="project-text"
+          //                 placeholder={`Point ${
+          //                   pointIndex + 1
+          //                 } (e.g., Implemented user authentication, Improved performance by 30%)`}
+          //                 value={project.points[pointIndex]}
+          //                 onChange={(e) =>
+          //                   handleProjectChange(projectIndex, "points", e.target.value, pointIndex)
+          //                 }
+          //                 rows={2}
+          //               />
+          //             </div>
+          //           ))}
+          //         </div>
 
-            <button type="button" className="add-btn" onClick={addProject}>
-              + Add Another Project
-            </button>
+          //         {projectIndex > 0 && (
+          //           <button
+          //             type="button"
+          //             className="remove-btn"
+          //             onClick={() => removeProject(projectIndex)}
+          //           >
+          //             Remove Project
+          //           </button>
+          //         )}
+          //       </div>
+          //     ))}
+          //   </div>
 
-            <div className="form-actions">
-              <Button text="Back" version="border" onClick={prevStep} />
-              <Button text="Next" onClick={nextStep} />
-            </div>
-          </form>
+          //   <button type="button" className="add-btn" onClick={addProject}>
+          //     + Add Another Project
+          //   </button>
+
+          //   <div className="form-actions">
+          //     <Button text="Back" version="border" onClick={prevStep} />
+          //     <Button text="Next" onClick={nextStep} />
+          //   </div>
+          // </form>
         )}
 
         {step === 6 && (
