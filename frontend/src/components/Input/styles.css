@@ -6,7 +6,20 @@
   margin: 10px 0;
 }
 
+.small-div {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100px;
+  margin: 10px 0;
+}
+
 .input-div > label {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.small-div > label {
   font-size: 20px;
   font-weight: 600;
 }
@@ -17,6 +30,7 @@
   font-size: 20px;
   border: 2px var(--primary) solid;
   padding-left: 10px;
+  border-radius: 10px;
 }
 
 .small {
@@ -26,10 +40,15 @@
   border: 2px var(--primary) solid;
   padding-left: 10px;
   width: 229px;
+  border-radius: 10px;
 }
 
 .input::placeholder {
-  color: gray;
+  color: lightgray;
+}
+
+.small::placeholder {
+  color: lightgray;
 }
 
 @media (max-width: 576px) {

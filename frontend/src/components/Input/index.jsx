@@ -11,8 +11,9 @@ const Input = ({
   placeholder,
   className = "input",
 }) => {
+  const wrapperClassName = className === "input" ? "input-div" : "small-div";
   return (
-    <div className="input-div">
+    <div className={wrapperClassName}>
       <label htmlFor={name}>{label}</label>
       <input
         type={type}

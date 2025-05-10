@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "../../../components/Button";
 import "./styles.css";
 
 const Result = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="result">
@@ -79,6 +82,10 @@ const Result = () => {
                 it more impactful.
               </p>
             </div>
+          </div>
+
+          <div className="end-session">
+            <Button version="secondary" text="End Session" onClick={() => navigate("/interview")} />
           </div>
         </div>
       </div>

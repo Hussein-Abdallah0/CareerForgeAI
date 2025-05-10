@@ -1,0 +1,82 @@
+/* Review Section Styles */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 1rem;
+}
+
+.review-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  color: var(--secondary);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.review-item-group {
+  margin-bottom: 1.5rem;
+}
+
+.review-item {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.review-label {
+  font-weight: 600;
+  color: #555;
+  min-width: 120px;
+  margin-right: 1rem;
+}
+
+.review-value {
+  flex: 1;
+  color: #333;
+}
+
+.review-list {
+  margin: 0.5rem 0 0 1rem;
+  padding-left: 1rem;
+}
+
+.review-list li {
+  margin-bottom: 0.3rem;
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px dashed #e0e0e0;
+  margin: 1.5rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-label {
+    min-width: 100%;
+    margin-bottom: 0.3rem;
+  }
+
+  .skill-category-name {
+    min-width: 100%;
+    margin-bottom: 0.3rem;
+  }
+}
