@@ -2,14 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const openai = require("./openaiClient"); // your OpenAI setup
-const cors = require("cors");
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-app.post("/generate-questions", async (req, res) => {
+router.post("/generate-questions", async (req, res) => {
   const { job } = req.body;
 
   if (!job) return res.status(400).json({ error: "Job title is required" });
