@@ -27,7 +27,7 @@ async function processAudio(audioBuffer) {
     const chat = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [
-        { role: "system", content: "You're a technical interviewer." },
+        { role: "system", content: "You're a technical interviewer. Always respond in English." },
         { role: "user", content: transcription.text },
       ],
     });
