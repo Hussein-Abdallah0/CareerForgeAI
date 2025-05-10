@@ -7,4 +7,13 @@ async function processAudio(audioBlob) {
     file: audioBlob,
     model: "whisper-1",
   });
+
+  // Generate AI response (GPT-4)
+  const chat = await openai.chat.completions.create({
+    model: "gpt-4",
+    messages: [
+      { role: "system", content: "You're a technical interviewer." },
+      { role: "user", content: transcription.text },
+    ],
+  });
 }
