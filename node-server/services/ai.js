@@ -16,4 +16,16 @@ async function processAudio(audioBlob) {
       { role: "user", content: transcription.text },
     ],
   });
+
+  // Text-to-speech (ElevenLabs)
+  const ttsResponse = await axios.post(
+    "https://api.elevenlabs.io/v1/text-to-speech/XYZ",
+    { text: chat.choices[0].message.content },
+    { headers: { "xi-api-key": process.env.ELEVENLABS_KEY }, responseType: "arraybuffer" }
+  );
+
+  return {
+    audio: ttsResponse.data,
+    text: chat.choices[0].message.content,
+  };
 }
