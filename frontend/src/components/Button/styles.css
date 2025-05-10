@@ -57,3 +57,13 @@
   font-size: 16px;
   font-weight: 700;
 }
+
+.secondary-small {
+  width: 103px;
+  height: 45px;
+  border-radius: 10px;
+  background-color: var(--secondary);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+}
