@@ -64,15 +64,7 @@ const Question = () => {
     return () => {
       if (ws.current) ws.current.close();
     };
-  }, [currentIndex, currentQuestion.id]);
-
-  // const getLastTranscription = async () => {
-  //   // In a real app, you might want to store this more reliably
-  //   return new Promise((resolve) => {
-  //     // This is a placeholder - you'll need to track transcriptions
-  //     resolve("User's recorded answer transcription");
-  //   });
-  // };
+  }, [currentIndex, currentQuestion]);
 
   // Start/stop voice recording
   const toggleRecording = async () => {
@@ -128,7 +120,7 @@ const Question = () => {
           </p>
         </div>
 
-        <p className="question-text">{questions[currentIndex]}</p>
+        <p className="question-text">{questions[currentIndex]?.text}</p>
 
         <div className="buttons">
           <div className="left-btn">
