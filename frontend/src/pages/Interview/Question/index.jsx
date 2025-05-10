@@ -46,13 +46,13 @@ const Question = () => {
     };
   }, [currentIndex]);
 
-  const getLastTranscription = async () => {
-    // In a real app, you might want to store this more reliably
-    return new Promise((resolve) => {
-      // This is a placeholder - you'll need to track transcriptions
-      resolve("User's recorded answer transcription");
-    });
-  };
+  // const getLastTranscription = async () => {
+  //   // In a real app, you might want to store this more reliably
+  //   return new Promise((resolve) => {
+  //     // This is a placeholder - you'll need to track transcriptions
+  //     resolve("User's recorded answer transcription");
+  //   });
+  // };
 
   // Start/stop voice recording
   const toggleRecording = async () => {
