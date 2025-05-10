@@ -85,12 +85,8 @@
 .remove-btn {
   background-color: #ffebee;
   border: 1px solid #ffcdd2;
-  color: #c62828;
+  color: white;
   margin-top: 1rem;
-}
-
-.remove-btn:hover {
-  background-color: #ffcdd2;
 }
 
 .form-actions {
