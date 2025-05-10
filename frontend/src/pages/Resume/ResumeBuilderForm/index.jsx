@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Input from "../../../components/Input";
-import Button from "../../../components/Button";
 import SkillsInput from "../SkillsInput";
 import "./styles.css";
 import PersonalInfoForm from "../PersonalInfoForm";
