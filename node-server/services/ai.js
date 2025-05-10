@@ -51,6 +51,7 @@ async function processAudio(audioBuffer) {
     return {
       audio: ttsResponse.data, // MP3 buffer
       text: reply,
+      userText: transcription.text,
     };
   } catch (err) {
     console.error("Error during AI processing:", err);
