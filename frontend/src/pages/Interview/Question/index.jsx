@@ -10,6 +10,8 @@ const Question = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [aiResponses, setAiResponses] = useState({});
+  // const [userResponses, setUserResponses] = useState({});
+  const [transcriptions, setTranscriptions] = useState({});
   const ws = useRef(null);
   const mediaRecorder = useRef(null);
   const navigate = useNavigate();
@@ -20,12 +22,19 @@ const Question = () => {
   useEffect(() => {
     ws.current = new WebSocket("ws://localhost:8080");
 
-    ws.current.onmessage = (event) => {
+    ws.current.onmessage = async (event) => {
       const { audio, text } = JSON.parse(event.data);
       setAiResponses((prev) => ({
         ...prev,
         [currentIndex]: text,
       })); // Display AI text response
+
+      // Get the transcription (user's answer)
+      const transcription = await getLastTranscription();
+      setTranscriptions((prev) => ({
+        ...prev,
+        [currentIndex]: transcription,
+      }));
 
       // Play AI audio
       const audioBlob = new Blob([audio], { type: "audio/mpeg" });
@@ -36,6 +45,14 @@ const Question = () => {
       if (ws.current) ws.current.close();
     };
   }, [currentIndex]);
+
+  const getLastTranscription = async () => {
+    // In a real app, you might want to store this more reliably
+    return new Promise((resolve) => {
+      // This is a placeholder - you'll need to track transcriptions
+      resolve("User's recorded answer transcription");
+    });
+  };
 
   // Start/stop voice recording
   const toggleRecording = async () => {
@@ -60,6 +77,16 @@ const Question = () => {
       console.log(currentIndex);
       setCurrentIndex(currentIndex + 1);
     }
+  };
+
+  const navigateToResults = () => {
+    navigate("/interview/result", {
+      state: {
+        questions,
+        userResponses: transcriptions,
+        aiFeedback: aiResponses,
+      },
+    });
   };
 
   return (
@@ -88,7 +115,7 @@ const Question = () => {
             </button>
           </div>
           {currentIndex === questions.length - 1 ? (
-            <button className="keyboard-btn" onClick={() => navigate("/interview/result")}>
+            <button className="keyboard-btn" onClick={() => navigateToResults()}>
               End
             </button>
           ) : (
