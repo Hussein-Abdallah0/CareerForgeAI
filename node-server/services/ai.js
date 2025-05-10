@@ -21,7 +21,7 @@ async function processAudio(audioBuffer) {
       model: "whisper-1",
     });
 
-    console.log("🗣️ Transcribed Text:", transcription.text);
+    console.log("Transcribed Text:", transcription.text);
 
     // Generate GPT-4 response
     const chat = await openai.chat.completions.create({
@@ -33,7 +33,7 @@ async function processAudio(audioBuffer) {
     });
 
     const reply = chat.choices[0].message.content;
-    console.log("🤖 GPT Reply:", reply);
+    console.log("GPT Reply:", reply);
 
     // Convert text to speech via ElevenLabs (optional)
     const ttsResponse = await axios.post(
@@ -53,7 +53,7 @@ async function processAudio(audioBuffer) {
       text: reply,
     };
   } catch (err) {
-    console.error("❌ Error during AI processing:", err);
+    console.error("Error during AI processing:", err);
     return { audio: null, text: "Sorry, something went wrong." };
   } finally {
     // Clean up
