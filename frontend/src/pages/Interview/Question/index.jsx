@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ArrowRight, Keyboard, Mic } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Button from "../../../components/Button";
 import "./styles.css";
 import { useRef } from "react";
@@ -13,6 +13,8 @@ const Question = () => {
   const ws = useRef(null);
   const mediaRecorder = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const questions = location.state?.questions || [];
 
   // Initialize WebSocket connection
   useEffect(() => {
@@ -59,13 +61,7 @@ const Question = () => {
       setCurrentIndex(currentIndex + 1);
     }
   };
-  const questions = [
-    "What is your name?",
-    "What field do you want to work in?",
-    "How many years of experience do you have?",
-    "What field do you want to work in?",
-    "What is your name?",
-  ];
+
   return (
     <div>
       <div className="question-div">
