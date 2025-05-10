@@ -82,10 +82,6 @@
   margin-top: 1rem;
 }
 
-.add-btn:hover {
-  background-color: #e0e0e0;
-}
-
 .remove-btn {
   background-color: #ffebee;
   border: 1px solid #ffcdd2;
