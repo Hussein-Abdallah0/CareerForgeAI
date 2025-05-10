@@ -44,3 +44,12 @@
   margin-top: -10px;
   margin-bottom: 40px;
 }
+
+.ai-response {
+  /* height: 20px; */
+  border: 2px var(--secondary) solid;
+  border-radius: 10px;
+  width: 560px;
+  margin-top: 50px;
+  padding: 20px;
+}
