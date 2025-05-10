@@ -40,9 +40,9 @@
 .question-text {
   font-size: 20px;
   align-self: flex-start;
-  margin-left: 50px;
-  margin-top: -10px;
-  margin-bottom: 40px;
+  margin-left: 20px;
+  margin-top: -5px;
+  /* margin-bottom: 40px; */
 }
 
 .ai-response {
