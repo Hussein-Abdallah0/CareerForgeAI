@@ -24,7 +24,7 @@ const wss = new WebSocket.Server({ server });
 wss.on("connection", (ws) => {
   ws.on("message", async (audioBlob) => {
     console.log("Received audio blob from client");
-    const { audio, text } = await processAudio(audioBlob);
-    ws.send(JSON.stringify({ audio, text }));
+    const { audio, text, userText } = await processAudio(audioBlob);
+    ws.send(JSON.stringify({ audio, text, userText }));
   });
 });
