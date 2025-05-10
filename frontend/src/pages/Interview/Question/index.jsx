@@ -23,17 +23,17 @@ const Question = () => {
     ws.current = new WebSocket("ws://localhost:8080");
 
     ws.current.onmessage = async (event) => {
-      const { audio, text } = JSON.parse(event.data);
+      const { audio, text, userText } = JSON.parse(event.data);
       setAiResponses((prev) => ({
         ...prev,
         [currentIndex]: text,
       })); // Display AI text response
 
       // Get the transcription (user's answer)
-      const transcription = await getLastTranscription();
+      // const transcription = await getLastTranscription();
       setTranscriptions((prev) => ({
         ...prev,
-        [currentIndex]: transcription,
+        [currentIndex]: userText,
       }));
 
       // Play AI audio
