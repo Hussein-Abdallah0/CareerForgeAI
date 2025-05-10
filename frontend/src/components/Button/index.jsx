@@ -33,6 +33,12 @@ const Button = ({ version = "primary", text, onClick, type, disabled }) => {
           {text}
         </button>
       );
+    case "secondary-small":
+      return (
+        <button onClick={onClick} type={type} disabled={disabled} className="secondary-small">
+          {text}
+        </button>
+      );
   }
 };
 
