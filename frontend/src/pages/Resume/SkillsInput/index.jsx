@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
+import "./styles.css";
 
 const SkillsInput = ({ formData, setFormData }) => {
   const [newCategory, setNewCategory] = useState("");
@@ -69,13 +72,14 @@ const SkillsInput = ({ formData, setFormData }) => {
         </div>
 
         <div className="add-category">
-          <input
+          <Input
             type="text"
             value={newCategory}
             onChange={(e) => setNewCategory(e.target.value)}
             placeholder="New category name"
+            className="small margin"
           />
-          <button onClick={addCategory}>Add Category</button>
+          <Button text="Add Category" version="secondary" onClick={addCategory} />
         </div>
       </div>
 
@@ -84,19 +88,26 @@ const SkillsInput = ({ formData, setFormData }) => {
         <div className="skill-input">
           <h3>{formData.skills[selectedCategory].category}</h3>
           <div className="skill-input-group">
-            <input
+            <Input
               type="text"
               value={newSkill}
               onChange={(e) => setNewSkill(e.target.value)}
               placeholder="Skill name"
+              className="small margin"
             />
+            {/* <input
+              type="text"
+              value={newSkill}
+              onChange={(e) => setNewSkill(e.target.value)}
+              placeholder="Skill name"
+            /> */}
             <select value={proficiency} onChange={(e) => setProficiency(e.target.value)}>
               <option value="Beginner">Beginner</option>
               <option value="Intermediate">Intermediate</option>
               <option value="Advanced">Advanced</option>
               <option value="Expert">Expert</option>
             </select>
-            <button onClick={addSkill}>Add Skill</button>
+            <Button text="Add Skill" version="secondary-small" onClick={addSkill} />
           </div>
 
           <div className="skill-tags">
