@@ -5,6 +5,7 @@ import Button from "../../../components/Button";
 import "./styles.css";
 import { useRef } from "react";
 import { useEffect } from "react";
+import axiosBaseUrl from "../../../utils/axios";
 
 const Question = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -16,7 +17,15 @@ const Question = () => {
   const mediaRecorder = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const questions = location.state?.questions || [];
+  const { sessionId, questions } = location.state || {};
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+
+  // Set current question when index changes
+  useEffect(() => {
+    if (questions && questions.length > currentIndex) {
+      setCurrentQuestion(questions[currentIndex]);
+    }
+  }, [currentIndex, questions]);
 
   // Initialize WebSocket connection
   useEffect(() => {
@@ -36,6 +45,17 @@ const Question = () => {
         [currentIndex]: userText,
       }));
 
+      // Store answer in Laravel if we have the question
+      if (currentQuestion?.id) {
+        try {
+          await axiosBaseUrl.patch(`/question/${currentQuestion.id}/answer`, {
+            user_answer: userText,
+          });
+        } catch (err) {
+          console.error("Failed to save answer:", err);
+        }
+      }
+
       // Play AI audio
       const audioBlob = new Blob([audio], { type: "audio/mpeg" });
       new Audio(URL.createObjectURL(audioBlob)).play();
@@ -44,7 +64,7 @@ const Question = () => {
     return () => {
       if (ws.current) ws.current.close();
     };
-  }, [currentIndex]);
+  }, [currentIndex, currentQuestion.id]);
 
   // const getLastTranscription = async () => {
   //   // In a real app, you might want to store this more reliably
@@ -79,14 +99,24 @@ const Question = () => {
     }
   };
 
-  const navigateToResults = () => {
-    navigate("/interview/result", {
-      state: {
-        questions,
-        userResponses: transcriptions,
-        aiFeedback: aiResponses,
-      },
-    });
+  const navigateToResults = async () => {
+    try {
+      // Finish session in Laravel (now using sessionId)
+      await axiosBaseUrl.patch(`/interview/${sessionId}/finish`, {
+        ai_feedback: JSON.stringify(aiResponses),
+      });
+
+      navigate("/interview/result", {
+        state: {
+          questions: questions.map((q) => q.text),
+          userResponses: transcriptions,
+          aiFeedback: aiResponses,
+          sessionId,
+        },
+      });
+    } catch (err) {
+      console.error("Failed to finish session:", err);
+    }
   };
 
   return (
