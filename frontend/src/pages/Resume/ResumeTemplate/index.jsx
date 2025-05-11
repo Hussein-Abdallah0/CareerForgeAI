@@ -105,6 +105,33 @@ function ResumeTemplate({ formData }) {
           ))}
         </section>
       )}
+
+      {/* Projects Section */}
+      {projects.length > 0 && (
+        <section className="resume-section">
+          <h2>Projects</h2>
+          {projects.map((project, index) => (
+            <div key={index} className="project-item">
+              <div className="section-header">
+                <h3>{project.title}</h3>
+                <div className="date-range">
+                  {project.startDate && <span>{project.startDate}</span>}
+                  {project.endDate && <span> - {project.endDate}</span>}
+                </div>
+              </div>
+              {project.technologies && (
+                <div className="technologies">
+                  <strong>Technologies:</strong> {project.technologies}
+                </div>
+              )}
+              {project.description && <p className="project-description">{project.description}</p>}
+              <ul className="achievements-list">
+                {project.points.map((point, i) => point && <li key={i}>{point}</li>)}
+              </ul>
+            </div>
+          ))}
+        </section>
+      )}
     </div>
   );
 }
