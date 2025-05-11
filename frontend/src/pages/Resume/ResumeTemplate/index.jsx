@@ -57,6 +57,30 @@ function ResumeTemplate({ formData }) {
         <h2>Summary</h2>
         <div className="summary-content">{staticSummary}</div>
       </section>
+
+      {/* Education Section */}
+      {education.length > 0 && (
+        <section className="resume-section">
+          <h2>Education</h2>
+          {education.map((edu, index) => (
+            <div key={index} className="education-item">
+              <div className="section-header">
+                <h3>
+                  {edu.institution && <span>{edu.institution}</span>}
+                  {edu.degree && <span>, {edu.degree}</span>}
+                </h3>
+                <div className="date-range">
+                  {edu.startDate && <span>{edu.startDate}</span>}
+                  {edu.endDate && <span> - {edu.endDate}</span>}
+                </div>
+              </div>
+              <ul className="achievements-list">
+                {edu.points.map((point, i) => point && <li key={i}>{point}</li>)}
+              </ul>
+            </div>
+          ))}
+        </section>
+      )}
     </div>
   );
 }
