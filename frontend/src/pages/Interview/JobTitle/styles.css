@@ -38,3 +38,27 @@
   color: var(--secondary);
   margin-top: 50px;
 }
+
+.custom-job-input {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.custom-job-input input {
+  border: 2px var(--secondary) solid;
+  margin: 0;
+}
+.custom-job-input label {
+  display: none;
+}
+
+.custom-job-input .input-div {
+  width: 400px;
+  height: 50px;
+}
+
+.job.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}

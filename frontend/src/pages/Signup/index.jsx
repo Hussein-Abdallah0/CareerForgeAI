@@ -10,7 +10,7 @@ const Signup = () => {
   const { form, isSubmitting, error, handleChange, handleSubmit } = useAuthForm("signup");
 
   const onSignupSuccess = () => {
-    navigate("/home");
+    navigate("/dashboard");
   };
   return (
     <div className="signup-body">

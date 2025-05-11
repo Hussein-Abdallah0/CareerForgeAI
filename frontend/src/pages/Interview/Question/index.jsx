@@ -19,13 +19,25 @@ const Question = () => {
   const location = useLocation();
   const { sessionId, questions } = location.state || {};
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  //this is for the audio to check if its question or feedback
+  const [questionSpoken, setQuestionSpoken] = useState(false);
 
-  // Set current question when index changes
   useEffect(() => {
     if (questions && questions.length > currentIndex) {
-      setCurrentQuestion(questions[currentIndex]);
+      const question = questions[currentIndex];
+      setCurrentQuestion(question);
+
+      // Reset questionSpoken when question changes
+      setQuestionSpoken(false);
     }
   }, [currentIndex, questions]);
+
+  useEffect(() => {
+    if (currentQuestion?.text && !questionSpoken) {
+      speakWithOpenAITTS(currentQuestion.text);
+      setQuestionSpoken(true);
+    }
+  }, [currentQuestion, questionSpoken]);
 
   // Initialize WebSocket connection
   useEffect(() => {
@@ -33,10 +45,22 @@ const Question = () => {
 
     ws.current.onmessage = async (event) => {
       const { audio, text, userText } = JSON.parse(event.data);
+
+      if (audio) {
+        const audioBlob = new Blob([audio], { type: "audio/mpeg" });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        new Audio(audioUrl).play();
+      }
+
+      // Play AI feedback immediately
+      if (text) {
+        speakWithOpenAITTS(text);
+      }
+      // Then store it in state
       setAiResponses((prev) => ({
         ...prev,
         [currentIndex]: text,
-      })); // Display AI text response
+      }));
 
       // Get the transcription (user's answer)
       // const transcription = await getLastTranscription();
@@ -55,10 +79,6 @@ const Question = () => {
           console.error("Failed to save answer:", err);
         }
       }
-
-      // Play AI audio
-      const audioBlob = new Blob([audio], { type: "audio/mpeg" });
-      new Audio(URL.createObjectURL(audioBlob)).play();
     };
 
     return () => {
@@ -75,7 +95,12 @@ const Question = () => {
 
       mediaRecorder.current.ondataavailable = (e) => {
         if (ws.current.readyState === WebSocket.OPEN) {
-          ws.current.send(e.data); // Send audio blob to Node.js BFF
+          ws.current.send(
+            JSON.stringify({
+              questionText: currentQuestion?.text,
+            })
+          );
+          ws.current.send(e.data);
         }
       };
     } else {
@@ -108,6 +133,33 @@ const Question = () => {
       });
     } catch (err) {
       console.error("Failed to finish session:", err);
+    }
+  };
+
+  const speakWithOpenAITTS = async (text) => {
+    try {
+      const response = await fetch("https://api.openai.com/v1/audio/speech", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer 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`, // Replace with your key
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "tts-1",
+          voice: "onyx",
+          input: text,
+        }),
+      });
+      //nova if you want a female interviewer
+
+      if (!response.ok) throw new Error("TTS request failed");
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      audio.play();
+    } catch (err) {
+      console.error("OpenAI TTS error:", err);
     }
   };
 
@@ -150,7 +202,8 @@ const Question = () => {
       {/* Display AI response */}
       {aiResponses[currentIndex] && (
         <div className="ai-response">
-          <p>AI Feedback: {aiResponses[currentIndex]}</p>
+          <h3>AI Feedback:</h3>
+          <p> {aiResponses[currentIndex]}</p>
         </div>
       )}
     </div>
