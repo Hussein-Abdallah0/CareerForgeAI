@@ -64,7 +64,7 @@ const JobTitle = () => {
   };
 
   const handleCustomSubmit = () => {
-    if (customJob.trim() !== "") {
+    if (customJob.trim() !== "" && !loading) {
       handleJobClick(customJob.trim());
     }
   };
@@ -75,7 +75,11 @@ const JobTitle = () => {
       <div className="jobs">
         {jobs.map((job, index) => {
           return (
-            <div key={index} className="job" onClick={() => handleJobClick(job)}>
+            <div
+              key={index}
+              className={`job ${loading ? "disabled" : ""}`}
+              onClick={() => handleJobClick(job)}
+            >
               {job}
               <ChevronRight />
             </div>
