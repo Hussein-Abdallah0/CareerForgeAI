@@ -81,6 +81,30 @@ function ResumeTemplate({ formData }) {
           ))}
         </section>
       )}
+
+      {/* Experience Section */}
+      {experience.length > 0 && (
+        <section className="resume-section">
+          <h2>Experience</h2>
+          {experience.map((exp, index) => (
+            <div key={index} className="experience-item">
+              <div className="section-header">
+                <h3>
+                  {exp.company && <span>{exp.company}</span>}
+                  {exp.position && <span>, {exp.position}</span>}
+                </h3>
+                <div className="date-range">
+                  {exp.startDate && <span>{exp.startDate}</span>}
+                  {exp.endDate && <span> - {exp.endDate}</span>}
+                </div>
+              </div>
+              <ul className="achievements-list">
+                {exp.points.map((point, i) => point && <li key={i}>{point}</li>)}
+              </ul>
+            </div>
+          ))}
+        </section>
+      )}
     </div>
   );
 }
