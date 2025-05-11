@@ -52,6 +52,11 @@ function ResumeTemplate({ formData }) {
           )}
         </div>
       </header>
+
+      <section className="summary-section">
+        <h2>Summary</h2>
+        <div className="summary-content">{staticSummary}</div>
+      </section>
     </div>
   );
 }
