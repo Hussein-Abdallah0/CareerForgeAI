@@ -23,7 +23,9 @@ const Question = () => {
   // Set current question when index changes
   useEffect(() => {
     if (questions && questions.length > currentIndex) {
+      const question = questions[currentIndex];
       setCurrentQuestion(questions[currentIndex]);
+      speakWithElevenLabs(question.text);
     }
   }, [currentIndex, questions]);
 
@@ -32,7 +34,7 @@ const Question = () => {
     ws.current = new WebSocket("ws://localhost:8080");
 
     ws.current.onmessage = async (event) => {
-      const { audio, text, userText } = JSON.parse(event.data);
+      const { text, userText } = JSON.parse(event.data);
       setAiResponses((prev) => ({
         ...prev,
         [currentIndex]: text,
@@ -55,10 +57,6 @@ const Question = () => {
           console.error("Failed to save answer:", err);
         }
       }
-
-      // Play AI audio
-      const audioBlob = new Blob([audio], { type: "audio/mpeg" });
-      new Audio(URL.createObjectURL(audioBlob)).play();
     };
 
     return () => {
@@ -109,6 +107,37 @@ const Question = () => {
     } catch (err) {
       console.error("Failed to finish session:", err);
     }
+  };
+
+  const speakWithElevenLabs = async (text) => {
+    const apiKey = "sk_70faf392aef68133b21df435b6e6975ea3eeba11af007638";
+    const voiceId = "GUDYcgRAONiI1nXDcNQQ";
+
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "xi-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        text: text,
+        model_id: "eleven_monolingual_v1",
+        voice_settings: {
+          stability: 0.75,
+          similarity_boost: 0.75,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      console.error("Failed to fetch TTS audio");
+      return;
+    }
+
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+    audio.play();
   };
 
   return (
