@@ -202,7 +202,8 @@ const Question = () => {
       {/* Display AI response */}
       {aiResponses[currentIndex] && (
         <div className="ai-response">
-          <p>AI Feedback: {aiResponses[currentIndex]}</p>
+          <h3>AI Feedback:</h3>
+          <p> {aiResponses[currentIndex]}</p>
         </div>
       )}
     </div>
