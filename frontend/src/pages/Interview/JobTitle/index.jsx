@@ -3,9 +3,12 @@ import "./styles.css";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axiosBaseUrl from "../../../utils/axios";
+import { useState } from "react";
 
 const JobTitle = () => {
   const navigate = useNavigate();
+  const [customJob, setCustomJob] = useState("");
+
   const jobs = [
     "Software Engineer",
     "Data Analytics",
@@ -56,6 +59,12 @@ const JobTitle = () => {
     }
   };
 
+  const handleCustomSubmit = () => {
+    if (customJob.trim() !== "") {
+      handleJobClick(customJob.trim());
+    }
+  };
+
   return (
     <div>
       <p className="job-title">What field do you want to practice for?</p>
@@ -69,6 +78,17 @@ const JobTitle = () => {
           );
         })}
       </div>
+
+      <div className="custom-job-input">
+        <input
+          type="text"
+          placeholder="Enter your field..."
+          value={customJob}
+          onChange={(e) => setCustomJob(e.target.value)}
+        />
+        <button onClick={handleCustomSubmit}>Start</button>
+      </div>
+
       <a href="/interview">
         <ArrowLeft className="arrow" />
       </a>
