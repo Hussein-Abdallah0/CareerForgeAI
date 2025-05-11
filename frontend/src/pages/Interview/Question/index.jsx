@@ -95,7 +95,12 @@ const Question = () => {
 
       mediaRecorder.current.ondataavailable = (e) => {
         if (ws.current.readyState === WebSocket.OPEN) {
-          ws.current.send(e.data); // Send audio blob to Node.js BFF
+          ws.current.send(
+            JSON.stringify({
+              questionText: currentQuestion?.text,
+            })
+          );
+          ws.current.send(e.data);
         }
       };
     } else {
