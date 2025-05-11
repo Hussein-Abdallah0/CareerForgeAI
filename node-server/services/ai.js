@@ -35,21 +35,16 @@ async function processAudio(audioBuffer) {
     const reply = chat.choices[0].message.content;
     console.log("GPT Reply:", reply);
 
-    // Convert text to speech via ElevenLabs (optional)
-    const ttsResponse = await axios.post(
-      "https://api.elevenlabs.io/v1/text-to-speech/GUDYcgRAONiI1nXDcNQQ",
-      { text: reply },
-      {
-        headers: {
-          "xi-api-key": process.env.ELEVENLABS_API_KEY,
-          "Content-Type": "application/json",
-        },
-        responseType: "arraybuffer",
-      }
-    );
+    const ttsResponse = await openai.audio.speech.create({
+      model: "tts-1", // Use "tts-1-hd" for higher quality (2x cost)
+      voice: "onyx", // Options: alloy, echo, fable, onyx, nova, shimmer
+      input: reply,
+    });
+
+    const audioBuffer = Buffer.from(await ttsResponse.arrayBuffer());
 
     return {
-      audio: ttsResponse.data, // MP3 buffer
+      audio: audioBuffer, // MP3 buffer
       text: reply,
       userText: transcription.text,
     };
