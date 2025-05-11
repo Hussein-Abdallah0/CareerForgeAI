@@ -3,6 +3,8 @@ import "./styles.css";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axiosBaseUrl from "../../../utils/axios";
+import Input from "../../../components/Input";
+import Button from "../../../components/Button";
 import { useState } from "react";
 
 const JobTitle = () => {
@@ -82,13 +84,13 @@ const JobTitle = () => {
       </div>
 
       <div className="custom-job-input">
-        <input
+        <Input
           type="text"
           placeholder="Enter your field..."
           value={customJob}
           onChange={(e) => setCustomJob(e.target.value)}
         />
-        <button onClick={handleCustomSubmit}>Start</button>
+        <Button version="secondary-small" onClick={handleCustomSubmit} text="Start" />
       </div>
 
       {loading && <p className="loading">Fetching questions, please wait...</p>}
