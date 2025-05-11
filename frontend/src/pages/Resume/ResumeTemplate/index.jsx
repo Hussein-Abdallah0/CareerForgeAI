@@ -132,6 +132,25 @@ function ResumeTemplate({ formData }) {
           ))}
         </section>
       )}
+
+      {/* Skills Section */}
+      {skills.length > 0 && (
+        <section className="resume-section skills-section">
+          <h2>Skills</h2>
+          {skills.map((skillGroup, index) => (
+            <div key={index} className="skill-line">
+              <span className="skill-category">{skillGroup.category}</span>
+              <span className="skill-items">
+                {skillGroup.items.map((skill, i) => (
+                  <span key={i} className="skill-item">
+                    {skill.name} ({skill.level})
+                  </span>
+                ))}
+              </span>
+            </div>
+          ))}
+        </section>
+      )}
     </div>
   );
 }
