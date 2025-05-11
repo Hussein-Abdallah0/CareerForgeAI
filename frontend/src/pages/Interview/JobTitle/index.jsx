@@ -8,6 +8,7 @@ import { useState } from "react";
 const JobTitle = () => {
   const navigate = useNavigate();
   const [customJob, setCustomJob] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const jobs = [
     "Software Engineer",
@@ -19,6 +20,7 @@ const JobTitle = () => {
   ];
 
   const handleJobClick = async (job) => {
+    setLoading(true);
     try {
       const sessionRes = await axiosBaseUrl.post("/interview", {
         job_title: job,
@@ -88,6 +90,8 @@ const JobTitle = () => {
         />
         <button onClick={handleCustomSubmit}>Start</button>
       </div>
+
+      {loading && <p className="loading">Fetching questions, please wait...</p>}
 
       <a href="/interview">
         <ArrowLeft className="arrow" />
