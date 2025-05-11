@@ -7,6 +7,34 @@ import "./styles.css";
 export default function ReviewForm({ formData, prevStep }) {
   const resumeRef = useRef();
 
+  const handleDownload = () => {
+    const element = resumeRef.current;
+
+    const opt = {
+      margin: 0, // Set all margins to 0
+      filename: `${formData.first_name}_${formData.last_name}_Resume.pdf`,
+      html2canvas: {
+        scale: 4,
+        dpi: 300,
+        windowWidth: 794,
+        useCORS: true,
+        letterRendering: true,
+        logging: true,
+      },
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+        orientation: "portrait",
+      },
+      pagebreak: {
+        mode: "avoid-all",
+        before: "#avoid-before-element",
+      },
+    };
+
+    html2pdf().set(opt).from(element).save();
+  };
+
   return (
     <div className="review-form">
       <h2>Review Your Resume</h2>
