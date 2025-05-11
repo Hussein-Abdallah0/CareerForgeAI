@@ -10,7 +10,7 @@ const Login = () => {
   const { form, isSubmitting, error, handleChange, handleSubmit } = useAuthForm("login");
 
   const onLoginSuccess = () => {
-    navigate("/home");
+    navigate("/dashboard");
   };
   return (
     <div className="login-body">
