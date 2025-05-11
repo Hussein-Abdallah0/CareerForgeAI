@@ -18,7 +18,42 @@ function ResumeTemplate({ formData }) {
   const staticSummary =
     "Results-driven software engineer with 3+ years of experience in full-stack development. Specialized in React and Node.js with a strong background in building scalable web applications. Passionate about clean code and efficient problem-solving.";
 
-  return <div></div>;
+  return (
+    <div className="resume-template">
+      {/* Header Section */}
+      <header className="resume-header">
+        <h1>
+          {first_name} {last_name}
+        </h1>
+        <div className="contact-info">
+          {email && <span>{email}</span>}
+          {phone && <span>{phone}</span>}
+          {linkdin && (
+            <span>
+              <a
+                href={linkdin.startsWith("http") ? linkdin : `https://${linkdin}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+            </span>
+          )}
+          {github && (
+            <span>
+              <a
+                href={github.startsWith("http") ? github : `https://${github}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+            </span>
+          )}
+        </div>
+      </header>
+    </div>
+  );
 }
 
 export default ResumeTemplate;
