@@ -1,7 +1,8 @@
 import React from "react";
+import "./styles.css";
 
-const ResumeTemplate = () => {
-  return <div>ResumeTemplate</div>;
-};
+function ResumeTemplate() {
+  return <div></div>;
+}
 
 export default ResumeTemplate;
