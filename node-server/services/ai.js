@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-async function processAudio(audioBuffer) {
+async function processAudio(audioBuffer, questionText = "") {
   const filename = `audio-${uuidv4()}.webm`;
   const filepath = path.join(__dirname, filename);
 
@@ -27,8 +27,16 @@ async function processAudio(audioBuffer) {
     const chat = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [
-        { role: "system", content: "You're a technical interviewer. Always respond in English." },
-        { role: "user", content: transcription.text },
+        {
+          role: "system",
+          content: `You're a technical interviewer. Provide concise, constructive feedback in English. MAKE YOUR FEEDBACK LESS THAN 25 WORDS. Focus on:
+            1. Technical accuracy
+            2. Clarity of communication
+            3. Relevance to the role
+            4. Suggested improvements
+          `,
+        },
+        { role: "user", content: `Question: ${questionText}\nAnswer: ${transcription.text}` },
       ],
     });
 
@@ -36,8 +44,8 @@ async function processAudio(audioBuffer) {
     console.log("GPT Reply:", reply);
 
     const ttsResponse = await openai.audio.speech.create({
-      model: "tts-1", // Use "tts-1-hd" for higher quality (2x cost)
-      voice: "onyx", // Options: alloy, echo, fable, onyx, nova, shimmer
+      model: "tts-1",
+      voice: "onyx",
       input: reply,
     });
 
