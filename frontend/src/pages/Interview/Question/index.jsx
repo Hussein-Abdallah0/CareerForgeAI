@@ -141,7 +141,7 @@ const Question = () => {
       const response = await fetch("https://api.openai.com/v1/audio/speech", {
         method: "POST",
         headers: {
-          Authorization: `Bearer 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`, // Replace with your key
+          Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
