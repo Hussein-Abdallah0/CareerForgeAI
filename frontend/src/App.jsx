@@ -6,7 +6,6 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Interview from "./pages/Interview/Interview";
 import JobTitle from "./pages/Interview/JobTitle";
-import ResumeJobTitle from "./pages/Resume/JobTitle";
 import Question from "./pages/Interview/Question";
 import Result from "./pages/Interview/Result";
 import Resume from "./pages/Resume/Resume";
@@ -27,7 +26,6 @@ function App() {
         <Route path="/interview/result" element={<Result />} />
         {/* Resume */}
         <Route path="/resume" element={<Resume />} />
-        <Route path="/resume/start" element={<ResumeJobTitle />} />
         <Route path="/resume/form" element={<ResumeBuilderForm />} />
       </Routes>
     </BrowserRouter>
