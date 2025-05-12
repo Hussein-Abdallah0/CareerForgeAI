@@ -113,14 +113,14 @@ export default function ReviewForm({ formData, prevStep }) {
       <h2>Review Your Resume</h2>
 
       <div className="ai-summary">
-        <h3>Professional Summary</h3>
-        {loadingSummary ? <p>Generating…</p> : <p></p>}
+        <h3>Regenerate Summary</h3>
         <Button
-          text="Regenerate Summary"
-          version="secondary-small"
+          text="Regenerate"
+          version="secondary"
           onClick={fetchSummary}
           disabled={loadingSummary}
         />
+        {loadingSummary ? <p>Generating…</p> : <p></p>}
       </div>
 
       <div className="ai-bullets-improvement">
