@@ -14,7 +14,7 @@ const Resume = () => {
       <div className="resume">
         <h2>Tailor Your Resume with AI</h2>
         <p>Get a personalized, ATS-friendly resume crafted for your desired job</p>
-        <Button text="Build Resume" onClick={() => navigate("/resume/start")} />
+        <Button text="Build Resume" onClick={() => navigate("/resume/form")} />
       </div>
 
       <div className="instructions-section">
