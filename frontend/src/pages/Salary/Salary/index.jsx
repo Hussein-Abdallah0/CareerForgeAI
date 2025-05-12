@@ -21,11 +21,11 @@ const Salary = () => {
         <h4 className="salary-how">How It Works?</h4>
         <div className="instructions">
           <div>
-            <img src="salary/image31.png" alt="" />
+            <img src="salary/image32.png" alt="" />
             <p>Enter Job Details</p>
           </div>
           <div>
-            <img src="salary/image28.png" alt="" />
+            <img src="salary/image33.png" alt="" />
             <p>View Salary Range</p>
           </div>
         </div>
