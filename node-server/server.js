@@ -3,6 +3,7 @@ const WebSocket = require("ws");
 const { processAudio } = require("./services/ai");
 const questionsRouter = require("./routes/Questions"); // Import your router
 const resumeRouter = require("./routes/resume");
+const salaryRouter = require("./routes/salary");
 const cors = require("cors");
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors()); // Enable CORS for all routes
 // Mount your router
 app.use("/", questionsRouter);
 app.use("/api/resume", resumeRouter);
+app.use("/api/salary", salaryRouter);
 
 // Create HTTP server
 const server = app.listen(8080, () => {
