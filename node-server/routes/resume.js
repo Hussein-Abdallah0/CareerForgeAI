@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const openai = require("../services/openaiClient");
+const openai = require("./openaiClient");
 
 // Generate resume summary
 router.post("/summary", async (req, res) => {
   const { personal, education, experience, projects, skills } = req.body;
   const prompt = `
-    Create a professional 2–3 sentence summary for a resume based on:
+    Write a professional summary (max 3 lines) for a resume based on:
     Personal: ${personal.first_name} ${personal.last_name}, ${personal.email}, ${personal.phone}
     Education: ${education.map((e) => `${e.degree} at ${e.institution}`).join("; ")}
     Experience and Projects: ${[...experience, ...projects]
@@ -15,6 +15,7 @@ router.post("/summary", async (req, res) => {
     Skills: ${skills.map((s) => s.items.map((i) => i.name).join(", ")).join("; ")}.
 
     The tone should be concise and highlight strengths.
+    Do not include the person's name
   `;
 
   try {
@@ -40,6 +41,7 @@ router.post("/improve-bullets", async (req, res) => {
     ${bullets.map((b, i) => `${i + 1}. ${b}`).join("\n")}
 
     Return a JSON array of the improved bullets, in the same order.
+    DO NOT INCLUDE THE ORDER IN THE JSON as in do not write them as(1. ...)
   `;
 
   try {
