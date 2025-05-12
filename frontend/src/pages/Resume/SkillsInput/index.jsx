@@ -2,14 +2,12 @@ import { useState } from "react";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import "./styles.css";
-import axios from "axios";
 
 const SkillsInput = ({ formData, setFormData, nextStep, prevStep }) => {
   const [newCategory, setNewCategory] = useState("");
   const [newSkill, setNewSkill] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [proficiency, setProficiency] = useState("Intermediate");
-  const [improving, setImproving] = useState(false);
 
   const addCategory = () => {
     if (newCategory.trim()) {
@@ -24,45 +22,6 @@ const SkillsInput = ({ formData, setFormData, nextStep, prevStep }) => {
         ],
       });
       setNewCategory("");
-    }
-  };
-
-  const handleImproveAndNext = async () => {
-    setImproving(true);
-    try {
-      // 1) gather all bullets
-      const bullets = [
-        ...formData.experience.flatMap((exp) => exp.points),
-        ...formData.projects.flatMap((proj) => proj.points),
-      ];
-      // 2) call AI
-      const res = await axios.post("/api/resume/improve-bullets", { bullets });
-      const improved = res.data.improved; // array same length
-      // 3) split back into experience vs projects
-      let idx = 0;
-      const newExp = formData.experience.map((exp) => {
-        const count = exp.points.length;
-        const pts = improved.slice(idx, idx + count);
-        idx += count;
-        return { ...exp, points: pts };
-      });
-      const newProj = formData.projects.map((proj) => {
-        const count = proj.points.length;
-        const pts = improved.slice(idx, idx + count);
-        idx += count;
-        return { ...proj, points: pts };
-      });
-      // 4) update and go
-      setFormData({
-        ...formData,
-        experience: newExp,
-        projects: newProj,
-      });
-      nextStep();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setImproving(false);
     }
   };
 
@@ -175,11 +134,6 @@ const SkillsInput = ({ formData, setFormData, nextStep, prevStep }) => {
       <div className="form-actions">
         <Button text="Back" version="border" onClick={prevStep} />
         <Button text="Next" onClick={nextStep} />
-        <Button
-          text={improving ? "Improving…" : "Next"}
-          onClick={handleImproveAndNext}
-          disabled={improving}
-        />
       </div>
     </div>
   );
