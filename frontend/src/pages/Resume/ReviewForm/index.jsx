@@ -114,13 +114,17 @@ export default function ReviewForm({ formData, prevStep }) {
 
       <div className="ai-summary">
         <h3>Regenerate Summary</h3>
+        {loadingImprove ? (
+          <p>Generating Summary…</p>
+        ) : (
+          <p>Click below to regenerate summary if you want.</p>
+        )}
         <Button
           text="Regenerate"
           version="secondary"
           onClick={fetchSummary}
           disabled={loadingSummary}
         />
-        {loadingSummary ? <p>Generating…</p> : <p></p>}
       </div>
 
       <div className="ai-bullets-improvement">
@@ -132,7 +136,7 @@ export default function ReviewForm({ formData, prevStep }) {
         )}
         <Button
           text="Improve Bullets"
-          version="secondary-small"
+          version="secondary"
           onClick={improveBullets}
           disabled={loadingImprove}
         />
