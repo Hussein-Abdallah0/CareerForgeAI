@@ -29,4 +29,31 @@ router.post("/summary", async (req, res) => {
   }
 });
 
+// Improve bullets
+router.post("/improve-bullets", async (req, res) => {
+  const { bullets } = req.body; // Array<string>
+  if (!Array.isArray(bullets)) return res.status(400).json({ error: "Invalid bullets" });
+
+  const prompt = `
+    Here are some resume bullet points. Rewrite each to be more action-oriented, concise, and quantify where possible.
+    Original:
+    ${bullets.map((b, i) => `${i + 1}. ${b}`).join("\n")}
+
+    Return a JSON array of the improved bullets, in the same order.
+  `;
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [{ role: "user", content: prompt }],
+    });
+    // Assume response is JSON array
+    const improved = JSON.parse(completion.choices[0].message.content);
+    res.json({ improved });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to improve bullets" });
+  }
+});
+
 module.exports = router;
