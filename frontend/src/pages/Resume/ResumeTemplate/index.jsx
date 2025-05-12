@@ -7,7 +7,7 @@ function ResumeTemplate({ formData }) {
     last_name,
     email,
     phone,
-    linkdin,
+    linkedin,
     github,
     education,
     experience,
@@ -28,10 +28,10 @@ function ResumeTemplate({ formData }) {
         <div className="contact-info">
           {email && <span>{email}</span>}
           {phone && <span>{phone}</span>}
-          {linkdin && (
+          {linkedin && (
             <span>
               <a
-                href={linkdin.startsWith("http") ? linkdin : `https://${linkdin}`}
+                href={linkedin.startsWith("http") ? linkedin : `https://${linkedin}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
