@@ -26,10 +26,6 @@ const Salary = () => {
           </div>
           <div>
             <img src="salary/image28.png" alt="" />
-            <p>Enter Your Current Info</p>
-          </div>
-          <div>
-            <img src="salary/image29.png" alt="" />
             <p>View Salary Range</p>
           </div>
         </div>
