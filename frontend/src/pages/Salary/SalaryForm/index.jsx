@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
+import axios from "axios";
+
 import "./styles.css";
 
 const SalaryForm = () => {
@@ -12,10 +14,21 @@ const SalaryForm = () => {
     location: "",
     current_salary: 0,
   });
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/salary/result", { state: formData });
+    setLoading(true);
+    try {
+      const res = await axios.post("http://localhost:8080/api/salary/generate-salary", formData);
+      // Expect res.data.payload = { min, max, median, insights }
+      navigate("/salary/result", { state: { ...formData, ...res.data.payload } });
+    } catch (err) {
+      console.error("Salary generation error:", err);
+      alert("Failed to fetch salary data.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,7 +75,7 @@ const SalaryForm = () => {
             />
           </div>
 
-          <Button type="submit" text="Calculate Salary" />
+          <Button type="submit" text={loading ? "Calculating…" : "Calculate Salary"} />
         </form>
       </div>
     </div>
