@@ -5,6 +5,7 @@ import Input from "../../../components/Input";
 import axios from "axios";
 
 import "./styles.css";
+import axiosBaseUrl from "../../../utils/axios";
 
 const SalaryForm = () => {
   const navigate = useNavigate();
@@ -20,8 +21,19 @@ const SalaryForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      // get ai generated salary analysis
       const res = await axios.post("http://localhost:8080/api/salary/generate-salary", formData);
-      // Expect res.data.payload = { min, max, median, insights }
+      const aiResult = res.data.payload;
+
+      // save to laravel backend
+      await axiosBaseUrl.post("/analysis", {
+        job_title: formData.jobTitle,
+        location: formData.location,
+        experience_level: formData.experience,
+        current_salary: formData.current_salary,
+        suggested_range: `${aiResult.min} - ${aiResult.max}`,
+      });
+
       navigate("/salary/result", { state: { ...formData, ...res.data.payload } });
     } catch (err) {
       console.error("Salary generation error:", err);
