@@ -15,9 +15,6 @@ function ResumeTemplate({ formData }) {
     projects,
   } = formData;
 
-  const staticSummary =
-    "Results-driven software engineer with 3+ years of experience in full-stack development. Specialized in React and Node.js with a strong background in building scalable web applications. Passionate about clean code and efficient problem-solving.";
-
   return (
     <div className="resume-template">
       {/* Header Section */}
@@ -55,7 +52,7 @@ function ResumeTemplate({ formData }) {
 
       <section className="summary-section">
         <h2>Summary</h2>
-        <div className="summary-content">{staticSummary}</div>
+        <div className="summary-content">{formData.summary}</div>
       </section>
 
       {/* Education Section */}
