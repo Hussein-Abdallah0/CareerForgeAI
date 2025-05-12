@@ -168,7 +168,7 @@
 }
 
 /* Tight spacing */
-* {
+/* * {
   overflow-wrap: break-word;
   hyphens: auto;
   margin: 0;
@@ -186,4 +186,4 @@ ul,
 ol {
   margin-top: 0.2rem;
   margin-bottom: 0.2rem;
-}
+} */
