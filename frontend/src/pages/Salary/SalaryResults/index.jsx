@@ -53,7 +53,6 @@ const SalaryResults = () => {
 
         <div className="salary-actions">
           <Button text="Adjust Criteria" onClick={() => navigate("/salary/form")} secondary />
-          <Button text="Download Report" onClick={() => alert("PDF generated!")} />
         </div>
       </div>
     </div>
