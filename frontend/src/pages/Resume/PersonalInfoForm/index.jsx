@@ -42,8 +42,8 @@ const PersonalInfoForm = ({ formData, handleChange, nextStep }) => {
         <Input
           label="LinkedIn"
           placeholder="LinkedIn"
-          name="linkdin"
-          value={formData.linkdin}
+          name="linkedin"
+          value={formData.linkedin}
           onChange={handleChange}
         />
         <Input

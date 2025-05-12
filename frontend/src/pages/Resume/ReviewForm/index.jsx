@@ -1,184 +1,173 @@
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../components/Button";
+import ResumeTemplate from "../ResumeTemplate";
+import html2pdf from "html2pdf.js";
+import axios from "axios";
 import "./styles.css";
+import axiosBaseUrl from "../../../utils/axios";
 
-const ReviewForm = ({ formData, prevStep }) => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
+export default function ReviewForm({ formData, prevStep }) {
+  const resumeRef = useRef();
+  const hasFetchedSummary = useRef(false); // fix: track first fetch
+  const [draftData, setDraftData] = useState(formData);
+  const [summary, setSummary] = useState("");
+  const [loadingSummary, setLoadingSummary] = useState(false);
+  const [loadingImprove, setLoadingImprove] = useState(false);
+
+  const fetchSummary = async () => {
+    setLoadingSummary(true);
+    try {
+      const res = await axios.post("http://localhost:8080/api/resume/summary", {
+        personal: {
+          first_name: draftData.first_name,
+          last_name: draftData.last_name,
+          email: draftData.email,
+          phone: draftData.phone,
+        },
+        education: draftData.education,
+        experience: draftData.experience,
+        projects: draftData.projects,
+        skills: draftData.skills,
+      });
+      setSummary(res.data.summary);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingSummary(false);
+    }
   };
+
+  useEffect(() => {
+    if (!hasFetchedSummary.current) {
+      hasFetchedSummary.current = true;
+      fetchSummary();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const improveBullets = async () => {
+    setLoadingImprove(true);
+    try {
+      const bullets = [
+        ...draftData.experience.flatMap((e) => e.points),
+        ...draftData.projects.flatMap((p) => p.points),
+      ];
+
+      const res = await axios.post("http://localhost:8080/api/resume/improve-bullets", { bullets });
+      const improved = res.data.improved;
+
+      let idx = 0;
+      const newExperience = draftData.experience.map((exp) => {
+        const newPoints = improved.slice(idx, idx + exp.points.length);
+        idx += exp.points.length;
+        return { ...exp, points: newPoints };
+      });
+
+      const newProjects = draftData.projects.map((proj) => {
+        const newPoints = improved.slice(idx, idx + proj.points.length);
+        idx += proj.points.length;
+        return { ...proj, points: newPoints };
+      });
+
+      setDraftData({
+        ...draftData,
+        experience: newExperience,
+        projects: newProjects,
+      });
+    } catch (err) {
+      console.error("Failed to improve bullets:", err);
+    } finally {
+      setLoadingImprove(false);
+    }
+  };
+
+  const saveInDatabase = async (data) => {
+    try {
+      await axiosBaseUrl.post("/resume", {
+        summary: summary,
+        job_title: "null",
+        experience: data.experience,
+        education: data.education,
+      });
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
+
+  const handleDownload = () => {
+    const element = resumeRef.current;
+
+    const opt = {
+      margin: 0,
+      filename: `${draftData.first_name}_${draftData.last_name}_Resume.pdf`,
+      html2canvas: {
+        scale: 4,
+        dpi: 300,
+        windowWidth: 794,
+        useCORS: true,
+        letterRendering: true,
+        logging: true,
+      },
+      jsPDF: {
+        unit: "mm",
+        format: "a4",
+        orientation: "portrait",
+      },
+      pagebreak: {
+        mode: "avoid-all",
+        before: "#avoid-before-element",
+      },
+    };
+
+    html2pdf().set(opt).from(element).save();
+
+    saveInDatabase(draftData);
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="review-form">
+    <div className="review-form">
       <h2>Review Your Resume</h2>
 
-      {/* Personal Information */}
-      <div className="review-section">
-        <h3 className="section-title">Personal Information</h3>
-        <div className="review-grid">
-          <div className="review-item">
-            <span className="review-label">Full Name:</span>
-            <span className="review-value">
-              {formData.first_name} {formData.last_name}
-            </span>
-          </div>
-          <div className="review-item">
-            <span className="review-label">Email:</span>
-            <span className="review-value">{formData.email}</span>
-          </div>
-          <div className="review-item">
-            <span className="review-label">Phone:</span>
-            <span className="review-value">{formData.phone}</span>
-          </div>
-          <div className="review-item">
-            <span className="review-label">LinkedIn:</span>
-            <span className="review-value">{formData.linkdin || "Not provided"}</span>
-          </div>
-          <div className="review-item">
-            <span className="review-label">GitHub:</span>
-            <span className="review-value">{formData.github || "Not provided"}</span>
-          </div>
-        </div>
+      <div className="ai-summary">
+        <h3>Regenerate Summary</h3>
+        {loadingImprove ? (
+          <p>Generating Summary…</p>
+        ) : (
+          <p>Click below to regenerate summary if you want.</p>
+        )}
+        <Button
+          text="Regenerate"
+          version="secondary"
+          onClick={fetchSummary}
+          disabled={loadingSummary}
+        />
       </div>
 
-      {/* Education */}
-      <div className="review-section">
-        <h3 className="section-title">Education</h3>
-        {formData.education.map((edu, index) => (
-          <div key={index} className="review-item-group">
-            <div className="review-item">
-              <span className="review-label">Institution:</span>
-              <span className="review-value">{edu.institution}</span>
-            </div>
-            <div className="review-item">
-              <span className="review-label">Degree:</span>
-              <span className="review-value">{edu.degree}</span>
-            </div>
-            <div className="review-item">
-              <span className="review-label">Duration:</span>
-              <span className="review-value">
-                {edu.startDate} - {edu.endDate}
-              </span>
-            </div>
-            {edu.points.filter((p) => p.trim() !== "").length > 0 && (
-              <div className="review-item">
-                <span className="review-label">Achievements:</span>
-                <ul className="review-list">
-                  {edu.points
-                    .filter((p) => p.trim() !== "")
-                    .map((point, i) => (
-                      <li key={i}>{point}</li>
-                    ))}
-                </ul>
-              </div>
-            )}
-            {index < formData.education.length - 1 && <hr className="section-divider" />}
-          </div>
-        ))}
+      <div className="ai-bullets-improvement">
+        <h3>Improve Experience & Project Bullets</h3>
+        {loadingImprove ? (
+          <p>Improving bullet points…</p>
+        ) : (
+          <p>Click below to improve your bullet points to be more action-driven and concise.</p>
+        )}
+        <Button
+          text="Improve Bullets"
+          version="secondary"
+          onClick={improveBullets}
+          disabled={loadingImprove}
+        />
       </div>
 
-      {/* Experience */}
-      <div className="review-section">
-        <h3 className="section-title">Experience</h3>
-        {formData.experience.map((exp, index) => (
-          <div key={index} className="review-item-group">
-            <div className="review-item">
-              <span className="review-label">Company:</span>
-              <span className="review-value">{exp.company}</span>
-            </div>
-            <div className="review-item">
-              <span className="review-label">Position:</span>
-              <span className="review-value">{exp.position}</span>
-            </div>
-            <div className="review-item">
-              <span className="review-label">Duration:</span>
-              <span className="review-value">
-                {exp.startDate} - {exp.endDate}
-              </span>
-            </div>
-            {exp.points.filter((p) => p.trim() !== "").length > 0 && (
-              <div className="review-item">
-                <span className="review-label">Responsibilities:</span>
-                <ul className="review-list">
-                  {exp.points
-                    .filter((p) => p.trim() !== "")
-                    .map((point, i) => (
-                      <li key={i}>{point}</li>
-                    ))}
-                </ul>
-              </div>
-            )}
-            {index < formData.experience.length - 1 && <hr className="section-divider" />}
-          </div>
-        ))}
-      </div>
-
-      {/* Projects */}
-      <div className="review-section">
-        <h3 className="section-title">Projects</h3>
-        {formData.projects.map((project, index) => (
-          <div key={index} className="review-item-group">
-            <div className="review-item">
-              <span className="review-label">Title:</span>
-              <span className="review-value">{project.title}</span>
-            </div>
-            {project.description && (
-              <div className="review-item">
-                <span className="review-label">Description:</span>
-                <span className="review-value">{project.description}</span>
-              </div>
-            )}
-            {project.technologies && (
-              <div className="review-item">
-                <span className="review-label">Technologies:</span>
-                <span className="review-value">{project.technologies}</span>
-              </div>
-            )}
-            {project.startDate && project.endDate && (
-              <div className="review-item">
-                <span className="review-label">Duration:</span>
-                <span className="review-value">
-                  {project.startDate} - {project.endDate}
-                </span>
-              </div>
-            )}
-            {project.points.filter((p) => p.trim() !== "").length > 0 && (
-              <div className="review-item">
-                <span className="review-label">Key Features:</span>
-                <ul className="review-list">
-                  {project.points
-                    .filter((p) => p.trim() !== "")
-                    .map((point, i) => (
-                      <li key={i}>{point}</li>
-                    ))}
-                </ul>
-              </div>
-            )}
-            {index < formData.projects.length - 1 && <hr className="section-divider" />}
-          </div>
-        ))}
-      </div>
-
-      {/* Skills */}
-      <div className="review-section">
-        <h3 className="section-title">Skills</h3>
-        <div className="skills-review">
-          {formData.skills.map((skillCategory, index) => (
-            <div key={index} className="skill-category-review">
-              <span className="skill-category-name">{skillCategory.category}:</span>
-              <span className="skill-items">
-                {skillCategory.items.map((item) => `${item.name} (${item.level})`).join(", ")}
-              </span>
-            </div>
-          ))}
+      <div className="resume-preview-container">
+        <div ref={resumeRef} className="resume-preview" style={{ pageBreakInside: "avoid" }}>
+          <ResumeTemplate formData={{ ...draftData, summary }} />
         </div>
       </div>
 
       <div className="form-actions">
         <Button text="Back" version="border" onClick={prevStep} />
-        <Button text="Generate PDF" onClick={handleSubmit} />
+        <Button text="Download PDF" onClick={handleDownload} />
       </div>
-    </form>
+    </div>
   );
-};
-
-export default ReviewForm;
+}

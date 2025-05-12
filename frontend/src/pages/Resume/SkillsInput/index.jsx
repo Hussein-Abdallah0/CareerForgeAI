@@ -102,13 +102,13 @@ const SkillsInput = ({ formData, setFormData, nextStep, prevStep }) => {
               onChange={(e) => setNewSkill(e.target.value)}
               placeholder="Skill name"
             /> */}
+              <Button text="Add Skill" version="secondary-small" onClick={addSkill} />
               <select value={proficiency} onChange={(e) => setProficiency(e.target.value)}>
                 <option value="Beginner">Beginner</option>
                 <option value="Intermediate">Intermediate</option>
                 <option value="Advanced">Advanced</option>
                 <option value="Expert">Expert</option>
               </select>
-              <Button text="Add Skill" version="secondary-small" onClick={addSkill} />
             </div>
 
             <div className="skill-tags">

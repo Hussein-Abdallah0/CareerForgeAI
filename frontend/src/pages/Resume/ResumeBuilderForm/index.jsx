@@ -14,7 +14,7 @@ function ResumeBuilderForm() {
     last_name: "",
     email: "",
     phone: "",
-    linkdin: "",
+    linkedin: "",
     github: "",
     education: [
       { institution: "", degree: "", startDate: "", endDate: "", points: ["", "", "", ""] },

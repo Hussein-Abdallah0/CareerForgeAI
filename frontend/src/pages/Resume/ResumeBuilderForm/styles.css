@@ -233,13 +233,6 @@ button {
   position: relative;
 }
 
-.experience-text {
-  width: 492px;
-  border: 2px var(--primary) solid;
-  border-radius: 10px;
-  height: 50px;
-}
-
 /* Projects Section - can reuse education/experience styles */
 .projects-form {
   display: flex;
