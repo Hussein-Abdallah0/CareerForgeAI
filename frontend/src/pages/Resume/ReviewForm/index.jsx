@@ -4,6 +4,7 @@ import ResumeTemplate from "../ResumeTemplate";
 import html2pdf from "html2pdf.js";
 import axios from "axios";
 import "./styles.css";
+import axiosBaseUrl from "../../../utils/axios";
 
 export default function ReviewForm({ formData, prevStep }) {
   const resumeRef = useRef();
@@ -80,6 +81,19 @@ export default function ReviewForm({ formData, prevStep }) {
     }
   };
 
+  const saveInDatabase = async (data) => {
+    try {
+      await axiosBaseUrl.post("/resume", {
+        summary: summary,
+        job_title: "null",
+        experience: data.experience,
+        education: data.education,
+      });
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
+
   const handleDownload = () => {
     const element = resumeRef.current;
 
@@ -106,6 +120,8 @@ export default function ReviewForm({ formData, prevStep }) {
     };
 
     html2pdf().set(opt).from(element).save();
+
+    saveInDatabase(draftData);
   };
 
   return (
