@@ -10,6 +10,7 @@ import Question from "./pages/Interview/Question";
 import Result from "./pages/Interview/Result";
 import Resume from "./pages/Resume/Resume";
 import ResumeBuilderForm from "./pages/Resume/ResumeBuilderForm";
+import Salary from "./pages/Salary/Salary";
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
         {/* Resume */}
         <Route path="/resume" element={<Resume />} />
         <Route path="/resume/form" element={<ResumeBuilderForm />} />
+        {/* Salary */}
+        <Route path="/salary" element={<Salary />} />
       </Routes>
     </BrowserRouter>
   );
