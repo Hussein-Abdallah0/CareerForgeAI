@@ -68,6 +68,16 @@ export default function ReviewForm({ formData, prevStep }) {
   return (
     <div className="review-form">
       <h2>Review Your Resume</h2>
+      <div className="ai-summary">
+        <h3>Professional Summary</h3>
+        {loadingSummary ? <p>Generating…</p> : <p>{summary}</p>}
+        <Button
+          text="Regenerate Summary"
+          version="secondary-small"
+          onClick={fetchSummary}
+          disabled={loadingSummary}
+        />
+      </div>
 
       <div className="resume-preview-container">
         <div ref={resumeRef} className="resume-preview" style={{ pageBreakInside: "avoid" }}>
