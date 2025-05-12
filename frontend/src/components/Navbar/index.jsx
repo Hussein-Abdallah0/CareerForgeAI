@@ -31,7 +31,7 @@ const Navbar = ({ type }) => {
             <a href="/resume">Resume</a>
           </li>
           <li className="nav-link">
-            <a href="">Salary</a>
+            <a href="/salary">Salary</a>
           </li>
         </ul>
       )}
