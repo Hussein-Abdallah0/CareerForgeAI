@@ -12,6 +12,7 @@ import Resume from "./pages/Resume/Resume";
 import ResumeBuilderForm from "./pages/Resume/ResumeBuilderForm";
 import Salary from "./pages/Salary/Salary";
 import SalaryForm from "./pages/Salary/SalaryForm";
+import SalaryResults from "./pages/Salary/SalaryResults";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         {/* Salary */}
         <Route path="/salary" element={<Salary />} />
         <Route path="/salary/form" element={<SalaryForm />} />
+        <Route path="/salary/result" element={<SalaryResults />} />
       </Routes>
     </BrowserRouter>
   );
