@@ -15,7 +15,7 @@ const SalaryForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/salary/results", { state: formData });
+    navigate("/salary/result", { state: formData });
   };
 
   return (
