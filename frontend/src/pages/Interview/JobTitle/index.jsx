@@ -71,6 +71,9 @@ const JobTitle = () => {
 
   return (
     <div>
+      <a href="/interview">
+        <ArrowLeft className="arrow" />
+      </a>
       <p className="job-title">What field do you want to practice for?</p>
       <div className="jobs">
         {jobs.map((job, index) => {
@@ -98,10 +101,6 @@ const JobTitle = () => {
       </div>
 
       {loading && <p className="loading">Fetching questions, please wait...</p>}
-
-      <a href="/interview">
-        <ArrowLeft className="arrow" />
-      </a>
     </div>
   );
 };
