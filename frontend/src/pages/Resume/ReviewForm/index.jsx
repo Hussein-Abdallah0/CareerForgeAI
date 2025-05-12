@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../../../components/Button";
 import ResumeTemplate from "../ResumeTemplate";
 import html2pdf from "html2pdf.js";
@@ -10,7 +10,7 @@ export default function ReviewForm({ formData, prevStep }) {
   const [summary, setSummary] = useState("");
   const [loadingSummary, setLoadingSummary] = useState(false);
 
-  const fetchSummary = async () => {
+  const fetchSummary = useCallback(async () => {
     setLoadingSummary(true);
     try {
       const res = await axios.post("/api/resume/summary", {
@@ -31,11 +31,20 @@ export default function ReviewForm({ formData, prevStep }) {
     } finally {
       setLoadingSummary(false);
     }
-  };
+  }, [
+    formData.education,
+    formData.email,
+    formData.experience,
+    formData.first_name,
+    formData.last_name,
+    formData.phone,
+    formData.projects,
+    formData.skills,
+  ]);
 
   useEffect(() => {
     fetchSummary();
-  }, []);
+  }, [fetchSummary]);
 
   const handleDownload = () => {
     const element = resumeRef.current;
