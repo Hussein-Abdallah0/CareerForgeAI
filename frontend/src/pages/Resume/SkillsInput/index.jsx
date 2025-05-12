@@ -175,6 +175,11 @@ const SkillsInput = ({ formData, setFormData, nextStep, prevStep }) => {
       <div className="form-actions">
         <Button text="Back" version="border" onClick={prevStep} />
         <Button text="Next" onClick={nextStep} />
+        <Button
+          text={improving ? "Improving…" : "Next"}
+          onClick={handleImproveAndNext}
+          disabled={improving}
+        />
       </div>
     </div>
   );
