@@ -1,0 +1,74 @@
+.job-title {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.salary-range {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0;
+}
+
+.range-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.range-visual {
+  flex-grow: 1;
+}
+
+.range-track {
+  height: 20px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  position: relative;
+}
+
+.range-fill {
+  position: absolute;
+  height: 100%;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  border-radius: 10px;
+}
+
+.range-median {
+  position: absolute;
+  top: -30px;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.range-median:before {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  width: 2px;
+  height: 10px;
+  background: #333;
+}
+
+.salary-insights {
+  text-align: left;
+  margin: 2rem 0;
+}
+
+.salary-insights ul {
+  padding-left: 1.5rem;
+}
+
+.salary-insights li {
+  margin-bottom: 0.5rem;
+}
+
+.salary-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
