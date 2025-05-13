@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { speakWithOpenAITTS } from "../services/ttsService";
-import { saveAnswer, finishSession } from "./questionService";
+import { saveAnswer, finishSession } from "../services/questionService";
 import useWebSocket from "./useWebSocket";
 
 const useQuestionFlow = ({ questions, sessionId, navigate }) => {
