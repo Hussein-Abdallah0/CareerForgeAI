@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useWebSocket from "./useWebSocket";
 import { speakWithOpenAITTS } from "../services/ttsService";
 import { saveAnswer } from "../services/questionService";
@@ -31,6 +31,13 @@ const useQuestionFlow = ({ questions, sessionId, navigate }) => {
       }
     },
   });
+
+  useEffect(() => {
+    if (questions?.[currentIndex]) {
+      setCurrentQuestion(questions[currentIndex]);
+      setQuestionSpoken(false);
+    }
+  }, [currentIndex, questions]);
 
   return {
     currentIndex,
