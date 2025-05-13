@@ -1,17 +1,12 @@
-import React from "react";
-import "./styles.css";
+import React, { useState } from "react";
 import { ArrowLeft, ChevronRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import axiosBaseUrl from "../../../utils/axios";
-import Input from "../../../components/Input";
+import { Link } from "react-router-dom";
 import Button from "../../../components/Button";
-import { useState } from "react";
+import Input from "../../../components/Input";
+import { useInterviewSession } from "../../../hooks/useInterviewSession";
+import "./styles.css";
 
-const JobTitle = () => {
-  const navigate = useNavigate();
-  const [customJob, setCustomJob] = useState("");
-  const [loading, setLoading] = useState(false);
-
+export default function JobTitle() {
   const jobs = [
     "Software Engineer",
     "Data Analytics",
@@ -20,89 +15,40 @@ const JobTitle = () => {
     "Project Management",
     "Cyber Security",
   ];
+  const [custom, setCustom] = useState("");
+  const { loading, start } = useInterviewSession();
 
-  const handleJobClick = async (job) => {
-    setLoading(true);
-    try {
-      const sessionRes = await axiosBaseUrl.post("/interview", {
-        job_title: job,
-      });
-
-      const sessionId = sessionRes.data.payload.id;
-
-      const questionsRes = await fetch("http://localhost:8080/generate-questions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ job }),
-      });
-
-      const questionsData = await questionsRes.json();
-
-      if (questionsData.questions) {
-        // 3. Store questions in Laravel
-        const questionsWithIds = await Promise.all(
-          questionsData.questions.map(async (question) => {
-            const res = await axiosBaseUrl.post(`/interview/${sessionId}/question`, { question });
-            return {
-              text: question,
-              id: res.data.payload.id,
-            };
-          })
-        );
-
-        // 4. Navigate with both questions and session ID
-        navigate("/interview/questions", {
-          state: {
-            questions: questionsWithIds,
-            sessionId,
-          },
-        });
-      }
-    } catch (err) {
-      console.error("Error:", err);
-    }
-  };
-
-  const handleCustomSubmit = () => {
-    if (customJob.trim() !== "" && !loading) {
-      handleJobClick(customJob.trim());
-    }
+  const handle = (job) => {
+    if (!loading) start(job);
   };
 
   return (
     <div>
-      <a href="/interview">
+      <Link to="/interview">
         <ArrowLeft className="arrow" />
-      </a>
+      </Link>
       <p className="job-title">What field do you want to practice for?</p>
       <div className="jobs">
-        {jobs.map((job, index) => {
-          return (
-            <div
-              key={index}
-              className={`job ${loading ? "disabled" : ""}`}
-              onClick={() => handleJobClick(job)}
-            >
-              {job}
-              <ChevronRight />
-            </div>
-          );
-        })}
+        {jobs.map((job, i) => (
+          <div key={i} className={`job ${loading ? "disabled" : ""}`} onClick={() => handle(job)}>
+            {job}
+            <ChevronRight />
+          </div>
+        ))}
       </div>
-
       <div className="custom-job-input">
         <Input
-          type="text"
           placeholder="Enter your field..."
-          value={customJob}
-          onChange={(e) => setCustomJob(e.target.value)}
+          value={custom}
+          onChange={(e) => setCustom(e.target.value)}
         />
-        <Button version="secondary-small" onClick={handleCustomSubmit} text="Start" />
+        <Button
+          version="secondary-small"
+          onClick={() => custom.trim() && handle(custom.trim())}
+          text="Start"
+        />
       </div>
-
       {loading && <p className="loading">Fetching questions, please wait...</p>}
     </div>
   );
-};
-
-export default JobTitle;
+}

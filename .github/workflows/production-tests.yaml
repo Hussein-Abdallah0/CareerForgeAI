@@ -1,4 +1,4 @@
-name: Production Tests
+name: Run Laravel Tests with MySQL
 
 on:
   pull_request:
@@ -7,6 +7,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     services:
       mysql:
         image: mysql:8.0
@@ -19,24 +20,35 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup PHP
+
+      - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
           extensions: mbstring, xml, mysql, zip, gd
-      - name: Setup test environment
-        run: |
-          cp backend/.env.example backend/.env.test
-          echo "APP_ENV=testing" >> backend/.env.test
-          echo "DB_HOST=127.0.0.1" >> backend/.env.test
-          echo "DB_DATABASE=testdb" >> backend/.env.test
-          echo "DB_USERNAME=root" >> backend/.env.test
-          echo "DB_PASSWORD=1234" >> backend/.env.test
-      - name: Run tests
+
+      - name: Install Composer Dependencies
         run: |
           cd backend
           composer install --no-interaction --prefer-dist
-          cp .env.test .env
+
+      - name: Set up Environment File
+        run: |
+          cd backend
+          cp .env.example .env
+          echo "APP_ENV=testing" >> .env
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=testdb" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=1234" >> .env
           php artisan key:generate
+          php artisan jwt:secret
           php artisan config:clear
+
+      - name: Run Tests
+        run: |
+          cd backend
+          php artisan migrate:fresh --env=testing
           php artisan test

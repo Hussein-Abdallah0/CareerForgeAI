@@ -83,18 +83,57 @@ export default function ReviewForm({ formData, prevStep }) {
 
   const saveInDatabase = async (data) => {
     try {
-      await axiosBaseUrl.post("/resume", {
+      //save resume in database
+      const resumeResponse = await axiosBaseUrl.post("/resume", {
         summary: summary,
         job_title: "null",
         experience: data.experience,
         education: data.education,
       });
+
+      //save skills data
+      const skills = data.skills.flatMap((category) =>
+        category.items.map((item) => ({
+          name: item.name,
+          proficiency: mapLevelToProficiency(item.level),
+        }))
+      );
+
+      // Save each skill to the user's profile
+      for (const skill of skills) {
+        try {
+          await axiosBaseUrl.post("/skill", {
+            skill_name: skill.name,
+            proficiency: skill.proficiency,
+          });
+        } catch (err) {
+          console.error(`Failed to save skill ${skill.name}:`, err);
+        }
+      }
+
+      return resumeResponse.data;
     } catch (err) {
       console.error("Error:", err);
     }
   };
 
-  const handleDownload = () => {
+  // Helper function since i have the proficiency as integer in database
+  const mapLevelToProficiency = (level) => {
+    switch (level.toLowerCase()) {
+      case "beginner":
+        return 1;
+      case "intermediate":
+        return 2;
+      case "advanced":
+        return 3;
+      case "expert":
+        return 4;
+      default:
+        return 1;
+    }
+  };
+
+  const handleDownload = async () => {
     const element = resumeRef.current;
 
     const opt = {
@@ -121,7 +160,11 @@ export default function ReviewForm({ formData, prevStep }) {
 
     html2pdf().set(opt).from(element).save();
 
-    saveInDatabase(draftData);
+    try {
+      await saveInDatabase(draftData);
+    } catch (err) {
+      console.error("Failed to save data:", err);
+    }
   };
 
   return (
@@ -130,7 +173,7 @@ export default function ReviewForm({ formData, prevStep }) {
 
       <div className="ai-summary">
         <h3>Regenerate Summary</h3>
-        {loadingImprove ? (
+        {loadingSummary ? (
           <p>Generating Summary…</p>
         ) : (
           <p>Click below to regenerate summary if you want.</p>
