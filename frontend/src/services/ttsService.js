@@ -8,7 +8,7 @@ export const speakWithOpenAITTS = async (text) => {
       },
       body: JSON.stringify({
         model: "tts-1",
-        voice: "onyx", // or 'nova' for female
+        voice: "onyx",
         input: text,
       }),
     });
