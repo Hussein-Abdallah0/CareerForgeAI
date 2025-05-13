@@ -39,6 +39,13 @@ const useQuestionFlow = ({ questions, sessionId, navigate }) => {
     }
   }, [currentIndex, questions]);
 
+  useEffect(() => {
+    if (currentQuestion?.text && !questionSpoken) {
+      speakWithOpenAITTS(currentQuestion.text);
+      setQuestionSpoken(true);
+    }
+  }, [currentQuestion, questionSpoken]);
+
   return {
     currentIndex,
     currentQuestion,
