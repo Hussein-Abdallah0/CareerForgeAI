@@ -68,7 +68,7 @@ const Question = () => {
   };
 
   return (
-    <div>
+    <div className="question">
       <div className="question-div">
         <div className="number">
           <p>
