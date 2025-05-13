@@ -5,3 +5,9 @@ export const saveAnswer = async (questionId, answer) => {
     user_answer: answer,
   });
 };
+
+export const finishSession = async (sessionId, aiResponses) => {
+  return axiosBaseUrl.patch(`/interview/${sessionId}/finish`, {
+    ai_feedback: JSON.stringify(aiResponses),
+  });
+};
