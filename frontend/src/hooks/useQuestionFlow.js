@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { speakWithOpenAITTS } from "./ttsService";
+import { saveAnswer, finishSession } from "./questionService";
 import useWebSocket from "./useWebSocket";
-import { speakWithOpenAITTS } from "../services/ttsService";
-import { saveAnswer } from "../services/questionService";
 
 const useQuestionFlow = ({ questions, sessionId, navigate }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -64,6 +64,22 @@ const useQuestionFlow = ({ questions, sessionId, navigate }) => {
     setIsRecording(!isRecording);
   };
 
+  const goNext = () => {
+    if (currentIndex < questions.length - 1) setCurrentIndex((i) => i + 1);
+  };
+
+  const endInterview = async () => {
+    await finishSession(sessionId, aiResponses);
+    navigate("/interview/result", {
+      state: {
+        questions: questions.map((q) => q.text),
+        userResponses: transcriptions,
+        aiFeedback: aiResponses,
+        sessionId,
+      },
+    });
+  };
+
   return {
     currentIndex,
     currentQuestion,
@@ -71,6 +87,8 @@ const useQuestionFlow = ({ questions, sessionId, navigate }) => {
     aiResponses,
     transcriptions,
     toggleRecording,
+    goNext,
+    endInterview,
   };
 };
 
