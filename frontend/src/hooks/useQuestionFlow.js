@@ -46,12 +46,31 @@ const useQuestionFlow = ({ questions, sessionId, navigate }) => {
     }
   }, [currentQuestion, questionSpoken]);
 
+  const toggleRecording = async () => {
+    if (!isRecording) {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder.current = new MediaRecorder(stream);
+      mediaRecorder.current.start();
+
+      mediaRecorder.current.ondataavailable = (e) => {
+        if (ws.current?.readyState === WebSocket.OPEN) {
+          ws.current.send(JSON.stringify({ questionText: currentQuestion?.text }));
+          ws.current.send(e.data);
+        }
+      };
+    } else {
+      mediaRecorder.current.stop();
+    }
+    setIsRecording(!isRecording);
+  };
+
   return {
     currentIndex,
     currentQuestion,
     isRecording,
     aiResponses,
     transcriptions,
+    toggleRecording,
   };
 };
 
