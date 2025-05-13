@@ -34,7 +34,22 @@ const initialState = {
 const resumeSlice = createSlice({
   name: "resume",
   initialState,
-  reducers: {},
+  reducers: {
+    setStep: (state, action) => {
+      state.step = action.payload;
+    },
+    updateFormData: (state, action) => {
+      state.formData = { ...state.formData, ...action.payload };
+    },
+    setSummary: (state, action) => {
+      state.summary = action.payload;
+    },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+    resetResume: () => initialState,
+  },
 });
 
+export const { setStep, updateFormData, setSummary, setLoading, resetResume } = resumeSlice.actions;
 export default resumeSlice.reducer;
