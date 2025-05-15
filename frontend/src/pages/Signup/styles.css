@@ -40,6 +40,10 @@
   text-align: start;
 }
 
+.signup-section a {
+  color: var(--primary);
+}
+
 /*------------------------------- responsive section------------------- */
 
 @media (max-width: 976px) {
