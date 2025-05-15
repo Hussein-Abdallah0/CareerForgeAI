@@ -63,7 +63,7 @@ const Signup = () => {
 
           <Button
             version="primary"
-            text={isSubmitting ? "Creating account..." : "Sign Up"}
+            text={isSubmitting ? "Signing Up..." : "Sign Up"}
             type="submit"
             disabled={isSubmitting}
           />

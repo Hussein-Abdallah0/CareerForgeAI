@@ -3,10 +3,12 @@ import Button from "../../../components/Button";
 import ResumeTemplate from "../ResumeTemplate";
 import html2pdf from "html2pdf.js";
 import axios from "axios";
-import "./styles.css";
 import axiosBaseUrl from "../../../utils/axios";
+import { useNavigate } from "react-router-dom";
+import "./styles.css";
 
 export default function ReviewForm({ formData, prevStep }) {
+  const navigate = useNavigate();
   const resumeRef = useRef();
   const hasFetchedSummary = useRef(false); // fix: track first fetch
   const [draftData, setDraftData] = useState(formData);
@@ -210,6 +212,7 @@ export default function ReviewForm({ formData, prevStep }) {
       <div className="form-actions">
         <Button text="Back" version="border" onClick={prevStep} />
         <Button text="Download PDF" onClick={handleDownload} />
+        <Button text="end" version="secondary" onClick={() => navigate("/dashboard")} />
       </div>
     </div>
   );
