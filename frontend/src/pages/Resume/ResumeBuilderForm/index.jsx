@@ -6,6 +6,7 @@ import EducationForm from "../EducationForm";
 import ExperienceForm from "../ExperienceForm";
 import ProjectsForm from "../ProjectsForm";
 import ReviewForm from "../ReviewForm";
+import JobDescriptionForm from "../JobDescription";
 
 function ResumeBuilderForm() {
   const [step, setStep] = useState(1);
@@ -52,7 +53,15 @@ function ResumeBuilderForm() {
   };
 
   // Step names for the progress indicator
-  const steps = ["Personal Info", "Education", "Experience", "Projects", "Skills", "Review"];
+  const steps = [
+    "Personal Info",
+    "Education",
+    "Experience",
+    "Projects",
+    "Skills",
+    "Description",
+    "Review",
+  ];
 
   return (
     <div className="multi-step-form">
@@ -117,7 +126,16 @@ function ResumeBuilderForm() {
           />
         )}
 
-        {step === 6 && <ReviewForm formData={formData} prevStep={prevStep} />}
+        {step === 6 && (
+          <JobDescriptionForm
+            formData={formData}
+            setFormData={setFormData}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
+        )}
+
+        {step === 7 && <ReviewForm formData={formData} prevStep={prevStep} />}
       </div>
     </div>
   );
