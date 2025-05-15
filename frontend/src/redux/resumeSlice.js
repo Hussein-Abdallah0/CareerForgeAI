@@ -15,7 +15,6 @@ const initialState = {
     experience: [
       { company: "", position: "", startDate: "", endDate: "", points: ["", "", "", ""] },
     ],
-    skills: [{ category: "Programming Languages", items: [] }],
     projects: [
       {
         title: "",
@@ -26,30 +25,52 @@ const initialState = {
         technologies: "",
       },
     ],
+    skills: [
+      {
+        category: "Programming Languages",
+        items: [
+          { name: "JavaScript", level: "Intermediate" },
+          { name: "Python", level: "Beginner" },
+        ],
+      },
+    ],
+    jobDescription: "",
   },
-  summary: "",
-  isLoading: false,
 };
 
 const resumeSlice = createSlice({
   name: "resume",
   initialState,
   reducers: {
-    setStep: (state, action) => {
-      state.step = action.payload;
+    nextStep(state) {
+      state.step += 1;
     },
-    updateFormData: (state, action) => {
-      state.formData = { ...state.formData, ...action.payload };
+    prevStep(state) {
+      state.step -= 1;
     },
-    setSummary: (state, action) => {
-      state.summary = action.payload;
+    updateField(state, action) {
+      const { path, value } = action.payload;
+      let cursor = state.formData;
+      for (let i = 0; i < path.length - 1; i++) {
+        cursor = cursor[path[i]];
+      }
+      cursor[path[path.length - 1]] = value;
     },
-    setLoading: (state, action) => {
-      state.isLoading = action.payload;
+    addArrayItem(state, action) {
+      const { key, template } = action.payload;
+      state.formData[key].push(template);
     },
-    resetResume: () => initialState,
+    removeArrayItem(state, action) {
+      const { key, index } = action.payload;
+      state.formData[key].splice(index, 1);
+    },
+    replaceDraftData(state, action) {
+      state.formData = action.payload;
+    },
   },
 });
 
-export const { setStep, updateFormData, setSummary, setLoading, resetResume } = resumeSlice.actions;
+export const { nextStep, prevStep, updateField, addArrayItem, removeArrayItem, replaceDraftData } =
+  resumeSlice.actions;
+
 export default resumeSlice.reducer;

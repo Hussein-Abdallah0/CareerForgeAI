@@ -4,7 +4,7 @@ const openai = require("./openaiClient");
 
 // Generate resume summary
 router.post("/summary", async (req, res) => {
-  const { personal, education, experience, projects, skills } = req.body;
+  const { personal, education, experience, projects, skills, jobDescription } = req.body;
   const prompt = `
     You are an HR expert
     Tailor a professional summary (max 3 lines) to this job description:
