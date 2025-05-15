@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useSelector } from "react-redux";
 import SkillsInput from "../SkillsInput";
 import "./styles.css";
 import PersonalInfoForm from "../PersonalInfoForm";
@@ -9,50 +9,8 @@ import ReviewForm from "../ReviewForm";
 import JobDescriptionForm from "../JobDescription";
 
 function ResumeBuilderForm() {
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone: "",
-    linkedin: "",
-    github: "",
-    education: [
-      { institution: "", degree: "", startDate: "", endDate: "", points: ["", "", "", ""] },
-    ],
-    experience: [
-      { company: "", position: "", startDate: "", endDate: "", points: ["", "", "", ""] },
-    ],
-    skills: [
-      {
-        category: "Programming Languages",
-        items: [
-          { name: "JavaScript", level: "Intermediate" },
-          { name: "Python", level: "Beginner" },
-        ],
-      },
-    ],
-    projects: [
-      {
-        title: "",
-        description: "",
-        startDate: "",
-        endDate: "",
-        points: ["", "", "", ""],
-        technologies: "",
-      },
-    ],
-    jobDescription: "",
-  });
+  const step = useSelector((state) => state.resume.step);
 
-  const nextStep = () => setStep(step + 1);
-  const prevStep = () => setStep(step - 1);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // Step names for the progress indicator
   const steps = [
     "Personal Info",
     "Education",
@@ -86,56 +44,13 @@ function ResumeBuilderForm() {
 
       {/* Form Content */}
       <div className="form-content">
-        {step === 1 && (
-          <PersonalInfoForm formData={formData} handleChange={handleChange} nextStep={nextStep} />
-        )}
-
-        {step === 2 && (
-          <EducationForm
-            formData={formData}
-            setFormData={setFormData}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-
-        {step === 3 && (
-          <ExperienceForm
-            formData={formData}
-            setFormData={setFormData}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-
-        {step === 4 && (
-          <ProjectsForm
-            formData={formData}
-            setFormData={setFormData}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-
-        {step === 5 && (
-          <SkillsInput
-            formData={formData}
-            setFormData={setFormData}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-
-        {step === 6 && (
-          <JobDescriptionForm
-            formData={formData}
-            setFormData={setFormData}
-            nextStep={nextStep}
-            prevStep={prevStep}
-          />
-        )}
-
-        {step === 7 && <ReviewForm formData={formData} prevStep={prevStep} />}
+        {step === 1 && <PersonalInfoForm />}
+        {step === 2 && <EducationForm />}
+        {step === 3 && <ExperienceForm />}
+        {step === 4 && <ProjectsForm />}
+        {step === 5 && <SkillsInput />}
+        {step === 6 && <JobDescriptionForm />}
+        {step === 7 && <ReviewForm />}
       </div>
     </div>
   );

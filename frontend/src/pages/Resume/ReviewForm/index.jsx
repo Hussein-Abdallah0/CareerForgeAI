@@ -1,16 +1,25 @@
+// src/pages/ResumeBuilder/ReviewForm.jsx
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/Button";
 import ResumeTemplate from "../ResumeTemplate";
 import html2pdf from "html2pdf.js";
 import axios from "axios";
 import axiosBaseUrl from "../../../utils/axios";
 import { useNavigate } from "react-router-dom";
+import { prevStep } from "../../../redux/resumeSlice";
 import "./styles.css";
 
-export default function ReviewForm({ formData, prevStep }) {
+export default function ReviewForm() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const resumeRef = useRef();
-  const hasFetchedSummary = useRef(false); // fix: track first fetch
+  const hasFetchedSummary = useRef(false);
+
+  // pull the full formData from Redux
+  const formData = useSelector((state) => state.resume.formData);
+
+  // local draftData so we can improve bullets independently
   const [draftData, setDraftData] = useState(formData);
   const [summary, setSummary] = useState("");
   const [loadingSummary, setLoadingSummary] = useState(false);
@@ -45,6 +54,7 @@ export default function ReviewForm({ formData, prevStep }) {
       hasFetchedSummary.current = true;
       fetchSummary();
     }
+    // we only want this on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -55,7 +65,6 @@ export default function ReviewForm({ formData, prevStep }) {
         ...draftData.experience.flatMap((e) => e.points),
         ...draftData.projects.flatMap((p) => p.points),
       ];
-
       const res = await axios.post("http://localhost:8080/api/resume/improve-bullets", { bullets });
       const improved = res.data.improved;
 
@@ -65,18 +74,13 @@ export default function ReviewForm({ formData, prevStep }) {
         idx += exp.points.length;
         return { ...exp, points: newPoints };
       });
-
       const newProjects = draftData.projects.map((proj) => {
         const newPoints = improved.slice(idx, idx + proj.points.length);
         idx += proj.points.length;
         return { ...proj, points: newPoints };
       });
 
-      setDraftData({
-        ...draftData,
-        experience: newExperience,
-        projects: newProjects,
-      });
+      setDraftData({ ...draftData, experience: newExperience, projects: newProjects });
     } catch (err) {
       console.error("Failed to improve bullets:", err);
     } finally {
@@ -84,43 +88,6 @@ export default function ReviewForm({ formData, prevStep }) {
     }
   };
 
-  const saveInDatabase = async (data) => {
-    try {
-      //save resume in database
-      const resumeResponse = await axiosBaseUrl.post("/resume", {
-        summary: summary,
-        job_title: "null",
-        experience: data.experience,
-        education: data.education,
-      });
-
-      //save skills data
-      const skills = data.skills.flatMap((category) =>
-        category.items.map((item) => ({
-          name: item.name,
-          proficiency: mapLevelToProficiency(item.level),
-        }))
-      );
-
-      // Save each skill to the user's profile
-      for (const skill of skills) {
-        try {
-          await axiosBaseUrl.post("/skill", {
-            skill_name: skill.name,
-            proficiency: skill.proficiency,
-          });
-        } catch (err) {
-          console.error(`Failed to save skill ${skill.name}:`, err);
-        }
-      }
-
-      return resumeResponse.data;
-    } catch (err) {
-      console.error("Error:", err);
-    }
-  };
-
-  // Helper function since i have the proficiency as integer in database
   const mapLevelToProficiency = (level) => {
     switch (level.toLowerCase()) {
       case "beginner":
@@ -136,9 +103,41 @@ export default function ReviewForm({ formData, prevStep }) {
     }
   };
 
+  const saveInDatabase = async (data) => {
+    try {
+      const resumeResponse = await axiosBaseUrl.post("/resume", {
+        summary,
+        job_title: "null",
+        experience: data.experience,
+        education: data.education,
+      });
+
+      const skillsToSave = data.skills.flatMap((category) =>
+        category.items.map((item) => ({
+          name: item.name,
+          proficiency: mapLevelToProficiency(item.level),
+        }))
+      );
+
+      for (const skill of skillsToSave) {
+        try {
+          await axiosBaseUrl.post("/skill", {
+            skill_name: skill.name,
+            proficiency: skill.proficiency,
+          });
+        } catch (err) {
+          console.error(`Failed to save skill ${skill.name}:`, err);
+        }
+      }
+
+      return resumeResponse.data;
+    } catch (err) {
+      console.error("Error saving resume:", err);
+    }
+  };
+
   const handleDownload = async () => {
     const element = resumeRef.current;
-
     const opt = {
       margin: 0,
       filename: `${draftData.first_name}_${draftData.last_name}_Resume.pdf`,
@@ -150,15 +149,8 @@ export default function ReviewForm({ formData, prevStep }) {
         letterRendering: true,
         logging: true,
       },
-      jsPDF: {
-        unit: "mm",
-        format: "a4",
-        orientation: "portrait",
-      },
-      pagebreak: {
-        mode: "avoid-all",
-        before: "#avoid-before-element",
-      },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: "avoid-all", before: "#avoid-before-element" },
     };
 
     html2pdf().set(opt).from(element).save();
@@ -179,7 +171,7 @@ export default function ReviewForm({ formData, prevStep }) {
         {loadingSummary ? (
           <p>Generating Summary…</p>
         ) : (
-          <p>Click below to regenerate summary if you want.</p>
+          <p>Click below to regenerate your summary.</p>
         )}
         <Button
           text="Regenerate"
@@ -194,7 +186,7 @@ export default function ReviewForm({ formData, prevStep }) {
         {loadingImprove ? (
           <p>Improving bullet points…</p>
         ) : (
-          <p>Click below to improve your bullet points to be more action-driven and concise.</p>
+          <p>Click below to make your bullets more action-driven and concise.</p>
         )}
         <Button
           text="Improve Bullets"
@@ -211,9 +203,9 @@ export default function ReviewForm({ formData, prevStep }) {
       </div>
 
       <div className="form-actions">
-        <Button text="Back" version="border" onClick={prevStep} />
+        <Button text="Back" version="border" onClick={() => dispatch(prevStep())} />
         <Button text="Download PDF" onClick={handleDownload} />
-        <Button text="end" version="secondary" onClick={() => navigate("/dashboard")} />
+        <Button text="End" version="secondary" onClick={() => navigate("/dashboard")} />
       </div>
     </div>
   );
