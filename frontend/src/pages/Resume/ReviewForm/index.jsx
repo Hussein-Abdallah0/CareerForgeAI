@@ -1,4 +1,3 @@
-// src/pages/ResumeBuilder/ReviewForm.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/Button";

@@ -1,4 +1,3 @@
-// src/pages/ResumeBuilder/SkillsInput.jsx
 import React, { useState } from "react";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";

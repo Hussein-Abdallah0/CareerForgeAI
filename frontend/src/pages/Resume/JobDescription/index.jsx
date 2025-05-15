@@ -1,4 +1,3 @@
-// src/pages/ResumeBuilder/JobDescriptionForm.jsx
 import React from "react";
 import Button from "../../../components/Button";
 import "./styles.css";

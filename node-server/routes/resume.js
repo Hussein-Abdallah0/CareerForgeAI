@@ -2,25 +2,54 @@ const express = require("express");
 const router = express.Router();
 const openai = require("./openaiClient");
 
+// helper to parse "MM/YYYY" into a JS Date
+function parseMMYYYY(str) {
+  const [month, year] = str.split("/").map((v) => parseInt(v, 10));
+  return new Date(year, month - 1);
+}
+
+// helper to compute months between two dates
+function diffInMonths(start, end) {
+  return (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+}
+
 // Generate resume summary
 router.post("/summary", async (req, res) => {
   const { personal, education, experience, projects, skills, jobDescription } = req.body;
+
+  // Compute total months & years of experience
+  let totalMonths = 0;
+  const expLines = experience.map((exp) => {
+    const start = parseMMYYYY(exp.startDate);
+    const end = exp.endDate.toLowerCase() === "present" ? new Date() : parseMMYYYY(exp.endDate);
+    const months = diffInMonths(start, end);
+    totalMonths += months;
+
+    return `• ${exp.position} at ${exp.company} (${exp.startDate} – ${exp.endDate})`;
+  });
+  const totalYears = (totalMonths / 12).toFixed(1);
+
   const prompt = `
-    You are an HR expert
-    Tailor a professional summary (max 3 lines) to this job description:
-    ${jobDescription}
+You are an HR expert. Write a concise (max 3 lines) professional summary tailored to this job description:
 
-    Candidate details:
-    Personal: ${personal.first_name} ${personal.last_name}, ${personal.email}, ${personal.phone}
-    Education: ${education.map((e) => `${e.degree} at ${e.institution}`).join("; ")}
-    Experience and Projects: ${[...experience, ...projects]
-      .flatMap((item) => item.points)
-      .join("; ")}
-    Skills: ${skills.map((s) => s.items.map((i) => i.name).join(", ")).join("; ")}.
+${jobDescription}
 
-    Keep it concise, highlight strengths, and include keywords from the Job Description.
-    Do not include the person's name
-  `;
+Candidate snapshot:
+- Name/email/phone: ${personal.first_name} ${personal.last_name} / ${personal.email} / ${
+    personal.phone
+  }
+- Education: ${education
+    .map((e) => `${e.degree} at ${e.institution} (${e.startDate}-${e.endDate})`)
+    .join("; ")}
+- Experience (${totalYears} years total):
+${expLines.join("\n")}
+- Projects highlights: ${projects
+    .map((p) => `${p.title} (${p.startDate}-${p.endDate}): ${p.points.join("; ")}`)
+    .join(" | ")}
+- Key skills: ${skills.map((s) => s.items.map((i) => i.name).join(", ")).join("; ")}
+
+Keep it punchy, accurate to dates and totals, highlight strengths, and echo keywords from the JD. Don't mention the candidate's name.
+`;
 
   try {
     const completion = await openai.chat.completions.create({
@@ -29,7 +58,7 @@ router.post("/summary", async (req, res) => {
     });
     res.json({ summary: completion.choices[0].message.content.trim() });
   } catch (err) {
-    console.error(err);
+    console.error("OpenAI error:", err);
     res.status(500).json({ error: "Failed to generate summary" });
   }
 });
