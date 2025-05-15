@@ -1,13 +1,13 @@
-import axios from "axios";
 import axiosBaseUrl from "../utils/axios";
+import axiosNode from "../utils/axiosNode";
 
 export async function fetchSummaryAPI(payload) {
-  const res = await axios.post("http://localhost:8080/api/resume/summary", payload);
+  const res = await axiosNode.post("/api/resume/summary", payload);
   return res.data.summary;
 }
 
 export async function improveBulletsAPI(bullets) {
-  const res = await axios.post("http://localhost:8080/api/resume/improve-bullets", { bullets });
+  const res = await axiosNode.post("/api/resume/improve-bullets", { bullets });
   return res.data.improved;
 }
 

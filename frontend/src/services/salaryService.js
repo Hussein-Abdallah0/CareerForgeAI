@@ -1,10 +1,10 @@
+import axiosNode from "../utils/axiosNode";
 import axiosBase from "../utils/axios";
-import axios from "axios";
-
-const API_AI = "http://localhost:8080/api/salary/generate-salary";
 
 export default {
-  generate: (data) => axios.post(API_AI, data).then((r) => r.data.payload),
+  generate: (data) =>
+    axiosNode.post("/api/salary/generate-salary", data).then((r) => r.data.payload),
+
   saveAnalysis: (payload) =>
     axiosBase.post("/analysis", {
       job_title: payload.jobTitle,

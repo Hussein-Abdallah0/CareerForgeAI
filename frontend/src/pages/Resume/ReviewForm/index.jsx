@@ -83,7 +83,7 @@ export default function ReviewForm() {
       <div className="form-actions">
         <Button text="Back" version="border" onClick={() => dispatch(prevStep())} />
         <Button
-          text={saving ? "Saving…" : "Download & Save"}
+          text={saving ? "Saving…" : "Download"}
           onClick={handleDownloadAndSave}
           disabled={saving}
         />

@@ -13,11 +13,19 @@ function diffInMonths(start, end) {
   return (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
 }
 
-// Generate resume summary
+// format months into "X years and Y months" or "Z months"
+function formatDuration(totalMonths) {
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+  const parts = [];
+  if (years) parts.push(`${years} year${years > 1 ? "s" : ""}`);
+  if (months) parts.push(`${months} month${months > 1 ? "s" : ""}`);
+  return parts.length ? parts.join(" and ") : "0 months";
+}
+
 router.post("/summary", async (req, res) => {
   const { personal, education, experience, projects, skills, jobDescription } = req.body;
 
-  // Compute total months & years of experience
   let totalMonths = 0;
   const expLines = experience.map((exp) => {
     const start = parseMMYYYY(exp.startDate);
@@ -25,30 +33,45 @@ router.post("/summary", async (req, res) => {
     const months = diffInMonths(start, end);
     totalMonths += months;
 
-    return `• ${exp.position} at ${exp.company} (${exp.startDate} – ${exp.endDate})`;
+    // use nice month names
+    const fmtStart = start.toLocaleString("en", { month: "short", year: "numeric" });
+    const fmtEnd =
+      end === "present" ? "Present" : end.toLocaleString("en", { month: "short", year: "numeric" });
+
+    return `• ${exp.position} at ${exp.company} (${fmtStart} – ${fmtEnd})`;
   });
-  const totalYears = (totalMonths / 12).toFixed(1);
+
+  const experienceDuration = formatDuration(totalMonths);
 
   const prompt = `
-You are an HR expert. Write a concise (max 3 lines) professional summary tailored to this job description:
+You are an HR expert. Write a concise (max 3 lines) professional summary for this job:
 
 ${jobDescription}
 
 Candidate snapshot:
-- Name/email/phone: ${personal.first_name} ${personal.last_name} / ${personal.email} / ${
-    personal.phone
-  }
 - Education: ${education
-    .map((e) => `${e.degree} at ${e.institution} (${e.startDate}-${e.endDate})`)
+    .map((e) => {
+      const s = parseMMYYYY(e.startDate);
+      const en = parseMMYYYY(e.endDate);
+      const fs = s.toLocaleString("en", { month: "short", year: "numeric" });
+      const fe = en.toLocaleString("en", { month: "short", year: "numeric" });
+      return `${e.degree} at ${e.institution} (${fs} – ${fe})`;
+    })
     .join("; ")}
-- Experience (${totalYears} years total):
+- Professional experience: ${experienceDuration}
 ${expLines.join("\n")}
-- Projects highlights: ${projects
-    .map((p) => `${p.title} (${p.startDate}-${p.endDate}): ${p.points.join("; ")}`)
-    .join(" | ")}
+- Projects: ${projects
+    .map((p) => {
+      const s = parseMMYYYY(p.startDate);
+      const en = parseMMYYYY(p.endDate);
+      const fs = s.toLocaleString("en", { month: "short", year: "numeric" });
+      const fe = en.toLocaleString("en", { month: "short", year: "numeric" });
+      return `${p.title} (${fs} – ${fe})`;
+    })
+    .join("; ")}
 - Key skills: ${skills.map((s) => s.items.map((i) => i.name).join(", ")).join("; ")}
 
-Keep it punchy, accurate to dates and totals, highlight strengths, and echo keywords from the JD. Don't mention the candidate's name.
+Keep it punchy, accurate to dates and totals, highlight strengths, echo keywords from the JD, and don’t mention the candidate’s name.
 `;
 
   try {
