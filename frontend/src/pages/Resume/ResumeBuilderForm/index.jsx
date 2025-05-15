@@ -41,6 +41,7 @@ function ResumeBuilderForm() {
         technologies: "",
       },
     ],
+    jobDescription: "",
   });
 
   const nextStep = () => setStep(step + 1);
