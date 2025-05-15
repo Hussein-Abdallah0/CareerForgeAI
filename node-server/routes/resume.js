@@ -6,7 +6,11 @@ const openai = require("./openaiClient");
 router.post("/summary", async (req, res) => {
   const { personal, education, experience, projects, skills } = req.body;
   const prompt = `
-    Write a professional summary (max 3 lines) for a resume based on:
+    You are an HR expert
+    Tailor a professional summary (max 3 lines) to this job description:
+    ${jobDescription}
+
+    Candidate details:
     Personal: ${personal.first_name} ${personal.last_name}, ${personal.email}, ${personal.phone}
     Education: ${education.map((e) => `${e.degree} at ${e.institution}`).join("; ")}
     Experience and Projects: ${[...experience, ...projects]
@@ -14,7 +18,7 @@ router.post("/summary", async (req, res) => {
       .join("; ")}
     Skills: ${skills.map((s) => s.items.map((i) => i.name).join(", ")).join("; ")}.
 
-    The tone should be concise and highlight strengths.
+    Keep it concise, highlight strengths, and include keywords from the Job Description.
     Do not include the person's name
   `;
 

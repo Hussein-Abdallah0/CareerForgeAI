@@ -30,6 +30,7 @@ export default function ReviewForm({ formData, prevStep }) {
         experience: draftData.experience,
         projects: draftData.projects,
         skills: draftData.skills,
+        jobDescription: draftData.jobDescription,
       });
       setSummary(res.data.summary);
     } catch (err) {
