@@ -38,7 +38,7 @@ router.post("/summary", async (req, res) => {
     const fmtEnd =
       end === "present" ? "Present" : end.toLocaleString("en", { month: "short", year: "numeric" });
 
-    return `• ${exp.position} at ${exp.company} (${fmtStart} – ${fmtEnd})`;
+    return `• ${exp.position} at ${exp.company} (${fmtStart} - ${fmtEnd})`;
   });
 
   const experienceDuration = formatDuration(totalMonths);
@@ -55,7 +55,7 @@ Candidate snapshot:
       const en = parseMMYYYY(e.endDate);
       const fs = s.toLocaleString("en", { month: "short", year: "numeric" });
       const fe = en.toLocaleString("en", { month: "short", year: "numeric" });
-      return `${e.degree} at ${e.institution} (${fs} – ${fe})`;
+      return `${e.degree} at ${e.institution} (${fs} - ${fe})`;
     })
     .join("; ")}
 - Professional experience: ${experienceDuration}
@@ -66,12 +66,12 @@ ${expLines.join("\n")}
       const en = parseMMYYYY(p.endDate);
       const fs = s.toLocaleString("en", { month: "short", year: "numeric" });
       const fe = en.toLocaleString("en", { month: "short", year: "numeric" });
-      return `${p.title} (${fs} – ${fe})`;
+      return `${p.title} (${fs} - ${fe})`;
     })
     .join("; ")}
 - Key skills: ${skills.map((s) => s.items.map((i) => i.name).join(", ")).join("; ")}
 
-Keep it punchy, accurate to dates and totals, highlight strengths, echo keywords from the JD, and don’t mention the candidate’s name.
+Keep it punchy, accurate to dates and totals, highlight strengths, echo keywords from the JD, and don't mention the candidate's name.
 `;
 
   try {
@@ -88,29 +88,67 @@ Keep it punchy, accurate to dates and totals, highlight strengths, echo keywords
 
 // Improve bullets
 router.post("/improve-bullets", async (req, res) => {
-  const { bullets } = req.body; // Array<string>
-  if (!Array.isArray(bullets)) return res.status(400).json({ error: "Invalid bullets" });
+  const { experience, projects } = req.body;
+  if (!Array.isArray(experience) || !Array.isArray(projects)) {
+    return res.status(400).json({ error: "Invalid payload" });
+  }
+
+  // Build prompt sections dynamically:
+  const expSections = experience
+    .map((exp, i) => {
+      const header = `Section ${i + 1} (${exp.company}, ${exp.position}):`;
+      const bullets = exp.points.map((b) => `- ${b}`).join("\n");
+      return `${header}\n${bullets}`;
+    })
+    .join("\n\n");
+
+  const projSections = projects
+    .map((p, i) => {
+      const header = `Section ${i + 1} (${p.title}):`;
+      const bullets = p.points.map((b) => `- ${b}`).join("\n");
+      return `${header}\n${bullets}`;
+    })
+    .join("\n\n");
 
   const prompt = `
-    Here are some resume bullet points. Rewrite each to be more action-oriented, concise, and quantify where possible.
-    Original:
-    ${bullets.map((b, i) => `${i + 1}. ${b}`).join("\n")}
+Here are your EXPERIENCE bullet lists, one section per job:
 
-    Return a JSON array of the improved bullets, in the same order.
-    DO NOT INCLUDE THE ORDER IN THE JSON as in do not write them as(1. ...)
-  `;
+${expSections}
+
+And here are your PROJECT bullet lists, one section per project:
+
+${projSections}
+
+Please rewrite **each section's** bullets to be more action-oriented, concise, and quantified.  
+Return a JSON object exactly like this (with the same keys):
+
+\`\`\`json
+{
+  "experience": [
+    [ /* bullets for experience #1 */ ],
+    [ /* bullets for experience #2 */ ],
+    /* …and so on, one array per experience entry… */
+  ],
+  "projects": [
+    [ /* bullets for project #1 */ ],
+    [ /* … */ ]
+  ]
+}
+\`\`\`
+
+Do **not** include any other fields, numbers, or text outside that JSON.
+`;
 
   try {
-    const completion = await openai.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [{ role: "user", content: prompt }],
     });
-    // Assume response is JSON array
-    const improved = JSON.parse(completion.choices[0].message.content);
-    res.json({ improved });
+    const improved = JSON.parse(response.choices[0].message.content);
+    return res.json(improved);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to improve bullets" });
+    console.error("AI error:", err);
+    return res.status(500).json({ error: "Failed to improve bullets" });
   }
 });
 

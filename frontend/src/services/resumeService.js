@@ -6,9 +6,17 @@ export async function fetchSummaryAPI(payload) {
   return res.data.summary;
 }
 
-export async function improveBulletsAPI(bullets) {
-  const res = await axiosNode.post("/api/resume/improve-bullets", { bullets });
-  return res.data.improved;
+export async function improveBulletsAPI(experience, projects) {
+  // send full objects so server can re-serialize points
+  const res = await axiosNode.post("/api/resume/improve-bullets", {
+    experience: experience.map((e) => ({
+      company: e.company,
+      position: e.position,
+      points: e.points,
+    })),
+    projects: projects.map((p) => ({ title: p.title, points: p.points })),
+  });
+  return res.data;
 }
 
 function mapLevelToProficiency(level) {

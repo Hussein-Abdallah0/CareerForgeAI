@@ -37,24 +37,23 @@ export default function useResumeAI(formData) {
   const improveBullets = async () => {
     setLoadingImprove(true);
     try {
-      const bullets = [
-        ...draft.experience.flatMap((e) => e.points),
-        ...draft.projects.flatMap((p) => p.points),
-      ];
-      const improved = await improveBulletsAPI(bullets);
+      // call with current lists
+      const { experience: expGroups, projects: projGroups } = await improveBulletsAPI(
+        draft.experience,
+        draft.projects
+      );
 
-      let idx = 0;
-      const newExp = draft.experience.map((e) => {
-        const pts = improved.slice(idx, idx + e.points.length);
-        idx += e.points.length;
-        return { ...e, points: pts };
-      });
-      const newProj = draft.projects.map((p) => {
-        const pts = improved.slice(idx, idx + p.points.length);
-        idx += p.points.length;
-        return { ...p, points: pts };
-      });
-      setDraft({ ...draft, experience: newExp, projects: newProj });
+      // rebuild draft.experience and draft.projects
+      const newExperience = draft.experience.map((exp, i) => ({
+        ...exp,
+        points: expGroups[i] || [],
+      }));
+      const newProjects = draft.projects.map((proj, i) => ({
+        ...proj,
+        points: projGroups[i] || [],
+      }));
+
+      setDraft({ ...draft, experience: newExperience, projects: newProjects });
     } catch (err) {
       console.error(err);
     } finally {
