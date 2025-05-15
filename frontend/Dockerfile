@@ -7,6 +7,9 @@ COPY package.json package-lock.json ./
 RUN npm cache clean --force && \
     npm install
 
+# Copy .env file
+COPY .env ./
+
 COPY . .
 RUN npm run build && ls -la /app/dist/  # Debug: Verify Vite output
 
