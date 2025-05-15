@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const openai = require("./openaiClient");
+const { extractJson } = require("../utils/cleanJson");
 
 // helper to parse "MM/YYYY" into a JS Date
 function parseMMYYYY(str) {
@@ -44,9 +45,9 @@ router.post("/summary", async (req, res) => {
   const experienceDuration = formatDuration(totalMonths);
 
   const prompt = `
-You are an HR expert. Write a concise (max 3 lines) professional summary for this job:
+You are an HR expert. Write a concise (max 3 lines) professional summary for this job(the description starts and ends with """"):
 
-${jobDescription}
+""""${jobDescription}""""
 
 Candidate snapshot:
 - Education: ${education
@@ -140,11 +141,13 @@ Do **not** include any other fields, numbers, or text outside that JSON.
 `;
 
   try {
-    const response = await openai.chat.completions.create({
+    const gptRes = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [{ role: "user", content: prompt }],
     });
-    const improved = JSON.parse(response.choices[0].message.content);
+    const raw = gptRes.choices[0].message.content;
+    const jsonStr = extractJson(raw);
+    const improved = JSON.parse(jsonStr);
     return res.json(improved);
   } catch (err) {
     console.error("AI error:", err);
