@@ -35,8 +35,8 @@ services:
       - DB_HOST=mysql
       - DB_DATABASE=careerForgeDB
       - DB_USERNAME=root
-      - DB_PASSWORD=12345
-      - JWT_SECRET=IMwuRQxdfNuxrqJTlfUnm2JkGxopiP2CfuvTA22VrTjvYod5ikV9GpralIVeeKuJ
+      - DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+      - JWT_SECRET=${{ secrets.JWT_SECRET }}
     restart: always
     command: ./docker-entrypoint.sh
 
@@ -49,6 +49,8 @@ services:
   nodejs:
     build:
       context: ./node-server
+    environment:
+      - OPENAI_API_KEY=${NODE_API_TOKEN}
     ports:
       - "3001:3001"
     dns: # Add this section

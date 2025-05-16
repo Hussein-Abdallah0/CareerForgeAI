@@ -12,21 +12,21 @@ const Dashboard = () => {
       <Navbar />
       {/* ----------------1st section -------------------*/}
       <div className="dashboard1">
-        <h1 className="title">Welcome Back!</h1>
-        <p className="text">What would you like to do today?</p>
+        <h1 className="title">Your Career Growth Starts Here</h1>
+        <p className="text">Explore tools to level up your career</p>
         <div className="dash-features">
-          <div className="dash-feature">
+          <div className="dash-feature background1">
             <h2>Interview Simulator</h2>
             <p>Practice questions, get feedback and be ready for your next interview</p>
             <Button text="Start Interview" onClick={() => navigate("/interview")} />
           </div>
-          <div className="dash-feature">
+          <div className="dash-feature background2">
             <h2>Resume Tailoring</h2>
             <p>Generate tailored, ATS-friendly resumes for your dream job</p>
             <Button text="Build Resume" onClick={() => navigate("/resume")} />
           </div>
-          <div className="dash-feature">
-            <h2>Salary Negotiator</h2>
+          <div className="dash-feature background3">
+            <h2>Salary Estimator</h2>
             <p>Explore salary benchmarks and get negotiation tips</p>
             <Button text="Analyze Salary" onClick={() => navigate("/salary")} />
           </div>
