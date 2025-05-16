@@ -1,20 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight, Keyboard, Mic } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../components/Button";
-import "./styles.css";
-import useWebSocket from "../../../hooks/useWebSocket";
+import Input from "../../../components/Input";
 import useQuestionFlow from "../../../hooks/useQuestionFlow";
-import { speakWithOpenAITTS } from "../../../services/ttsService";
-import { saveAnswer, finishSession } from "../../../services/questionService";
+import useAnswerFlow from "../../../hooks/useAnswerFlow";
+import useSessionNavigation from "../../../hooks/useSessionNavigation";
+import "./styles.css";
 
 const Question = () => {
+  const { sessionId, questions } = useLocation().state || {};
+  const [transcriptions, setTranscriptions] = useState({});
+  const [aiResponses, setAiResponses] = useState({});
   const navigate = useNavigate();
-  const location = useLocation();
-  const { sessionId, questions } = location.state || {};
-
-  const [aiResponses, setAiResponses] = React.useState({});
-  const [transcriptions, setTranscriptions] = React.useState({});
 
   const {
     currentIndex,
@@ -25,60 +23,67 @@ const Question = () => {
     setQuestionSpoken,
   } = useQuestionFlow(questions);
 
-  const handleWebSocketMessage = async (data) => {
-    if (data.audio) {
-      const audio = new Audio(URL.createObjectURL(new Blob([data.audio], { type: "audio/mpeg" })));
-      audio.play();
-    }
+  const {
+    isRecording,
+    toggleRecording,
+    showTextInput,
+    toggleKeyboard,
+    textAnswer,
+    setTextAnswer,
+    isSubmitting,
+    submitText,
+    transcription: lastTranscription,
+    feedback: lastFeedback,
+  } = useAnswerFlow(currentQuestion);
 
-    if (data.text) {
-      speakWithOpenAITTS(data.text);
-      setAiResponses((prev) => ({ ...prev, [currentIndex]: data.text }));
-    }
-
-    if (data.userText) {
-      setTranscriptions((prev) => ({ ...prev, [currentIndex]: data.userText }));
-      if (currentQuestion?.id) await saveAnswer(currentQuestion.id, data.userText);
-    }
+  const recordTranscription = (text) => {
+    setTranscriptions((m) => ({ ...m, [currentIndex]: text }));
+  };
+  const recordFeedback = (text) => {
+    setAiResponses((m) => ({ ...m, [currentIndex]: text }));
   };
 
-  const { isRecording, toggleRecording } = useWebSocket(handleWebSocketMessage);
+  const wrappedSubmitText = async () => {
+    await submitText();
+    if (lastTranscription) recordTranscription(lastTranscription);
+    if (lastFeedback) recordFeedback(lastFeedback);
+  };
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (lastTranscription) recordTranscription(lastTranscription);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastTranscription]);
+
+  useEffect(() => {
+    if (lastFeedback) recordFeedback(lastFeedback);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastFeedback]);
+
+  const { goToResults } = useSessionNavigation(sessionId, questions, transcriptions, aiResponses);
+
+  // Speak each question exactly once
+  useEffect(() => {
     if (currentQuestion?.text && !questionSpoken) {
-      speakWithOpenAITTS(currentQuestion.text);
+      import("../../../services/ttsService").then(({ speakWithOpenAITTS }) =>
+        speakWithOpenAITTS(currentQuestion.text)
+      );
       setQuestionSpoken(true);
     }
   }, [currentQuestion, questionSpoken, setQuestionSpoken]);
-
-  const navigateToResults = async () => {
-    try {
-      await finishSession(sessionId, aiResponses);
-      navigate("/interview/result", {
-        state: {
-          questions: questions.map((q) => q.text),
-          userResponses: transcriptions,
-          aiFeedback: aiResponses,
-          sessionId,
-        },
-      });
-    } catch (err) {
-      console.error("Failed to finish session:", err);
-    }
-  };
 
   return (
     <div className="question">
       <div className="question-div">
         <div className="number">
           <p>
-            {currentIndex + 1}/{questions?.length}
+            {currentIndex + 1}/{questions.length}
           </p>
         </div>
         <p className="question-text">{currentQuestion?.text}</p>
 
         <div className="buttons">
           <div className="left-btn">
+            {/* Start/stop recording */}
             <Button
               text={
                 <span>
@@ -87,28 +92,51 @@ const Question = () => {
               }
               onClick={() => toggleRecording(currentQuestion?.text)}
             />
-            <button className="keyboard-btn">
-              <Keyboard />
-            </button>
+
+            {/*  Keyboard/text input toggle */}
+            <div className="input-section">
+              <button className="keyboard-btn" onClick={toggleKeyboard}>
+                <Keyboard />
+              </button>
+            </div>
           </div>
-          {isLastQuestion ? (
-            <button className="keyboard-btn" onClick={navigateToResults}>
-              End
-            </button>
-          ) : (
-            <button className="keyboard-btn" onClick={goNext}>
-              <ArrowRight />
-            </button>
-          )}
+
+          {/* Next or End */}
+          <button className="keyboard-btn" onClick={isLastQuestion ? goToResults : goNext}>
+            {isLastQuestion ? "End" : <ArrowRight />}
+          </button>
         </div>
       </div>
 
-      {aiResponses[currentIndex] && (
-        <div className="ai-response">
-          <h3>AI Feedback:</h3>
-          <p>{aiResponses[currentIndex]}</p>
+      {/* Text input + submit */}
+      {showTextInput && !lastFeedback && (
+        <div className="text-input-container">
+          <Input
+            multiline
+            label="Answer"
+            value={textAnswer}
+            onChange={(e) => setTextAnswer(e.target.value)}
+            placeholder="Type your answer..."
+          />
+          <Button
+            text={isSubmitting ? "Submitting..." : "Submit Answer"}
+            disabled={isSubmitting}
+            onClick={wrappedSubmitText}
+          />
         </div>
       )}
+
+      {/* AI Feedback */}
+      {lastFeedback && (
+        <div className="ai-response">
+          <h3>AI Feedback:</h3>
+          <p>{lastFeedback}</p>
+        </div>
+      )}
+      <div className="question-btns">
+        <Button version="border" text="Return" onClick={() => navigate("/interview/start")} />
+        <Button version="secondary" text="Skip" onClick={goToResults} />
+      </div>
     </div>
   );
 };

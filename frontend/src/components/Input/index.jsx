@@ -7,7 +7,7 @@ const Input = ({
   value,
   type,
   onChange,
-  required,
+  // required,
   placeholder,
   className = "input",
 }) => {
@@ -22,7 +22,7 @@ const Input = ({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
-        required={required}
+        // required={required}
       />
     </div>
   );

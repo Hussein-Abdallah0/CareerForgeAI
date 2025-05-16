@@ -8,7 +8,7 @@ router.post("/generate-questions", async (req, res) => {
 
   if (!job) return res.status(400).json({ error: "Job title is required" });
 
-  const prompt = `Generate 5 interview questions for the role of a ${job}.`;
+  const prompt = `Generate 5 interview questions for the role of a ${job}.(do not include numbering for the questions)`;
 
   try {
     const completion = await openai.chat.completions.create({
