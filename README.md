@@ -14,16 +14,18 @@
 <!-- System Design -->
 <img src="./readme/title3.svg"/>
 
-### Add Title Here
+### HR Diagram
 
-- To be decided on later on.
+| HR Diagram                               |
+| ---------------------------------------- |
+| ![Landing](./readme/demo/ER-Diagram.jpg) |
 
 <br><br>
 
 <!-- Project Highlights -->
 <img src="./readme/title4.svg"/>
 
-### Sexy Features
+### The most remarkable features
 
 - Interview Simulator AI conducts a realtime voice interview Interview Simulator, AI conducts a realtime voice interview and gives you feedback on your answers.
 - AI Resume Tailoring Input your information, and AI writes it for your desired job and following ATS.
