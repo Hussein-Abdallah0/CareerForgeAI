@@ -7,8 +7,9 @@ COPY package.json package-lock.json ./
 RUN npm cache clean --force && \
     npm install
 
-# Copy .env file
-COPY .env ./
+# Use build arguments for environment variables
+ARG VITE_API_TOKEN
+ENV VITE_API_TOKEN=$VITE_API_TOKEN
 
 COPY . .
 RUN npm run build && ls -la /app/dist/  # Debug: Verify Vite output

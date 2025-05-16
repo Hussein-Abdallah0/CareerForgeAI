@@ -36,7 +36,9 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Build and push frontend
         run: |
-          docker build -t $FRONTEND_IMAGE:$TAG ./frontend
+          docker build \
+            --build-arg VITE_OPENAI_API_KEY=${{ secrets.FRONTEND_API_TOKEN }} \
+            -t $FRONTEND_IMAGE:$TAG ./frontend
           docker push $FRONTEND_IMAGE:$TAG
 
   build-push-node:
@@ -50,7 +52,9 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Build and push node
         run: |
-          docker build -t $NODE_IMAGE:$TAG ./node-server
+          docker build \
+            --build-arg OPENAI_API_KEY=${{ secrets.NODE_API_TOKEN }} \
+            -t $NODE_IMAGE:$TAG ./node-server
           docker push $NODE_IMAGE:$TAG
 
   deploy:
