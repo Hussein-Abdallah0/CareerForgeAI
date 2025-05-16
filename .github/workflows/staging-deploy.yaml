@@ -72,9 +72,8 @@ jobs:
             # First-time setup
             if [ ! -f /usr/local/bin/docker-compose ]; then
               echo "Running initial server setup..."
-              sudo apt update
-              sudo apt install -y git
-              git clone https://github.com/Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
+              sudo apt update && sudo apt install -y git curl software-properties-common
+              git clone git@github.com:Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
               sudo bash /tmp/setup/server-setup.sh
             fi
 
