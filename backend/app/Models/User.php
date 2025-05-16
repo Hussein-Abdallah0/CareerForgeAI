@@ -48,11 +48,6 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    public function resumes()
-    {
-        return $this->hasMany(Resume::class);
-    }
-
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -63,6 +58,10 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function resumes()
+    {
+        return $this->hasMany(Resume::class);
+    }
 
     public function sessions()
     {
