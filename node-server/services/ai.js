@@ -65,4 +65,46 @@ async function processAudio(audioBuffer, questionText = "") {
   }
 }
 
-module.exports = { processAudio };
+async function processText(questionText, userText) {
+  try {
+    // 1. Generate GPT-4 response
+    const chat = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [
+        {
+          role: "system",
+          content: `You're a technical interviewer. Provide concise, constructive feedback in English. MAKE YOUR FEEDBACK LESS THAN 25 WORDS. Focus on:
+            1. Technical accuracy
+            2. Clarity of communication
+            3. Relevance to the role
+            4. Suggested improvements
+          `,
+        },
+        {
+          role: "user",
+          content: `Question: ${questionText}\nAnswer: ${userText}`,
+        },
+      ],
+    });
+
+    const reply = chat.choices[0].message.content;
+
+    // 2. Generate TTS audio (optional)
+    const ttsResponse = await openai.audio.speech.create({
+      model: "tts-1",
+      voice: "onyx",
+      input: reply,
+    });
+
+    return {
+      audio: await ttsResponse.arrayBuffer(),
+      text: reply,
+      userText: userText,
+    };
+  } catch (err) {
+    console.error("Error processing text:", err);
+    return { error: "AI processing failed" };
+  }
+}
+
+module.exports = { processAudio, processText };

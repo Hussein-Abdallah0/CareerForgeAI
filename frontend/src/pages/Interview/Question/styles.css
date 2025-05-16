@@ -61,3 +61,21 @@
   align-items: center;
   justify-content: center;
 }
+
+.text-input-container {
+  border: 2px var(--secondary) solid;
+  border-radius: 10px;
+  padding: 30px;
+  margin-top: 20px;
+}
+
+.text-input-container button {
+  margin: 0;
+}
+
+.question-btns {
+  position: absolute;
+  bottom: 10%;
+  display: flex;
+  gap: 50px;
+}

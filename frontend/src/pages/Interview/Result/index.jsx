@@ -9,8 +9,8 @@ const Result = () => {
 
   const { questions, userResponses, aiFeedback } = location.state || {
     questions: [],
-    userResponses: {},
-    aiFeedback: {},
+    userResponses: [],
+    aiFeedback: [],
   };
   return (
     <div>

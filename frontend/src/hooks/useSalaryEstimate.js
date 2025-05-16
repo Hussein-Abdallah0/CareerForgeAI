@@ -20,7 +20,6 @@ export function useSalaryEstimate() {
       navigate("/salary/result", { state: { ...form, ...ai } });
     } catch (e) {
       console.error(e);
-      alert("Failed to fetch salary data.");
     } finally {
       setLoading(false);
     }

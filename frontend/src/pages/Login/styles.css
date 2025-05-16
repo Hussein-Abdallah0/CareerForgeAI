@@ -34,6 +34,10 @@
   text-align: start;
 }
 
+.login-section a {
+  color: var(--primary);
+}
+
 /*------------------------------- responsive section------------------- */
 
 @media (max-width: 976px) {

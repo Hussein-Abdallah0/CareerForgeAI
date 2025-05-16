@@ -1,170 +1,43 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/Button";
 import ResumeTemplate from "../ResumeTemplate";
 import html2pdf from "html2pdf.js";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { prevStep } from "../../../redux/resumeSlice";
+import useResumeAI from "../../../hooks/useResumeAI";
 import "./styles.css";
-import axiosBaseUrl from "../../../utils/axios";
 
-export default function ReviewForm({ formData, prevStep }) {
+export default function ReviewForm() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const formData = useSelector((s) => s.resume.formData);
+  const {
+    draft,
+    summary,
+    loadingSummary,
+    loadingImprove,
+    saving,
+    fetchSummary,
+    improveBullets,
+    saveResume,
+  } = useResumeAI(formData);
+
   const resumeRef = useRef();
-  const hasFetchedSummary = useRef(false); // fix: track first fetch
-  const [draftData, setDraftData] = useState(formData);
-  const [summary, setSummary] = useState("");
-  const [loadingSummary, setLoadingSummary] = useState(false);
-  const [loadingImprove, setLoadingImprove] = useState(false);
 
-  const fetchSummary = async () => {
-    setLoadingSummary(true);
-    try {
-      const res = await axios.post("http://localhost:8080/api/resume/summary", {
-        personal: {
-          first_name: draftData.first_name,
-          last_name: draftData.last_name,
-          email: draftData.email,
-          phone: draftData.phone,
-        },
-        education: draftData.education,
-        experience: draftData.experience,
-        projects: draftData.projects,
-        skills: draftData.skills,
-      });
-      setSummary(res.data.summary);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoadingSummary(false);
-    }
-  };
+  const handleDownloadAndSave = async () => {
+    html2pdf()
+      .set({
+        margin: 0,
+        filename: `${draft.first_name}_${draft.last_name}_Resume.pdf`,
+        html2canvas: { scale: 4, dpi: 300, useCORS: true, letterRendering: true, logging: true },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: "avoid-all", before: "#avoid-before-element" },
+      })
+      .from(resumeRef.current)
+      .save();
 
-  useEffect(() => {
-    if (!hasFetchedSummary.current) {
-      hasFetchedSummary.current = true;
-      fetchSummary();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const improveBullets = async () => {
-    setLoadingImprove(true);
-    try {
-      const bullets = [
-        ...draftData.experience.flatMap((e) => e.points),
-        ...draftData.projects.flatMap((p) => p.points),
-      ];
-
-      const res = await axios.post("http://localhost:8080/api/resume/improve-bullets", { bullets });
-      const improved = res.data.improved;
-
-      let idx = 0;
-      const newExperience = draftData.experience.map((exp) => {
-        const newPoints = improved.slice(idx, idx + exp.points.length);
-        idx += exp.points.length;
-        return { ...exp, points: newPoints };
-      });
-
-      const newProjects = draftData.projects.map((proj) => {
-        const newPoints = improved.slice(idx, idx + proj.points.length);
-        idx += proj.points.length;
-        return { ...proj, points: newPoints };
-      });
-
-      setDraftData({
-        ...draftData,
-        experience: newExperience,
-        projects: newProjects,
-      });
-    } catch (err) {
-      console.error("Failed to improve bullets:", err);
-    } finally {
-      setLoadingImprove(false);
-    }
-  };
-
-  const saveInDatabase = async (data) => {
-    try {
-      //save resume in database
-      const resumeResponse = await axiosBaseUrl.post("/resume", {
-        summary: summary,
-        job_title: "null",
-        experience: data.experience,
-        education: data.education,
-      });
-
-      //save skills data
-      const skills = data.skills.flatMap((category) =>
-        category.items.map((item) => ({
-          name: item.name,
-          proficiency: mapLevelToProficiency(item.level),
-        }))
-      );
-
-      // Save each skill to the user's profile
-      for (const skill of skills) {
-        try {
-          await axiosBaseUrl.post("/skill", {
-            skill_name: skill.name,
-            proficiency: skill.proficiency,
-          });
-        } catch (err) {
-          console.error(`Failed to save skill ${skill.name}:`, err);
-        }
-      }
-
-      return resumeResponse.data;
-    } catch (err) {
-      console.error("Error:", err);
-    }
-  };
-
-  // Helper function since i have the proficiency as integer in database
-  const mapLevelToProficiency = (level) => {
-    switch (level.toLowerCase()) {
-      case "beginner":
-        return 1;
-      case "intermediate":
-        return 2;
-      case "advanced":
-        return 3;
-      case "expert":
-        return 4;
-      default:
-        return 1;
-    }
-  };
-
-  const handleDownload = async () => {
-    const element = resumeRef.current;
-
-    const opt = {
-      margin: 0,
-      filename: `${draftData.first_name}_${draftData.last_name}_Resume.pdf`,
-      html2canvas: {
-        scale: 4,
-        dpi: 300,
-        windowWidth: 794,
-        useCORS: true,
-        letterRendering: true,
-        logging: true,
-      },
-      jsPDF: {
-        unit: "mm",
-        format: "a4",
-        orientation: "portrait",
-      },
-      pagebreak: {
-        mode: "avoid-all",
-        before: "#avoid-before-element",
-      },
-    };
-
-    html2pdf().set(opt).from(element).save();
-
-    try {
-      await saveInDatabase(draftData);
-    } catch (err) {
-      console.error("Failed to save data:", err);
-    }
+    await saveResume();
   };
 
   return (
@@ -176,7 +49,7 @@ export default function ReviewForm({ formData, prevStep }) {
         {loadingSummary ? (
           <p>Generating Summary…</p>
         ) : (
-          <p>Click below to regenerate summary if you want.</p>
+          <p>Click below to regenerate your summary.</p>
         )}
         <Button
           text="Regenerate"
@@ -191,7 +64,7 @@ export default function ReviewForm({ formData, prevStep }) {
         {loadingImprove ? (
           <p>Improving bullet points…</p>
         ) : (
-          <p>Click below to improve your bullet points to be more action-driven and concise.</p>
+          <p>Click below to make your bullets more action-driven and concise.</p>
         )}
         <Button
           text="Improve Bullets"
@@ -203,13 +76,18 @@ export default function ReviewForm({ formData, prevStep }) {
 
       <div className="resume-preview-container">
         <div ref={resumeRef} className="resume-preview" style={{ pageBreakInside: "avoid" }}>
-          <ResumeTemplate formData={{ ...draftData, summary }} />
+          <ResumeTemplate formData={{ ...draft, summary }} />
         </div>
       </div>
 
       <div className="form-actions">
-        <Button text="Back" version="border" onClick={prevStep} />
-        <Button text="Download PDF" onClick={handleDownload} />
+        <Button text="Back" version="border" onClick={() => dispatch(prevStep())} />
+        <Button
+          text={saving ? "Saving…" : "Download"}
+          onClick={handleDownloadAndSave}
+          disabled={saving}
+        />
+        <Button text="End" version="secondary" onClick={() => navigate("/dashboard")} />
       </div>
     </div>
   );

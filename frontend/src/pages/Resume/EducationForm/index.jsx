@@ -1,41 +1,54 @@
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import "./styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateField,
+  addArrayItem,
+  removeArrayItem,
+  nextStep,
+  prevStep,
+} from "../../../redux/resumeSlice";
 
-export default function EducationForm({ formData, setFormData, nextStep, prevStep }) {
+export default function EducationForm() {
+  const dispatch = useDispatch();
+  const education = useSelector((state) => state.resume.formData.education);
+
   const handleEducationChange = (index, field, value, pointIndex) => {
-    const updatedEducation = [...formData.education];
+    const path = ["education", index];
 
     if (field === "points") {
-      updatedEducation[index].points[pointIndex] = value;
+      dispatch(updateField({ path: [...path, "points", pointIndex], value }));
     } else {
-      updatedEducation[index][field] = value;
+      dispatch(updateField({ path: [...path, field], value }));
     }
-
-    setFormData({ ...formData, education: updatedEducation });
   };
 
-  const addEducation = () => {
-    setFormData({
-      ...formData,
-      education: [
-        ...formData.education,
-        { institution: "", degree: "", startDate: "", endDate: "", points: ["", "", "", ""] },
-      ],
-    });
+  const handleAddEducation = () => {
+    dispatch(
+      addArrayItem({
+        key: "education",
+        template: {
+          institution: "",
+          degree: "",
+          startDate: "",
+          endDate: "",
+          points: ["", "", "", ""],
+        },
+      })
+    );
   };
 
-  const removeEducation = (index) => {
-    if (formData.education.length <= 1) return;
-    const updatedEducation = formData.education.filter((_, i) => i !== index);
-    setFormData({ ...formData, education: updatedEducation });
+  const handleRemoveEducation = (index) => {
+    if (education.length <= 1) return;
+    dispatch(removeArrayItem({ key: "education", index }));
   };
 
   return (
     <form className="education-form">
       <h2>Education</h2>
       <div className="education-entries-container">
-        {formData.education.map((edu, eduIndex) => (
+        {education.map((edu, eduIndex) => (
           <div key={eduIndex} className="education-entry">
             <h3>Education #{eduIndex + 1}</h3>
 
@@ -75,12 +88,12 @@ export default function EducationForm({ formData, setFormData, nextStep, prevSte
 
             <div className="education-points">
               <h4>Key Achievements/Points:</h4>
-              {[0, 1, 2, 3].map((pointIndex) => (
+              {edu.points.map((point, pointIndex) => (
                 <div key={pointIndex} className="point-input">
                   <textarea
                     className="education-text"
                     placeholder={`Point ${pointIndex + 1}`}
-                    value={edu.points[pointIndex]}
+                    value={point}
                     onChange={(e) =>
                       handleEducationChange(eduIndex, "points", e.target.value, pointIndex)
                     }
@@ -94,7 +107,7 @@ export default function EducationForm({ formData, setFormData, nextStep, prevSte
               <button
                 type="button"
                 className="remove-btn"
-                onClick={() => removeEducation(eduIndex)}
+                onClick={() => handleRemoveEducation(eduIndex)}
               >
                 Remove Education
               </button>
@@ -103,13 +116,13 @@ export default function EducationForm({ formData, setFormData, nextStep, prevSte
         ))}
       </div>
 
-      <button type="button" className="add-btn" onClick={addEducation}>
+      <button type="button" className="add-btn" onClick={handleAddEducation}>
         + Add Another Education
       </button>
 
       <div className="form-actions">
-        <Button text="Back" version="border" onClick={prevStep} />
-        <Button text="Next" onClick={nextStep} />
+        <Button text="Back" version="border" onClick={() => dispatch(prevStep())} />
+        <Button text="Next" onClick={() => dispatch(nextStep())} />
       </div>
     </form>
   );

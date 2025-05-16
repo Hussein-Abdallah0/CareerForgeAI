@@ -12,7 +12,7 @@ const Navbar = ({ type }) => {
   };
   return (
     <div className="navbar">
-      <img src="logo-title.svg" alt="logo" className="logo-title" />
+      <img src="/logo-title.svg" alt="logo" className="logo-title" />
       {type == "home" ? (
         <ul className="nav-ul">
           <li className="nav-link">Home</li>

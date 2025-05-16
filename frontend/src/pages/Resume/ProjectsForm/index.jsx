@@ -1,26 +1,44 @@
+import React from "react";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import "./styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateField,
+  addArrayItem,
+  removeArrayItem,
+  nextStep,
+  prevStep,
+} from "../../../redux/resumeSlice";
 
-function ProjectsForm({ formData, setFormData, nextStep, prevStep }) {
+export default function ProjectsForm() {
+  const dispatch = useDispatch();
+  const projects = useSelector((state) => state.resume.formData.projects);
+
   const handleProjectChange = (index, field, value, pointIndex) => {
-    const updatedProjects = [...formData.projects];
-
+    const basePath = ["projects", index];
     if (field === "points") {
-      updatedProjects[index].points[pointIndex] = value;
+      dispatch(
+        updateField({
+          path: [...basePath, "points", pointIndex],
+          value,
+        })
+      );
     } else {
-      updatedProjects[index][field] = value;
+      dispatch(
+        updateField({
+          path: [...basePath, field],
+          value,
+        })
+      );
     }
-
-    setFormData({ ...formData, projects: updatedProjects });
   };
 
-  const addProject = () => {
-    setFormData({
-      ...formData,
-      projects: [
-        ...formData.projects,
-        {
+  const handleAddProject = () => {
+    dispatch(
+      addArrayItem({
+        key: "projects",
+        template: {
           title: "",
           description: "",
           startDate: "",
@@ -28,21 +46,20 @@ function ProjectsForm({ formData, setFormData, nextStep, prevStep }) {
           points: ["", "", "", ""],
           technologies: "",
         },
-      ],
-    });
+      })
+    );
   };
 
-  const removeProject = (index) => {
-    if (formData.projects.length <= 1) return;
-    const updatedProjects = formData.projects.filter((_, i) => i !== index);
-    setFormData({ ...formData, projects: updatedProjects });
+  const handleRemoveProject = (index) => {
+    if (projects.length <= 1) return;
+    dispatch(removeArrayItem({ key: "projects", index }));
   };
 
   return (
     <form className="projects-form">
       <h2>Projects</h2>
       <div className="projects-entries-container">
-        {formData.projects.map((project, projectIndex) => (
+        {projects.map((project, projectIndex) => (
           <div key={projectIndex} className="project-entry">
             <h3>Project #{projectIndex + 1}</h3>
 
@@ -53,7 +70,6 @@ function ProjectsForm({ formData, setFormData, nextStep, prevStep }) {
               value={project.title}
               onChange={(e) => handleProjectChange(projectIndex, "title", e.target.value)}
             />
-
             <Input
               type="text"
               label="Description"
@@ -61,7 +77,6 @@ function ProjectsForm({ formData, setFormData, nextStep, prevStep }) {
               value={project.description}
               onChange={(e) => handleProjectChange(projectIndex, "description", e.target.value)}
             />
-
             <Input
               type="text"
               label="Technologies Used"
@@ -75,32 +90,32 @@ function ProjectsForm({ formData, setFormData, nextStep, prevStep }) {
                 type="text"
                 label="Start Date"
                 placeholder="Start Date (MM/YYYY)"
+                className="small"
                 value={project.startDate}
                 onChange={(e) => handleProjectChange(projectIndex, "startDate", e.target.value)}
-                className="small"
               />
               <Input
                 type="text"
                 label="End Date"
                 placeholder="End Date (MM/YYYY)"
+                className="small"
                 value={project.endDate}
                 onChange={(e) => handleProjectChange(projectIndex, "endDate", e.target.value)}
-                className="small"
               />
             </div>
 
             <div className="project-points">
               <h4>Key Features/Accomplishments:</h4>
-              {[0, 1, 2, 3].map((pointIndex) => (
+              {project.points.map((point, pointIndex) => (
                 <div key={pointIndex} className="point-input">
                   <textarea
                     className="project-text"
                     placeholder={`Point ${pointIndex + 1}`}
-                    value={project.points[pointIndex]}
+                    rows={2}
+                    value={point}
                     onChange={(e) =>
                       handleProjectChange(projectIndex, "points", e.target.value, pointIndex)
                     }
-                    rows={2}
                   />
                 </div>
               ))}
@@ -110,7 +125,7 @@ function ProjectsForm({ formData, setFormData, nextStep, prevStep }) {
               <button
                 type="button"
                 className="remove-btn"
-                onClick={() => removeProject(projectIndex)}
+                onClick={() => handleRemoveProject(projectIndex)}
               >
                 Remove Project
               </button>
@@ -119,16 +134,14 @@ function ProjectsForm({ formData, setFormData, nextStep, prevStep }) {
         ))}
       </div>
 
-      <button type="button" className="add-btn" onClick={addProject}>
+      <button type="button" className="add-btn" onClick={handleAddProject}>
         + Add Another Project
       </button>
 
       <div className="form-actions">
-        <Button text="Back" version="border" onClick={prevStep} />
-        <Button text="Next" onClick={nextStep} />
+        <Button text="Back" version="border" onClick={() => dispatch(prevStep())} />
+        <Button text="Next" onClick={() => dispatch(nextStep())} />
       </div>
     </form>
   );
 }
-
-export default ProjectsForm;

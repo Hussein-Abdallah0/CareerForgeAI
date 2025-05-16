@@ -53,6 +53,7 @@ const SalaryResults = () => {
 
         <div className="salary-actions">
           <Button text="Adjust Criteria" onClick={() => navigate("/salary/form")} secondary />
+          <Button text="end" version="secondary" onClick={() => navigate("/dashboard")} />
         </div>
       </div>
     </div>
