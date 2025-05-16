@@ -69,7 +69,18 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            # First-time setup
+            if [ ! -f /usr/local/bin/docker-compose ]; then
+              echo "Running initial server setup..."
+              sudo apt update
+              sudo apt install -y git
+              git clone https://github.com/Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
+              sudo bash /tmp/setup/server-setup.sh
+            fi
+
+            # Regular deployment
             cd /var/www/fullstack-staging
+            git pull origin staging
             sudo docker-compose down
             sudo docker-compose pull
             sudo docker-compose up -d
