@@ -22,7 +22,6 @@ export const useAuthForm = (type = "login") => {
     setError(null);
 
     try {
-      //if submit type is login call login function from authService else call registerUser
       const response = type === "login" ? await loginUser(form) : await registerUser(form);
 
       if (response?.success) {
