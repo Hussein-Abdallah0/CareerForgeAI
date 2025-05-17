@@ -70,9 +70,11 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             # First-time setup
-            if [ ! -f /usr/local/bin/docker-compose ]; then
+            if [ ! -d /var/www/fullstack-staging ]; then
               echo "Running initial server setup…"
-              sudo apt update && sudo apt install -y git curl software-properties-common
+              sudo apt-get update
+              sudo apt-get install -y git curl software-properties-common docker-compose-plugin
+
               # make sure GitHub's key is trusted
               mkdir -p ~/.ssh
               ssh-keyscan github.com >> ~/.ssh/known_hosts
@@ -86,7 +88,7 @@ jobs:
             # Regular deployment
             cd /var/www/fullstack-staging
             git pull origin staging
-            sudo docker-compose down
-            sudo docker-compose pull
-            sudo docker-compose up -d
+            sudo docker compose down
+            sudo docker compose pull
+            sudo docker compose up -d
             sudo docker exec backend php artisan migrate --force

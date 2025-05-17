@@ -1,7 +1,7 @@
 const express = require("express");
 const WebSocket = require("ws");
 const { processAudio, processText } = require("./services/ai");
-const questionsRouter = require("./routes/Questions"); // Import your router
+const questionsRouter = require("./routes/Questions");
 const resumeRouter = require("./routes/resume");
 const salaryRouter = require("./routes/salary");
 const answerRouter = require("./routes/answer");
