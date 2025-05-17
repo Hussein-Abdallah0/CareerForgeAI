@@ -91,7 +91,7 @@ jobs:
 
               # 5) Clone *your app code* into the web root
               sudo rm -rf /var/www/fullstack-staging
-              sudo git clone --branch staging git@github.com:Hussein-Abdallah0/CareerForgeAI.git /var/www/fullstack-staging
+              git clone --branch staging git@github.com:Hussein-Abdallah0/CareerForgeAI.git /var/www/fullstack-staging
               sudo chown -R $USER:$USER /var/www/fullstack-staging
             fi
 
