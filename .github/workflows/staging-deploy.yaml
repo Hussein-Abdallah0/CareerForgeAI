@@ -69,11 +69,24 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # First-time setup
+            # Bootstrap (run once)
             if [ ! -d /var/www/fullstack-staging ]; then
               echo "Running initial server setup…"
+              # minimal prerequisites for your setup script
               sudo apt-get update
-              sudo apt-get install -y git curl software-properties-common docker-compose-plugin
+              sudo apt-get install -y git curl software-properties-common
+
+              # trust and clean up
+              mkdir -p ~/.ssh
+              ssh-keyscan github.com >> ~/.ssh/known_hosts
+              chmod 600 ~/.ssh/known_hosts
+
+              # ensure no stale clone lingers
+              sudo rm -rf /tmp/setup
+
+              # clone the staging branch (where your setup script lives)
+              git clone --branch staging git@github.com:Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
+              sudo bash /tmp/setup/server-setup.sh
 
               # make sure GitHub's key is trusted
               mkdir -p ~/.ssh
@@ -88,7 +101,7 @@ jobs:
             # Regular deployment
             cd /var/www/fullstack-staging
             git pull origin staging
-            sudo docker compose down
-            sudo docker compose pull
-            sudo docker compose up -d
+            sudo docker-compose down
+            sudo docker-compose pull
+            sudo docker-compose up -d
             sudo docker exec backend php artisan migrate --force
