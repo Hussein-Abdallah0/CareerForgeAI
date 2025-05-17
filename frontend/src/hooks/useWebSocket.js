@@ -8,7 +8,8 @@ const useWebSocket = (onMessage) => {
   const questionTextRef = useRef("");
 
   useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:8080");
+    const wsUrl = import.meta.env.VITE_NODE_WS_URL;
+    ws.current = new WebSocket(wsUrl);
 
     return () => {
       if (ws.current) ws.current.close();

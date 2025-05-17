@@ -20,8 +20,9 @@ app.use("/api/resume", resumeRouter);
 app.use("/api/salary", salaryRouter);
 
 // Create HTTP server
-const server = app.listen(8080, () => {
-  console.log("Server running on port 8080");
+const port = process.env.PORT || 8080;
+const server = app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
 
 // Create WebSocket server on the same port

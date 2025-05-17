@@ -2,6 +2,7 @@ import { useState, useLayoutEffect } from "react";
 import useWebSocket from "./useWebSocket";
 import { speakWithOpenAITTS } from "../services/ttsService";
 import { saveAnswer } from "../services/questionService";
+import axiosNode from "../utils/axiosNode";
 
 export default function useAnswerFlow(question) {
   const [textAnswer, setTextAnswer] = useState("");
@@ -43,8 +44,7 @@ export default function useAnswerFlow(question) {
     try {
       await saveAnswer(question.id, trimmed);
       setTranscription(trimmed);
-
-      const res = await fetch("http://localhost:8080/api/answer/text", {
+      const res = await axiosNode.post("/api/answer/text", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ questionText: question.text, userText: trimmed }),
