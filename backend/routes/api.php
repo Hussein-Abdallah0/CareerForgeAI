@@ -6,6 +6,7 @@ use App\Http\Controllers\InterviewSessionController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\SalaryAnalysisController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\TipController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
@@ -37,6 +38,11 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('analysis', [SalaryAnalysisController::class, 'listSalaryAnalysis']);
         Route::get('analysis/{analysis_id}', [SalaryAnalysisController::class, 'viewSalaryAnalysis']);
         Route::delete('analysis/{analysis_id}', [SalaryAnalysisController::class, 'deleteSalaryAnalysis']);
+
+        //Tip api
+        Route::post('tip', [TipController::class, 'store']);
+        Route::get('tips', [TipController::class, 'getRandomTips']);
+
 
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('me', [AuthController::class, 'me']);

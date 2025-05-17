@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRight, Keyboard, Mic } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Webcam from "react-webcam";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import useQuestionFlow from "../../../hooks/useQuestionFlow";
 import useAnswerFlow from "../../../hooks/useAnswerFlow";
 import useSessionNavigation from "../../../hooks/useSessionNavigation";
 import "./styles.css";
+import useBodyLanguageAnalysis from "../../../hooks/useBodyLanguageAnalysis";
 
 const Question = () => {
   const { sessionId, questions } = useLocation().state || {};
@@ -36,6 +38,8 @@ const Question = () => {
     feedback: lastFeedback,
   } = useAnswerFlow(currentQuestion);
 
+  const { webcamRef, perQuestionBuffer } = useBodyLanguageAnalysis(currentIndex);
+
   const recordTranscription = (text) => {
     setTranscriptions((m) => ({ ...m, [currentIndex]: text }));
   };
@@ -59,7 +63,13 @@ const Question = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastFeedback]);
 
-  const { goToResults } = useSessionNavigation(sessionId, questions, transcriptions, aiResponses);
+  const { goToResults } = useSessionNavigation(
+    sessionId,
+    questions,
+    transcriptions,
+    aiResponses,
+    perQuestionBuffer.current
+  );
 
   // Speak each question exactly once
   useEffect(() => {
@@ -73,6 +83,22 @@ const Question = () => {
 
   return (
     <div className="question">
+      <Webcam
+        ref={webcamRef}
+        audio={false}
+        mirrored
+        style={{
+          position: "absolute",
+          top: 10,
+          right: 10,
+          width: 200,
+          height: 150,
+          borderRadius: 8,
+          border: "1px solid #888",
+          zIndex: 10,
+        }}
+      />
+
       <div className="question-div">
         <div className="number">
           <p>
