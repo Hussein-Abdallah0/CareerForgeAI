@@ -35,8 +35,8 @@ services:
       - DB_HOST=mysql
       - DB_DATABASE=careerForgeDB
       - DB_USERNAME=root
-      - DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-      - JWT_SECRET=${{ secrets.JWT_SECRET }}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
     restart: always
     command: ./docker-entrypoint.sh
 
