@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BaseURL = "http://127.0.0.1:8000";
+const BaseURL = import.meta.env.VITE_LARAVEL_API_URL;
 const Endpoint = "/api/v1";
 
 const token = localStorage.getItem("token");
