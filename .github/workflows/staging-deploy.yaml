@@ -69,39 +69,38 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Bootstrap (run once)
+            #Bootstrap (run once)
             if [ ! -d /var/www/fullstack-staging ]; then
               echo "Running initial server setup…"
-              # minimal prerequisites for your setup script
+              
+              # 1) Install prerequisites for your setup script
               sudo apt-get update
               sudo apt-get install -y git curl software-properties-common
 
-              # trust and clean up
+              # 2) Trust GitHub host key
               mkdir -p ~/.ssh
               ssh-keyscan github.com >> ~/.ssh/known_hosts
               chmod 600 ~/.ssh/known_hosts
 
-              # ensure no stale clone lingers
+              # 3) Wipe any stale /tmp/setup and clone staging branch
               sudo rm -rf /tmp/setup
-
-              # clone the staging branch (where your setup script lives)
               git clone --branch staging git@github.com:Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
+
+              # 4) Run your server-setup.sh (installs Docker & Docker-Compose)
               sudo bash /tmp/setup/server-setup.sh
 
-              # make sure GitHub's key is trusted
-              mkdir -p ~/.ssh
-              ssh-keyscan github.com >> ~/.ssh/known_hosts
-              chmod 600 ~/.ssh/known_hosts
-
-              # now clone via SSH
-              git clone git@github.com:Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
-              sudo bash /tmp/setup/server-setup.sh
+              # 5) Clone *your app code* into the web root
+              sudo rm -rf /var/www/fullstack-staging
+              sudo git clone --branch staging git@github.com:Hussein-Abdallah0/CareerForgeAI.git /var/www/fullstack-staging
+              sudo chown -R $USER:$USER /var/www/fullstack-staging
             fi
 
-            # Regular deployment
+            #Regular deployment
             cd /var/www/fullstack-staging
             git pull origin staging
+
             sudo docker-compose down
             sudo docker-compose pull
             sudo docker-compose up -d
+
             sudo docker exec backend php artisan migrate --force
