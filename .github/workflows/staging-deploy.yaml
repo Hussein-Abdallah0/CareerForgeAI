@@ -70,7 +70,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             #Bootstrap (run once)
-            if [ ! -d /var/www/fullstack-staging ]; then
+            if [ ! -d /var/www/fullstack-staging/.git ]; then
               echo "Running initial server setup…"
               
               # 1) Install prerequisites for your setup script
