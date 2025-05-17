@@ -13,13 +13,13 @@ ARG VITE_NODE_API_URL
 ARG VITE_LARAVEL_API_URL
 ARG VITE_NODE_WS_URL
 
-ENV VITE_OPENAI_API_KEY=$VITE_OPENAI_API_KEY
-ENV VITE_NODE_API_URL=$VITE_NODE_API_URL
-ENV VITE_LARAVEL_API_URL=$VITE_LARAVEL_API_URL
-ENV VITE_NODE_WS_URL=$VITE_NODE_WS_URL
+RUN echo "VITE_OPENAI_API_KEY=$VITE_OPENAI_API_KEY" > .env.production && \
+    echo "VITE_NODE_API_URL=$VITE_NODE_API_URL" >> .env.production && \
+    echo "VITE_LARAVEL_API_URL=$VITE_LARAVEL_API_URL" >> .env.production && \
+    echo "VITE_NODE_WS_URL=$VITE_NODE_WS_URL" >> .env.production
 
 COPY . .
-RUN npm run build && ls -la /app/dist/  # Debug: Verify Vite output
+RUN npm run build && ls -la /app/dist/ 
 
 # Stage 2: Serve with Nginx
 FROM nginx:stable-alpine

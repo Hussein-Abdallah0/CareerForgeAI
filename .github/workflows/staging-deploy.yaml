@@ -36,7 +36,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Build and push frontend
         run: |
-          docker build \
+          docker build --no-cache \
             --build-arg VITE_OPENAI_API_KEY=${{ secrets.FRONTEND_API_TOKEN }} \
             --build-arg VITE_NODE_API_URL=${{ secrets.VITE_NODE_API_URL }} \
             --build-arg VITE_LARAVEL_API_URL=${{ secrets.VITE_LARAVEL_API_URL }} \
