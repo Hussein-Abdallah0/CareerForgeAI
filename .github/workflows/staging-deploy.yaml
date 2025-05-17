@@ -69,33 +69,35 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            #Bootstrap (run once)
+            # Bootstrap (run once)
             if [ ! -d /var/www/fullstack-staging/.git ]; then
               echo "Running initial server setup…"
-              
-              # 1) Install prerequisites for your setup script
+
+              # Install prerequisites
               sudo apt-get update
               sudo apt-get install -y git curl software-properties-common
 
-              # 2) Trust GitHub host key
+              # Trust GitHub host key
               mkdir -p ~/.ssh
               ssh-keyscan github.com >> ~/.ssh/known_hosts
               chmod 600 ~/.ssh/known_hosts
 
-              # 3) Wipe any stale /tmp/setup and clone staging branch
+              # Clean up and clone the setup repo
               sudo rm -rf /tmp/setup
               git clone --branch staging git@github.com:Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
 
-              # 4) Run your server-setup.sh (installs Docker & Docker-Compose)
+              # Run your install script (Docker & Docker-Compose)
               sudo bash /tmp/setup/server-setup.sh
 
-              # 5) Clone *your app code* into the web root
-              sudo rm -rf /var/www/fullstack-staging
+              # **Prepare the webroot folder with correct ownership**
+              sudo mkdir -p /var/www/fullstack-staging
+              sudo chown $USER:$USER /var/www/fullstack-staging
+
+              # Clone *your app* there as ubuntu (no sudo)
               git clone --branch staging git@github.com:Hussein-Abdallah0/CareerForgeAI.git /var/www/fullstack-staging
-              sudo chown -R $USER:$USER /var/www/fullstack-staging
             fi
 
-            #Regular deployment
+            # Regular deployment 
             cd /var/www/fullstack-staging
             git pull origin staging
 
