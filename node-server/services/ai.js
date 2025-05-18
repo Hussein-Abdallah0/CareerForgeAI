@@ -107,4 +107,34 @@ async function processText(questionText, userText) {
   }
 }
 
-module.exports = { processAudio, processText };
+async function processBodyLanguage(bodyMetrics) {
+  const payload = bodyMetrics.map((m, i) => ({
+    question: i + 1,
+    bodyStats: m,
+  }));
+
+  const messages = [
+    {
+      role: "system",
+      content: `
+You're a technical interviewer. For each question you receive numeric body-language stats:
+  • avgShoulderY
+  • avgLeftWristY, avgRightWristY
+  • handMovementCount
+
+Provide one concise tip (<20 words) per question, focusing on posture, gesture usage, and presence on camera.
+      (Respond with each tip on its own line—no numbering, no labels.)`.trim(),
+    },
+    { role: "user", content: JSON.stringify(payload, null, 2) },
+  ];
+
+  const chat = await openai.chat.completions.create({
+    model: "gpt-4",
+    messages,
+  });
+
+  const text = chat.choices[0].message.content.trim();
+  return text.split(/\r?\n/).map((l) => l.trim());
+}
+
+module.exports = { processAudio, processText, processBodyLanguage };

@@ -17,13 +17,26 @@ export default function JobTitle() {
   ];
   const [custom, setCustom] = useState("");
   const { loading, start } = useInterviewSession();
+  const [videoEnabled, setVideoEnabled] = useState(false);
 
   const handle = (job) => {
-    if (!loading) start(job);
+    if (!loading) start(job, videoEnabled);
   };
 
   return (
     <div>
+      {/* Video toggle */}
+      <div className="video-toggle">
+        <label>
+          <input
+            type="checkbox"
+            checked={videoEnabled}
+            onChange={() => setVideoEnabled((v) => !v)}
+          />{" "}
+          Enable video interview
+        </label>
+      </div>
+
       <Link to="/interview">
         <ArrowLeft className="arrow" />
       </Link>

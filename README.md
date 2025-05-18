@@ -14,9 +14,9 @@
 <!-- System Design -->
 <img src="./readme/title3.svg"/>
 
-### HR Diagram
+<!-- ### HR Diagram -->
 
-| HR Diagram                               |
+| ER Diagram                               |
 | ---------------------------------------- |
 | ![Landing](./readme/demo/ER-Diagram.jpg) |
 
@@ -27,11 +27,9 @@
 
 ### The most remarkable features
 
-
 - Interview Simulator AI conducts a realtime voice interview Interview Simulator, AI conducts a realtime voice interview and gives you feedback on your answers.
 - AI Resume Tailoring Input your information, and AI writes it for your desired job and following ATS.
 - Salary Estimator Analyzes market data to suggest optimal pay ranges.
-
 
 <br><br>
 

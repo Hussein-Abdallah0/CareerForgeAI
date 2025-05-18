@@ -19,6 +19,8 @@ import SalaryResults from "../pages/Salary/SalaryResults";
 
 import GuestLayout from "./GuestLayout";
 import ProtectedLayout from "./ProtectedLayout";
+import AdminRoute from "./AdminRoute";
+import AddTip from "../pages/AddTipp";
 
 export default function AppRoutes() {
   return (
@@ -56,10 +58,12 @@ export default function AppRoutes() {
           <Route path="form" element={<SalaryForm />} />
           <Route path="result" element={<SalaryResults />} />
         </Route>
-      </Route>
 
-      {/* (Optional) 404 catch-all */}
-      {/* <Route path="*" element={<NotFound />} /> */}
+        {/* ADMIN-ONLY */}
+        <Route element={<AdminRoute />}>
+          <Route path="admin" element={<AddTip />} />
+        </Route>
+      </Route>
     </Routes>
   );
 }
