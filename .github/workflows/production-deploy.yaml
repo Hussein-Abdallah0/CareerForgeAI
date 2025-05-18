@@ -36,8 +36,11 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - name: Build and push frontend
         run: |
-          docker build \
+          docker build --no-cache \
             --build-arg VITE_OPENAI_API_KEY=${{ secrets.FRONTEND_API_TOKEN }} \
+            --build-arg VITE_NODE_API_URL=${{ secrets.VITE_NODE_API_URL }} \
+            --build-arg VITE_LARAVEL_API_URL=${{ secrets.VITE_LARAVEL_API_URL }} \
+            --build-arg VITE_NODE_WS_URL=${{ secrets.VITE_NODE_WS_URL}} \
             -t $FRONTEND_IMAGE:$TAG ./frontend
           docker push $FRONTEND_IMAGE:$TAG
 
@@ -69,9 +72,47 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /var/www/fullstack-app
+            # Bootstrap (run once)
+            if [ ! -d /var/www/fullstack-production/.git ]; then
+              echo "Running initial server setup…"
+
+              # Install prerequisites
+              sudo apt-get update
+              sudo apt-get install -y git curl software-properties-common
+
+              # Trust GitHub host key
+              mkdir -p ~/.ssh
+              ssh-keyscan github.com >> ~/.ssh/known_hosts
+              chmod 600 ~/.ssh/known_hosts
+
+              # Clean up and clone the setup repo
+              sudo rm -rf /tmp/setup
+              git clone --branch main git@github.com:Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
+
+              # Run your install script (Docker & Docker-Compose)
+              sudo bash /tmp/setup/server-setup.sh
+
+              # **Prepare the webroot folder with correct ownership**
+              sudo mkdir -p /var/www/fullstack-production
+              sudo chown $USER:$USER /var/www/fullstack-production
+
+              # Clone *your app* there as ubuntu (no sudo)
+              git clone --branch main git@github.com:Hussein-Abdallah0/CareerForgeAI.git /var/www/fullstack-production
+            fi
+
+            # Regular deployment 
+            cd /var/www/fullstack-production
+            git pull origin main
+
+            cat >/var/www/fullstack-production/.env <<EOF
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            EOF
+
             sudo docker-compose down
             sudo docker-compose pull
             sudo docker-compose up -d
-            sudo docker exec backend php artisan migrate --force
-            sudo docker exec backend php artisan optimize
+
+            sudo docker-compose exec -T backend composer install --no-interaction --prefer-dist --optimize-autoloader
+
+            sudo docker-compose exec -T backend php artisan migrate --force

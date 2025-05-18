@@ -7,6 +7,7 @@ use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\SalaryAnalysisController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\TipController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
@@ -40,8 +41,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::delete('analysis/{analysis_id}', [SalaryAnalysisController::class, 'deleteSalaryAnalysis']);
 
         //Tip api
-        Route::post('tip', [TipController::class, 'store']);
         Route::get('tips', [TipController::class, 'getRandomTips']);
+        Route::post('tip', [TipController::class, 'store'])->middleware(IsAdmin::class);
 
 
         Route::post('logout', [AuthController::class, 'logout']);
