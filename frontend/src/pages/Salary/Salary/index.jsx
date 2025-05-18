@@ -10,11 +10,13 @@ const Salary = () => {
   return (
     <div>
       <Navbar />
-
-      <div className="salary">
-        <h2>Get Accurate Salary Estimates</h2>
-        <p>Discover competitive salary ranges tailored to your role, experience, and location</p>
-        <Button text="Check Salary" onClick={() => navigate("/salary/form")} />
+      <div className="center">
+        <div className="salary">
+          <h2>Get Accurate Salary Estimates</h2>
+          <p>Discover competitive salary ranges tailored to your role, experience, and location</p>
+          <Button text="Check Salary" onClick={() => navigate("/salary/form")} />
+        </div>
+        <img src="/salary/image34.jpg" alt="" />
       </div>
 
       <div className="instructions-section">

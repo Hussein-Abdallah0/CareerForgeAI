@@ -10,11 +10,13 @@ const Interview = () => {
   return (
     <div>
       <Navbar />
-
-      <div className="interview">
-        <h2>Practice Real-Time AI-Powered Interviews</h2>
-        <p>Get instant feedback, improve your responses, and prepare for your dream role</p>
-        <Button text="Start Interview" onClick={() => navigate("/interview/start")} />
+      <div className="center">
+        <div className="interview">
+          <h2>Practice Real-Time AI-Powered Interviews</h2>
+          <p>Get instant feedback, improve your responses, and prepare for your dream role</p>
+          <Button text="Start Interview" onClick={() => navigate("/interview/start")} />
+        </div>
+        <img src="/interview/image18.jpg" alt="" />
       </div>
 
       <div className="instructions-section">
