@@ -5,6 +5,7 @@ const questionsRouter = require("./routes/Questions");
 const resumeRouter = require("./routes/resume");
 const salaryRouter = require("./routes/salary");
 const answerRouter = require("./routes/answer");
+const bodyLangRouter = require("./routes/bodyLanguage");
 const cors = require("cors");
 
 const app = express();
@@ -18,6 +19,7 @@ app.use("/", questionsRouter);
 app.use("/api/answer", answerRouter);
 app.use("/api/resume", resumeRouter);
 app.use("/api/salary", salaryRouter);
+app.use("/api/body-language", bodyLangRouter);
 
 // Create HTTP server
 const port = process.env.PORT || 3001;

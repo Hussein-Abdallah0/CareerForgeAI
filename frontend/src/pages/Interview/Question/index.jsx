@@ -11,7 +11,7 @@ import "./styles.css";
 import useBodyLanguageAnalysis from "../../../hooks/useBodyLanguageAnalysis";
 
 const Question = () => {
-  const { sessionId, questions } = useLocation().state || {};
+  const { sessionId, questions, videoEnabled } = useLocation().state || {};
   const [transcriptions, setTranscriptions] = useState({});
   const [aiResponses, setAiResponses] = useState({});
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Question = () => {
     feedback: lastFeedback,
   } = useAnswerFlow(currentQuestion);
 
-  const { webcamRef, perQuestionBuffer } = useBodyLanguageAnalysis(currentIndex);
+  const { webcamRef, perQuestionBuffer } = useBodyLanguageAnalysis(currentIndex, videoEnabled);
 
   const recordTranscription = (text) => {
     setTranscriptions((m) => ({ ...m, [currentIndex]: text }));
@@ -68,7 +68,8 @@ const Question = () => {
     questions,
     transcriptions,
     aiResponses,
-    perQuestionBuffer.current
+    videoEnabled ? perQuestionBuffer.current : [],
+    videoEnabled
   );
 
   // Speak each question exactly once
@@ -83,21 +84,23 @@ const Question = () => {
 
   return (
     <div className="question">
-      <Webcam
-        ref={webcamRef}
-        audio={false}
-        mirrored
-        style={{
-          position: "absolute",
-          top: 10,
-          right: 10,
-          width: 200,
-          height: 150,
-          borderRadius: 8,
-          border: "1px solid #888",
-          zIndex: 10,
-        }}
-      />
+      {videoEnabled && (
+        <Webcam
+          ref={webcamRef}
+          audio={false}
+          mirrored
+          style={{
+            position: "absolute",
+            top: 10,
+            right: 10,
+            width: 200,
+            height: 150,
+            borderRadius: 8,
+            border: "1px solid #888",
+            zIndex: 10,
+          }}
+        />
+      )}
 
       <div className="question-div">
         <div className="number">

@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import { Holistic } from "@mediapipe/holistic";
-import * as cam from "@mediapipe/camera-utils";
+import * as cam from "@mediapipe/camera_utils";
 
-export default function useBodyLanguageAnalysis(currentIndex) {
+const MEDIAPIPE_VERSION = "0.5.1675471629";
+
+export default function useBodyLanguageAnalysis(currentIndex, enabled = true) {
   const webcamRef = useRef(null);
   // buffer: { 0: [landmarksFrame1, landmarksFrame2, …], 1: […], … }
   const perQuestionBuffer = useRef({});
@@ -12,7 +14,8 @@ export default function useBodyLanguageAnalysis(currentIndex) {
     perQuestionBuffer.current[currentIndex] ||= [];
 
     const holistic = new Holistic({
-      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`,
+      locateFile: (file) =>
+        `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@${MEDIAPIPE_VERSION}/${file}`,
     });
     holistic.setOptions({
       modelComplexity: 1,
@@ -35,19 +38,32 @@ export default function useBodyLanguageAnalysis(currentIndex) {
     });
 
     let camera = null;
-    if (webcamRef.current?.video) {
-      camera = new cam.Camera(webcamRef.current.video, {
-        onFrame: async () => {
-          await holistic.send({ image: webcamRef.current.video });
-        },
-        width: 640,
-        height: 480,
-      });
-      camera.start();
+    function startCamera() {
+      if (webcamRef.current && webcamRef.current.video && webcamRef.current.video.readyState >= 2) {
+        camera = new cam.Camera(webcamRef.current.video, {
+          onFrame: async () => {
+            // double‑check before sending
+            const videoEl = webcamRef.current.video;
+            if (videoEl && videoEl.readyState >= 2) {
+              await holistic.send({ image: videoEl });
+            }
+          },
+          width: 640,
+          height: 480,
+        });
+        camera.start();
+      } else {
+        // try again in 100 ms if not ready
+        setTimeout(startCamera, 100);
+      }
     }
 
-    return () => camera && camera.stop();
-  }, [currentIndex]);
+    startCamera();
+
+    return () => {
+      if (camera) camera.stop();
+    };
+  }, [currentIndex, enabled]);
 
   return { webcamRef, perQuestionBuffer };
 }
