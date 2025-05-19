@@ -60,63 +60,42 @@ jobs:
             -t $NODE_IMAGE:$TAG ./node-server
           docker push $NODE_IMAGE:$TAG
 
-  deploy:
-    needs: [build-push-backend, build-push-frontend, build-push-node]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Deploy to production
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.PROD_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            # Bootstrap (run once)
-            if [ ! -d /var/www/fullstack-production/.git ]; then
-              echo "Running initial server setup…"
+    deploy:
+      needs: [build-push-backend, build-push-frontend, build-push-node]
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy to production
+          uses: appleboy/ssh-action@v1
+          with:
+            host: ${{ secrets.PROD_HOST }}
+            username: ${{ secrets.SSH_USERNAME }}
+            key: ${{ secrets.SSH_KEY }}
+            script: |
+              if [ ! -d /var/www/fullstack-production ] || [ ! -d /var/www/fullstack-production/.git ]; then
+                echo "Running initial server setup…"
+                # (prereqs, SSH host key, docker install, etc.)
+                sudo rm -rf /var/www/fullstack-production
+                sudo mkdir -p /var/www/fullstack-production
+                sudo chown $USER:$USER /var/www/fullstack-production
+                git clone \
+                  https://x-access-token:${{ secrets.GH_PAT }}@github.com/Hussein-Abdallah0/CareerForgeAI.git \
+                  /var/www/fullstack-production
+              fi
 
-              # Install prerequisites
-              sudo apt-get update
-              sudo apt-get install -y git curl software-properties-common
+              # — now INSIDE /var/www/fullstack-production —
+              cd /var/www/fullstack-production
+              git pull origin main
 
-              # Trust GitHub host key
-              mkdir -p ~/.ssh
-              ssh-keyscan github.com >> ~/.ssh/known_hosts
-              chmod 600 ~/.ssh/known_hosts
+              cat >.env <<EOF
+              DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+              JWT_SECRET=${{ secrets.JWT_SECRET }}
+              EOF
 
-              # Clean up and clone the setup repo
-              sudo rm -rf /tmp/setup
-              git clone \
-                https://x-access-token:${{ secrets.GH_PAT }}@github.com/Hussein-Abdallah0/CareerForgeAI.git \
-                /tmp/setup
+              sudo docker compose down
+              sudo docker compose pull
+              sudo docker compose up -d
 
-              # Run your install script (Docker & Docker-Compose)
-              sudo bash /tmp/setup/server-setup.sh
-
-              # **Prepare the webroot folder with correct ownership**
-              sudo mkdir -p /var/www/fullstack-production
-              sudo chown $USER:$USER /var/www/fullstack-production
-
-              # Clone *your app* there as ubuntu (no sudo)
-              git clone \
-                https://x-access-token:${{ secrets.GH_PAT }}@github.com/Hussein-Abdallah0/CareerForgeAI.git \
-                /var/www/fullstack-production
-            fi
-
-            # Regular deployment 
-            cd /var/www/fullstack-production
-            git pull origin main
-
-            cat >/var/www/fullstack-production/.env <<EOF
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            JWT_SECRET=${{ secrets.JWT_SECRET }}
-            EOF
-
-            sudo docker compose down
-            sudo docker compose pull
-            sudo docker compose up -d
-
-            sudo docker compose exec -T backend composer install --no-interaction --prefer-dist --optimize-autoloader
-
-            sudo docker compose exec -T backend php artisan migrate --force
+              sudo docker compose exec -T backend \
+                composer install --no-interaction --prefer-dist --optimize-autoloader
+              sudo docker compose exec -T backend \
+                php artisan migrate --force
