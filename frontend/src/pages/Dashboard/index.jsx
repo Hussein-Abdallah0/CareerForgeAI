@@ -1,11 +1,28 @@
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Button from "../../components/Button";
-import "./styles.css";
 import { useNavigate } from "react-router-dom";
+import axiosBaseUrl from "../../utils/axios";
+import { useEffect, useState } from "react";
+import "./styles.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [tips, setTips] = useState([]);
+
+  const loadTips = async () => {
+    try {
+      const res = await axiosBaseUrl.get("/tips");
+      setTips(res.data.payload);
+    } catch (err) {
+      console.error("Failed to load user", err);
+    }
+  };
+
+  useEffect(() => {
+    loadTips();
+  }, []);
+
   return (
     <div className="dashboard">
       <Navbar />
@@ -26,7 +43,7 @@ const Dashboard = () => {
           </div>
           <div className="dash-feature background3">
             <h2>Salary Estimator</h2>
-            <p>Explore salary benchmarks and get negotiation tips</p>
+            <p>Explore salary benchmarks and get market insights</p>
             <Button text="Analyze Salary" onClick={() => navigate("/salary")} />
           </div>
         </div>
@@ -36,19 +53,18 @@ const Dashboard = () => {
       <div className="dashboard2">
         <h2 className="title">Daily Tips</h2>
 
-        <div className="tips">
-          <div>
-            <h3>Tip #1</h3>
-            <p>
-              Start each resume bullet with a verb like 'Improved', 'Designed', or 'Led' - action
-              words are powerful.
-            </p>
+        {tips.length > 0 && (
+          <div className="tips">
+            <div>
+              <h3>Tip #{tips[0].id}</h3>
+              <p>{tips[0].tip_text}</p>
+            </div>
+            <div>
+              <h3>Tip #{tips[1].id}</h3>
+              <p>{tips[1].tip_text}</p>
+            </div>
           </div>
-          <div>
-            <h3>Tip #2</h3>
-            <p>Always tailor your resume to each job - generic resumes get overlooked.</p>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* ----------------3rd section -------------------*/}

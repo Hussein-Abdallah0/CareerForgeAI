@@ -25,29 +25,19 @@ export default function JobTitle() {
 
   return (
     <div>
-      {/* Video toggle */}
-      <div className="video-toggle">
-        <label>
-          <input
-            type="checkbox"
-            checked={videoEnabled}
-            onChange={() => setVideoEnabled((v) => !v)}
-          />{" "}
-          Enable video interview
-        </label>
-      </div>
-
-      <Link to="/interview">
-        <ArrowLeft className="arrow" />
-      </Link>
-      <p className="job-title">What field do you want to practice for?</p>
-      <div className="jobs">
-        {jobs.map((job, i) => (
-          <div key={i} className={`job ${loading ? "disabled" : ""}`} onClick={() => handle(job)}>
-            {job}
-            <ChevronRight />
-          </div>
-        ))}
+      <p className="job-p">What field do you want to practice for?</p>
+      <div className="arrow-div">
+        <Link to="/interview">
+          <ArrowLeft className="arrow" />
+        </Link>
+        <div className="jobs">
+          {jobs.map((job, i) => (
+            <div key={i} className={`job ${loading ? "disabled" : ""}`} onClick={() => handle(job)}>
+              {job}
+              <ChevronRight />
+            </div>
+          ))}
+        </div>
       </div>
       <div className="custom-job-input">
         <Input
@@ -62,6 +52,18 @@ export default function JobTitle() {
         />
       </div>
       {loading && <p className="loading">Fetching questions, please wait...</p>}
+
+      {/* Video toggle */}
+      <div className="video-toggle">
+        <label>
+          <input
+            type="checkbox"
+            checked={videoEnabled}
+            onChange={() => setVideoEnabled((v) => !v)}
+          />{" "}
+          Enable video interview
+        </label>
+      </div>
     </div>
   );
 }

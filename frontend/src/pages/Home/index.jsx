@@ -9,10 +9,10 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="dashboard">
+    <div className="home">
       <Navbar type="home" />
 
-      <div className="dashboard1">
+      <div className="home1">
         <h1 className="title">Supercharge Your Job Search</h1>
         <p className="text">AI-powered tools to help you land your dream job</p>
         <div className="dash-features">
@@ -28,14 +28,14 @@ const Home = () => {
           </div>
           <div className="dash-feature background3">
             <h2>Salary Estimator</h2>
-            <p>Explore salary benchmarks and get negotiation tips</p>
+            <p>Explore salary benchmarks and get market insights</p>
             <Button text="Analyze Salary" onClick={() => navigate("/salary")} />
           </div>
         </div>
       </div>
       {/* ----------------2nd section -------------------*/}
 
-      <div className="dashboard2">
+      <div className="home2">
         <h2 className="title">Daily Tips</h2>
 
         <div className="tips">
@@ -55,7 +55,7 @@ const Home = () => {
 
       {/* ----------------3rd section -------------------*/}
 
-      <div className="dashboard3">
+      <div className="home3">
         <h2 className="title">Video Tutorials</h2>
 
         <div className="videos">

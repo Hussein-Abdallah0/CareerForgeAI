@@ -10,11 +10,13 @@ const Resume = () => {
   return (
     <div>
       <Navbar />
-
-      <div className="resume">
-        <h2>Tailor Your Resume with AI</h2>
-        <p>Get a personalized, ATS-friendly resume crafted for your desired job</p>
-        <Button text="Build Resume" onClick={() => navigate("/resume/form")} />
+      <div className="center">
+        <div className="resume">
+          <h2>Tailor Your Resume with AI</h2>
+          <p>Get a personalized, ATS-friendly resume crafted for your desired job</p>
+          <Button text="Build Resume" onClick={() => navigate("/resume/form")} />
+        </div>
+        <img src="/resume/image32.jpg" alt="" />
       </div>
 
       <div className="instructions-section">
