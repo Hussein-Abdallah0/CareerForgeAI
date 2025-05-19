@@ -1,0 +1,66 @@
+.input-div {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 100px;
+  margin: 10px 0;
+}
+
+.small-div {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100px;
+  margin: 10px 0;
+}
+
+.input-div > label {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.small-div > label {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.input {
+  margin-top: 10px;
+  height: 44px;
+  font-size: 20px;
+  border: 1px gray solid;
+  padding-left: 10px;
+  border-radius: 10px;
+}
+
+.small {
+  margin-top: 10px;
+  height: 44px;
+  font-size: 20px;
+  border: 1px gray solid;
+  padding-left: 10px;
+  width: 229px;
+  border-radius: 10px;
+}
+
+.input::placeholder {
+  color: lightgray;
+}
+
+.small::placeholder {
+  color: lightgray;
+}
+
+@media (max-width: 576px) {
+  .input-div {
+    width: 100%;
+    margin: 0;
+  }
+  .input-div > input {
+    width: 100%;
+  }
+
+  /* .input-div label {
+    margin-left: 5%;
+  } */
+}

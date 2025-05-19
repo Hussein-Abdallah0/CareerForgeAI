@@ -1,0 +1,189 @@
+.resume-template {
+  font-family: "Arial", sans-serif;
+  width: 190mm;
+  max-width: 190mm;
+  margin: 0 auto;
+  padding: 0.5cm;
+  color: #333;
+  line-height: 1.3;
+  box-sizing: border-box;
+  font-size: 9.5pt;
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.resume-header {
+  text-align: center;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid black;
+}
+
+.resume-header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+  font-size: 8.5pt;
+}
+
+/* Summary Section */
+.summary-section {
+  margin-bottom: 0.6rem;
+}
+
+.summary-section h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  color: #2c3e50;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 0.2rem;
+}
+
+.summary-content {
+  font-size: 9pt;
+  line-height: 1.3;
+}
+
+/* Section Styling */
+.resume-section {
+  margin-bottom: 0.6rem;
+}
+
+.resume-section h2 {
+  color: #2c3e50;
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* Education/Experience Items */
+.education-item,
+.experience-item,
+.project-item {
+  margin-bottom: 0.6rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.2rem;
+}
+
+.section-header h3 {
+  margin: 0;
+  font-size: 9.5pt;
+  font-weight: 600;
+}
+
+.date-range {
+  color: #7f8c8d;
+  font-size: 8.5pt;
+  white-space: nowrap;
+}
+
+/* Lists */
+.achievements-list {
+  padding-left: 1rem;
+  margin: 0.2rem 0;
+  list-style-type: square;
+}
+
+.achievements-list li {
+  margin-bottom: 0.1rem;
+  font-size: 9pt;
+}
+
+/* Skills Section */
+.skills-section {
+  font-size: 9pt;
+  line-height: 1.3;
+}
+
+.skill-category {
+  display: inline;
+  font-weight: 600;
+}
+
+.skill-category::after {
+  content: " // ";
+  font-weight: normal;
+}
+
+.skill-items {
+  display: inline;
+}
+
+.skill-item {
+  display: inline;
+}
+
+.skill-item:not(:last-child)::after {
+  content: ", ";
+}
+
+/* Projects Section */
+.project-description {
+  margin: 0.2rem 0;
+  font-size: 9pt;
+}
+
+.technologies {
+  margin: 0.1rem 0;
+  font-size: 8.5pt;
+  color: #555;
+}
+
+/* Print Adjustments */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .resume-template {
+    padding: 0.5cm !important;
+    height: 297mm;
+    overflow: hidden !important;
+  }
+  /* Add this to prevent empty second page */
+  body:after {
+    content: none !important;
+  }
+}
+
+/* Tight spacing */
+/* * {
+  overflow-wrap: break-word;
+  hyphens: auto;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+} */

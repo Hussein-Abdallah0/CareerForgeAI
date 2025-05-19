@@ -1,0 +1,81 @@
+.keyboard-btn {
+  width: 70px;
+  height: 50px;
+  background-color: var(--secondary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 160px;
+}
+
+.left-btn {
+  display: flex;
+  align-items: center;
+}
+
+.number {
+  font-size: 16px;
+  align-self: flex-end;
+  margin-right: 30px;
+  margin-top: -10px;
+}
+
+.question-div {
+  width: 600px;
+  height: 200px;
+  border-radius: 10px;
+  border: 2px var(--secondary) solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.question-text {
+  font-size: 20px;
+  align-self: flex-start;
+  margin-left: 10px;
+  margin-top: -5px;
+  /* margin-bottom: 40px; */
+}
+
+.ai-response {
+  /* height: 20px; */
+  border: 2px var(--secondary) solid;
+  border-radius: 10px;
+  width: 560px;
+  margin-top: 50px;
+  padding: 20px;
+}
+
+.question {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-input-container {
+  border: 2px var(--secondary) solid;
+  border-radius: 10px;
+  padding: 30px;
+  margin-top: 20px;
+}
+
+.text-input-container button {
+  margin: 0;
+}
+
+.question-btns {
+  position: absolute;
+  bottom: 10%;
+  display: flex;
+  gap: 50px;
+}

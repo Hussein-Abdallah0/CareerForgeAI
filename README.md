@@ -7,27 +7,29 @@
 
 > CareerForgeAI is a platform designed to help job seekers get better chances at landing a job and firing up their career. The platform features an AI interview Simulator that conducts real-time voice mock interviews, providing users with some practice and feedback
 >
-> Additionally, it helps job seekers improve their resumes by tailoring them to a specific job description while ensuring compatibility with Applicant Tracking Systems (ATS). Furthermore CareerForgeAI includes a Salary Negotiator that analyzes market trends and suggests relevant pay ranges, helping users confidently negotiate compensation.
+> Additionally, it helps job seekers improve their resumes by tailoring them to a specific job description while ensuring compatibility with Applicant Tracking Systems (ATS). Furthermore CareerForgeAI includes a Salary Estimator that analyzes market trends and suggests relevant pay ranges, helping users confidently negotiate compensation.
 
 <br><br>
 
 <!-- System Design -->
 <img src="./readme/title3.svg"/>
 
-### Add Title Here
+<!-- ### HR Diagram -->
 
-- To be decided on later on.
+| ER Diagram                               |
+| ---------------------------------------- |
+| ![Landing](./readme/demo/ER-Diagram.jpg) |
 
 <br><br>
 
 <!-- Project Highlights -->
 <img src="./readme/title4.svg"/>
 
-### Add Title Here
+### The most remarkable features
 
-- Interview Simulator AI conducts a realtime voice interview.
+- Interview Simulator AI conducts a realtime voice interview Interview Simulator, AI conducts a realtime voice interview and gives you feedback on your answers.
 - AI Resume Tailoring Input your information, and AI writes it for your desired job and following ATS.
-- Salary Negotiator Analyzes market data to suggest optimal pay ranges.
+- Salary Estimator Analyzes market data to suggest optimal pay ranges.
 
 <br><br>
 

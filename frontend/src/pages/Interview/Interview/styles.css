@@ -1,0 +1,53 @@
+.interview {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: start;
+  width: 29vw;
+}
+
+.interview-how {
+  font-size: 20px;
+  margin-bottom: 50px;
+}
+
+.instructions-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.instructions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.instructions div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 320px;
+  border: 2px var(--secondary) solid;
+}
+
+.instructions p {
+  font-size: 18px;
+}
+
+.center {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -300px;
+}
+
+.center img {
+  width: 400px;
+}

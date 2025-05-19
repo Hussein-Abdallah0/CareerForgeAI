@@ -1,0 +1,44 @@
+name: Run Laravel Tests with SQLite
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, xml, sqlite, zip, gd
+
+      - name: Install Composer Dependencies
+        run: |
+          cd backend
+          composer install --no-interaction --prefer-dist
+
+      - name: Set up Environment File
+        run: |
+          cd backend
+          cp .env.testing .env
+          php artisan key:generate
+          php artisan jwt:secret
+          php artisan config:clear
+
+      - name: Prepare SQLite Database
+        run: |
+          cd backend
+          mkdir -p database
+          touch database/database.sqlite
+          chmod 777 database/database.sqlite
+
+      - name: Run Tests
+        run: |
+          cd backend
+          php artisan migrate:fresh --env=testing
+          php artisan test
