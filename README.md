@@ -20,7 +20,6 @@
 | ----------------------------------------------- |
 | ![Landing](./readme/demo/ER-Diagram.jpg)        |
 | Container Diagram                               |
-| ----------------------------------------        |
 | ![Landing](./readme/demo/container-diagram.jpg) |
 
 <br><br>
@@ -58,21 +57,36 @@
 
 ### Add Title Here
 
-| Services                                | Validation                            | Testing                               |
-| --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| Controller                                      | Model                                    | Testing                                         |
+| ----------------------------------------------- | ---------------------------------------- | ----------------------------------------------- |
+| ![Landing](./readme/development/controller.jpg) | ![fsdaf](./readme/development/model.jpg) | ![fsdaf](./readme/development/tests.jpg)        |
+| Service                                         | Trait                                    | Testing                                         |
+| ![Landing](./readme/development/service.jpg)    | ![fsdaf](./readme/development/trait.jpg) | ![fsdaf](./readme/development/feature_test.jpg) |
 
 <br><br>
 
-<!-- Deployment -->
+<!-- AI-Powered APP -->
 <img src="./readme/title7.svg"/>
 
 ### Add Title Here
 
 - Description here.
 
-| Postman API 1                           | Postman API 2                         | Postman API 3                         |
-| --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| Postman API 1                             | Postman API 2                           | Postman API 3                           |
+| ----------------------------------------- | --------------------------------------- | --------------------------------------- |
+| ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) | ![fsdaf](./readme/postman/postman3.png) |
+
+<br><br>
+
+<!-- Deployment -->
+<img src="./readme/title8.svg"/>
+
+<!-- ### Add Title Here
+
+- Description here. -->
+
+| Postman API 1                             | Postman API 2                           | Postman API 3                           |
+| ----------------------------------------- | --------------------------------------- | --------------------------------------- |
+| ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) | ![fsdaf](./readme/postman/postman3.png) |
 
 <br><br>
