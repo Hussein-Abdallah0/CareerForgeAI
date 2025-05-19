@@ -68,13 +68,13 @@
 <!-- AI-Powered APP -->
 <img src="./readme/title7.svg"/>
 
-### Add Title Here
+<!-- ### Add Title Here
 
-- Description here.
+- Description here. -->
 
-| Postman API 1                             | Postman API 2                           | Postman API 3                           |
-| ----------------------------------------- | --------------------------------------- | --------------------------------------- |
-| ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) | ![fsdaf](./readme/postman/postman3.png) |
+| Route                             | Service                           | Salary Prompt                    |
+| --------------------------------- | --------------------------------- | -------------------------------- |
+| ![Landing](./readme/ai/route.jpg) | ![fsdaf](./readme/ai/service.jpg) | ![fsdaf](./readme/ai/prompt.jpg) |
 
 <br><br>
 
