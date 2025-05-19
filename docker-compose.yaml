@@ -30,6 +30,8 @@ services:
     volumes:
       - ./backend:/var/www/html
     environment:
+      - DB_CONNECTION=mysql
+      - DB_PORT=3306
       - APP_ENV=local
       - APP_DEBUG=true
       - DB_HOST=mysql
