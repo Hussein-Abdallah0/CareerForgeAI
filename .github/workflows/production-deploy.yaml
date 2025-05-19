@@ -87,7 +87,9 @@ jobs:
 
               # Clean up and clone the setup repo
               sudo rm -rf /tmp/setup
-              git clone --branch main git@github.com:Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
+              git clone \
+                https://x-access-token:${{ secrets.GH_PAT }}@github.com/Hussein-Abdallah0/CareerForgeAI.git \
+                /tmp/setup
 
               # Run your install script (Docker & Docker-Compose)
               sudo bash /tmp/setup/server-setup.sh
@@ -97,7 +99,9 @@ jobs:
               sudo chown $USER:$USER /var/www/fullstack-production
 
               # Clone *your app* there as ubuntu (no sudo)
-              git clone --branch main git@github.com:Hussein-Abdallah0/CareerForgeAI.git /var/www/fullstack-production
+              git clone \
+                https://x-access-token:${{ secrets.GH_PAT }}@github.com/Hussein-Abdallah0/CareerForgeAI.git \
+                /var/www/fullstack-production
             fi
 
             # Regular deployment 
@@ -109,10 +113,10 @@ jobs:
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             EOF
 
-            sudo docker-compose down
-            sudo docker-compose pull
-            sudo docker-compose up -d
+            sudo docker compose down
+            sudo docker compose pull
+            sudo docker compose up -d
 
-            sudo docker-compose exec -T backend composer install --no-interaction --prefer-dist --optimize-autoloader
+            sudo docker compose exec -T backend composer install --no-interaction --prefer-dist --optimize-autoloader
 
-            sudo docker-compose exec -T backend php artisan migrate --force
+            sudo docker compose exec -T backend php artisan migrate --force
