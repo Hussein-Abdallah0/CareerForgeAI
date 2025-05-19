@@ -6,7 +6,7 @@ const Endpoint = "/api/v1";
 const token = localStorage.getItem("token");
 
 const axiosBaseUrl = axios.create({
-  baseURL: `${BaseURL}:8000${Endpoint}`,
+  baseURL: `${BaseURL}${Endpoint}`,
   headers: {
     "Content-Type": "application/json",
     ...(token && { Authorization: `Bearer ${token}` }),

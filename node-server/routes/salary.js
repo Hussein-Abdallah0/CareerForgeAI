@@ -9,31 +9,31 @@ router.post("/generate-salary", async (req, res) => {
   }
 
   const prompt = `
-You are an expert in salary benchmarking. Your task is to estimate realistic salary ranges for professionals based on job role, experience, and location.
-
-Important constraints:
-- The salary must be in USD/month.
-- Do NOT assume US or Western salary standards.
-- Base your estimate on realistic salaries in ${location}, considering its cost of living and market.
-- Typical ranges in ${location} are between $400 and $2,000/month depending on profession.
-
-Given the following:
-• Job title: ${jobTitle}
-• Years of experience: ${experience}
-• Location: ${location}
-• Current salary: $${current_salary}
-
-Return a JSON object in this format:
-
-{
-  "min": number,      // realistic minimum monthly salary in USD
-  "max": number,      // realistic maximum monthly salary in USD
-  "median": number,   // midpoint of the range
-  "insights": [
-    "Insight about how ${location} affects salary.",
-    "Insight about how ${experience} years of experience affects salary."
-  ]
-}
+        You are an expert in salary benchmarking. Your task is to estimate realistic salary ranges for professionals based on job role, experience, and location.
+        
+        Important constraints:
+        - The salary must be in USD/month.
+        - Do NOT assume US or Western salary standards.
+        - Base your estimate on realistic salaries in ${location}, considering its cost of living and market.
+        - Typical ranges in ${location} are between $400 and $2,000/month depending on profession.
+        
+        Given the following:
+        • Job title: ${jobTitle}
+        • Years of experience: ${experience}
+        • Location: ${location}
+        • Current salary: $${current_salary}
+        
+        Return a JSON object in this format:
+        
+        {
+          "min": number,      // realistic minimum monthly salary in USD
+          "max": number,      // realistic maximum monthly salary in USD
+          "median": number,   // midpoint of the range
+          "insights": [
+            "Insight about how ${location} affects salary.",
+            "Insight about how ${experience} years of experience affects salary."
+          ]
+        }
 `.trim();
 
   try {

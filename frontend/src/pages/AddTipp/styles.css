@@ -1,7 +1,118 @@
-.tip {
+/* .tip {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: -480px;
+  } */
+
+/* styles.css */
+.tip {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  background: #f8f9fa;
+  margin-top: -650px;
+}
+
+.tip h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.tip form {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.tip form:hover {
+  transform: translateY(-2px);
+}
+
+.tip textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 150px;
+  transition: all 0.2s ease;
+}
+
+.tip textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.tip button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  margin-top: 1.5rem;
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tip button:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+}
+
+.tip button:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tip [style*="color: red"],
+.tip [style*="color: green"] {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tip [style*="color: red"] {
+  background: #fee2e2;
+  color: #dc2626 !important;
+  border: 1px solid #fca5a5;
+}
+
+.tip [style*="color: green"] {
+  background: #dcfce7;
+  color: #16a34a !important;
+  border: 1px solid #86efac;
+}
+
+@media (max-width: 640px) {
+  .tip {
+    padding: 1rem;
+  }
+
+  .tip h1 {
+    font-size: 2rem;
+  }
+
+  .tip form {
+    padding: 1.5rem;
+  }
 }
