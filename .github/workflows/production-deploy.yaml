@@ -85,8 +85,24 @@ jobs:
             cd /var/www/fullstack-production
             git pull origin main
             cat >.env <<EOF
+            APP_NAME=Laravel
+            APP_ENV=production
+            APP_KEY=base64:7Xa46ucYC1rR55v1WSfDrSePxNpi6wQZzW9/rb5cMeI=
+            APP_DEBUG=false
+            APP_URL=https://your-domain.com
+
+            DB_CONNECTION=mysql
+            DB_HOST=mysql
+            DB_PORT=3306
+            DB_DATABASE=careerForgeDB
+            DB_USERNAME=root
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+
             JWT_SECRET=${{ secrets.JWT_SECRET }}
+
+            SESSION_DRIVER=database
+            SESSION_LIFETIME=120
+            # …and any other keys you need…
             EOF
             sudo docker compose down
             sudo docker compose pull
