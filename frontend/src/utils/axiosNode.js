@@ -4,7 +4,7 @@ import axios from "axios";
 const BaseURL = import.meta.env.VITE_NODE_API_URL;
 
 const axiosNode = axios.create({
-  baseURL: BaseURL,
+  baseURL: `${BaseURL}:3001`,
   headers: {
     "Content-Type": "application/json",
   },
