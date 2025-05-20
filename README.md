@@ -16,11 +16,13 @@
 
 <!-- ### ER Diagram -->
 
-| ER Diagram                                      |
-| ----------------------------------------------- |
-| ![Landing](./readme/demo/ER-Diagram.jpg)        |
-| Container Diagram                               |
-| ![Landing](./readme/demo/container-diagram.jpg) |
+| ER Diagram                                                |
+| --------------------------------------------------------- |
+| ![Landing](./readme/demo/ER-Diagram.jpg)                  |
+| Container Diagram                                         |
+| ![Landing](./readme/demo/container-diagram.jpg)           |
+| Deployment Pipeline Diagram                               |
+| ![Landing](./readme/demo/Deployment-Pipeline-Diagram.jpg) |
 
 <br><br>
 
