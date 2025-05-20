@@ -14,7 +14,7 @@
 <!-- System Design -->
 <img src="./readme/title3.svg"/>
 
-<!-- ### HR Diagram -->
+<!-- ### ER Diagram -->
 
 | ER Diagram                                      |
 | ----------------------------------------------- |
@@ -29,9 +29,10 @@
 
 ### The most remarkable features
 
+<!--
 - Interview Simulator, AI conducts a realtime voice interview and gives you feedback on your answers.
 - AI Resume Tailoring Input your information, and AI writes it for your desired job and following ATS.
-- Salary Estimator Analyzes market data to suggest optimal pay ranges.
+- Salary Estimator Analyzes market data to suggest optimal pay ranges. -->
 
 | Features                          |
 | --------------------------------- |
@@ -42,17 +43,21 @@
 <!-- Demo -->
 <img src="./readme/title5.svg"/>
 
-### User Screens (Mobile)
+<!-- ### User Screens (Mobile)
 
 | Login screen                            | Register screen                       | Register screen                       |
 | --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | -->
 
 ### Admin Screens (Web)
 
-| Login screen                            | Register screen                       |
-| --------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| Dashboard                                        | Salary Estimation                          |
+| ------------------------------------------------ | ------------------------------------------ |
+| ![Landing](./readme/ui/dashboard.png)            | ![fsdaf](./readme/ui/salary.jpg)           |
+| Interview Question                               | Interview Result                           |
+| ![Landing](./readme/ui/interview/interview.gif)  | ![fsdaf](./readme/ui/interview/result.jpg) |
+| Resume Builder                                   | Improve Resume with AI                     |
+| ![Landing](./readme/ui/resume/ResumeBuilder.gif) | ![fsdaf](./readme/ui/resume/ResumeAI.gif)  |
 
 <br><br>
 
