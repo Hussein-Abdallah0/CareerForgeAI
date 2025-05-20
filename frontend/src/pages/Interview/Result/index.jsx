@@ -51,7 +51,7 @@ const Result = () => {
             </div>
 
             {videoEnabled && (
-              <div className="result-section">
+              <div className="result-section body-lang">
                 <h4 className="result-title">Body-Language Tip</h4>
                 <p className="result-feedback">{item.bodyTip || "No tip available"}</p>
               </div>
