@@ -66,13 +66,13 @@
 
 ### Add Title Here
 
-| Controller                                      | Service                                         |
-| ----------------------------------------------- | ----------------------------------------------- |
-| ![Landing](./readme/development/controller.jpg) | ![fsdaf](./readme/development/service.jpg)      |
-| Model                                           | Trait                                           |
-| ![Landing](./readme/development/model.jpg)      | ![fsdaf](./readme/development/trait.jpg)        |
-| Testing                                         | Feature Test                                    |
-| ![Landing](./readme/development/tests.jpg)      | ![fsdaf](./readme/development/feature_test.jpg) |
+| Service                                      | Controller                                      |
+| -------------------------------------------- | ----------------------------------------------- |
+| ![Landing](./readme/development/service.jpg) | ![fsdaf](./readme/development/controller.jpg)   |
+| Model                                        | Trait                                           |
+| ![Landing](./readme/development/model.jpg)   | ![fsdaf](./readme/development/trait.jpg)        |
+| Testing                                      | Feature Test                                    |
+| ![Landing](./readme/development/tests.jpg)   | ![fsdaf](./readme/development/feature_test.jpg) |
 
 <!-- | Controller                                      | Model                                    | Testing                                         |
 | ----------------------------------------------- | ---------------------------------------- | ----------------------------------------------- |
