@@ -66,11 +66,19 @@
 
 ### Add Title Here
 
-| Controller                                      | Model                                    | Testing                                         |
+| Controller                                      | Service                                         |
+| ----------------------------------------------- | ----------------------------------------------- |
+| ![Landing](./readme/development/controller.jpg) | ![fsdaf](./readme/development/service.jpg)      |
+| Model                                           | Trait                                           |
+| ![Landing](./readme/development/model.jpg)      | ![fsdaf](./readme/development/trait.jpg)        |
+| Testing                                         | Feature Test                                    |
+| ![Landing](./readme/development/tests.jpg)      | ![fsdaf](./readme/development/feature_test.jpg) |
+
+<!-- | Controller                                      | Model                                    | Testing                                         |
 | ----------------------------------------------- | ---------------------------------------- | ----------------------------------------------- |
 | ![Landing](./readme/development/controller.jpg) | ![fsdaf](./readme/development/model.jpg) | ![fsdaf](./readme/development/tests.jpg)        |
 | Service                                         | Trait                                    | Testing                                         |
-| ![Landing](./readme/development/service.jpg)    | ![fsdaf](./readme/development/trait.jpg) | ![fsdaf](./readme/development/feature_test.jpg) |
+| ![Landing](./readme/development/service.jpg)    | ![fsdaf](./readme/development/trait.jpg) | ![fsdaf](./readme/development/feature_test.jpg) | -->
 
 <br><br>
 
@@ -81,9 +89,15 @@
 
 - Description here. -->
 
-| Route                             | Service                           | Salary Prompt                    |
+<!-- | Route                             | Service                           | Salary Prompt                    |
 | --------------------------------- | --------------------------------- | -------------------------------- |
-| ![Landing](./readme/ai/route.jpg) | ![fsdaf](./readme/ai/service.jpg) | ![fsdaf](./readme/ai/prompt.jpg) |
+| ![Landing](./readme/ai/route.jpg) | ![fsdaf](./readme/ai/service.jpg) | ![fsdaf](./readme/ai/prompt.jpg) | -->
+
+| Route                             | Service                           |
+| --------------------------------- | --------------------------------- |
+| ![Landing](./readme/ai/route.jpg) | ![fsdaf](./readme/ai/service.jpg) |
+| Salary Prompt                     |
+| ![fsdaf](./readme/ai/prompt.jpg)  |
 
 <br><br>
 
@@ -94,8 +108,14 @@
 
 - Description here. -->
 
-| Postman API 1                             | Postman API 2                           | Postman API 3                           |
+<!-- | Postman API 1                             | Postman API 2                           | Postman API 3                           |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- |
-| ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) | ![fsdaf](./readme/postman/postman3.png) |
+| ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) | ![fsdaf](./readme/postman/postman3.png) | -->
+
+| Postman API 1                             | Postman API 2                           |
+| ----------------------------------------- | --------------------------------------- |
+| ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) |
+| Postman API 3                             |
+| ![fsdaf](./readme/postman/postman3.png)   |
 
 <br><br>
