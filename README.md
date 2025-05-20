@@ -16,13 +16,11 @@
 
 <!-- ### ER Diagram -->
 
-| ER Diagram                                                |
-| --------------------------------------------------------- |
-| ![Landing](./readme/demo/ER-Diagram.jpg)                  |
-| Container Diagram                                         |
-| ![Landing](./readme/demo/container-diagram.jpg)           |
-| Deployment Pipeline Diagram                               |
-| ![Landing](./readme/demo/Deployment-Pipeline-Diagram.jpg) |
+| ER Diagram                                      |
+| ----------------------------------------------- |
+| ![Landing](./readme/demo/ER-Diagram.jpg)        |
+| Container Diagram                               |
+| ![Landing](./readme/demo/container-diagram.jpg) |
 
 <br><br>
 
@@ -98,8 +96,9 @@
 | Route                             | Service                           |
 | --------------------------------- | --------------------------------- |
 | ![Landing](./readme/ai/route.jpg) | ![fsdaf](./readme/ai/service.jpg) |
-| Salary Prompt                     |
-| ![fsdaf](./readme/ai/prompt.jpg)  |
+
+Salary Prompt
+![fsdaf](./readme/ai/prompt.jpg)
 
 <br><br>
 
@@ -117,7 +116,11 @@
 | Postman API 1                             | Postman API 2                           |
 | ----------------------------------------- | --------------------------------------- |
 | ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) |
-| Postman API 3                             |
-| ![fsdaf](./readme/postman/postman3.png)   |
+
+Postman API 3
+![fsdaf](./readme/postman/postman3.png)
+
+Deployment Pipeline Diagram
+![Landing](./readme/demo/Deployment-Pipeline-Diagram.jpg)
 
 <br><br>
