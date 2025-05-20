@@ -64,7 +64,6 @@ jobs:
     needs: [build-push-backend, build-push-frontend, build-push-node]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - name: Deploy to production
         uses: appleboy/ssh-action@v1
         with:
@@ -72,47 +71,43 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Bootstrap (run once)
-            if [ ! -d /var/www/fullstack-production/.git ]; then
+            if [ ! -d /var/www/fullstack-production ] || [ ! -d /var/www/fullstack-production/.git ]; then
               echo "Running initial server setup…"
-
-              # Install prerequisites
-              sudo apt-get update
-              sudo apt-get install -y git curl software-properties-common
-
-              # Trust GitHub host key
-              mkdir -p ~/.ssh
-              ssh-keyscan github.com >> ~/.ssh/known_hosts
-              chmod 600 ~/.ssh/known_hosts
-
-              # Clean up and clone the setup repo
-              sudo rm -rf /tmp/setup
-              git clone --branch main git@github.com:Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
-
-              # Run your install script (Docker & Docker-Compose)
-              sudo bash /tmp/setup/server-setup.sh
-
-              # **Prepare the webroot folder with correct ownership**
+              # (prereqs, SSH host key, docker install, etc.)
+              sudo rm -rf /var/www/fullstack-production
               sudo mkdir -p /var/www/fullstack-production
               sudo chown $USER:$USER /var/www/fullstack-production
-
-              # Clone *your app* there as ubuntu (no sudo)
-              git clone --branch main git@github.com:Hussein-Abdallah0/CareerForgeAI.git /var/www/fullstack-production
+              git clone \
+                https://x-access-token:${{ secrets.GH_PAT }}@github.com/Hussein-Abdallah0/CareerForgeAI.git \
+                /var/www/fullstack-production
             fi
-
-            # Regular deployment 
+            # — now INSIDE /var/www/fullstack-production —
             cd /var/www/fullstack-production
             git pull origin main
+            cat >.env <<EOF
+            APP_NAME=Laravel
+            APP_ENV=production
+            APP_KEY=base64:7Xa46ucYC1rR55v1WSfDrSePxNpi6wQZzW9/rb5cMeI=
+            APP_DEBUG=false
+            APP_URL=https://your-domain.com
 
-            cat >/var/www/fullstack-production/.env <<EOF
+            DB_CONNECTION=mysql
+            DB_HOST=mysql
+            DB_PORT=3306
+            DB_DATABASE=careerForgeDB
+            DB_USERNAME=root
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+
             JWT_SECRET=${{ secrets.JWT_SECRET }}
+
+            SESSION_DRIVER=database
+            SESSION_LIFETIME=120
+            # …and any other keys you need…
             EOF
-
-            sudo docker-compose down
-            sudo docker-compose pull
-            sudo docker-compose up -d
-
-            sudo docker-compose exec -T backend composer install --no-interaction --prefer-dist --optimize-autoloader
-
-            sudo docker-compose exec -T backend php artisan migrate --force
+            sudo docker compose down
+            sudo docker compose pull
+            sudo docker compose up -d
+            sudo docker compose exec -T backend \
+              composer install --no-interaction --prefer-dist --optimize-autoloader
+            sudo docker compose exec -T backend \
+              php artisan migrate --force

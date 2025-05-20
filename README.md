@@ -14,11 +14,13 @@
 <!-- System Design -->
 <img src="./readme/title3.svg"/>
 
-<!-- ### HR Diagram -->
+<!-- ### ER Diagram -->
 
-| ER Diagram                               |
-| ---------------------------------------- |
-| ![Landing](./readme/demo/ER-Diagram.jpg) |
+| ER Diagram                                      |
+| ----------------------------------------------- |
+| ![Landing](./readme/demo/ER-Diagram.jpg)        |
+| Container Diagram                               |
+| ![Landing](./readme/demo/container-diagram.jpg) |
 
 <br><br>
 
@@ -27,26 +29,35 @@
 
 ### The most remarkable features
 
-- Interview Simulator AI conducts a realtime voice interview Interview Simulator, AI conducts a realtime voice interview and gives you feedback on your answers.
+<!--
+- Interview Simulator, AI conducts a realtime voice interview and gives you feedback on your answers.
 - AI Resume Tailoring Input your information, and AI writes it for your desired job and following ATS.
-- Salary Estimator Analyzes market data to suggest optimal pay ranges.
+- Salary Estimator Analyzes market data to suggest optimal pay ranges. -->
+
+| Features                          |
+| --------------------------------- |
+| ![Landing](./readme/features.png) |
 
 <br><br>
 
 <!-- Demo -->
 <img src="./readme/title5.svg"/>
 
-### User Screens (Mobile)
+<!-- ### User Screens (Mobile)
 
 | Login screen                            | Register screen                       | Register screen                       |
 | --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | -->
 
-### Admin Screens (Web)
+### User Screens (Web)
 
-| Login screen                            | Register screen                       |
-| --------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| Dashboard                                        | Salary Estimation                          |
+| ------------------------------------------------ | ------------------------------------------ |
+| ![Landing](./readme/ui/dashboard.png)            | ![fsdaf](./readme/ui/salary.jpg)           |
+| Interview Question                               | Interview Result                           |
+| ![Landing](./readme/ui/interview/interview.gif)  | ![fsdaf](./readme/ui/interview/result.jpg) |
+| Resume Builder                                   | Improve Resume with AI                     |
+| ![Landing](./readme/ui/resume/ResumeBuilder.gif) | ![fsdaf](./readme/ui/resume/ResumeAI.gif)  |
 
 <br><br>
 
@@ -55,21 +66,61 @@
 
 ### Add Title Here
 
-| Services                                | Validation                            | Testing                               |
-| --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+| Service                                      | Controller                                      |
+| -------------------------------------------- | ----------------------------------------------- |
+| ![Landing](./readme/development/service.jpg) | ![fsdaf](./readme/development/controller.jpg)   |
+| Model                                        | Trait                                           |
+| ![Landing](./readme/development/model.jpg)   | ![fsdaf](./readme/development/trait.jpg)        |
+| Testing                                      | Feature Test                                    |
+| ![Landing](./readme/development/tests.jpg)   | ![fsdaf](./readme/development/feature_test.jpg) |
+
+<!-- | Controller                                      | Model                                    | Testing                                         |
+| ----------------------------------------------- | ---------------------------------------- | ----------------------------------------------- |
+| ![Landing](./readme/development/controller.jpg) | ![fsdaf](./readme/development/model.jpg) | ![fsdaf](./readme/development/tests.jpg)        |
+| Service                                         | Trait                                    | Testing                                         |
+| ![Landing](./readme/development/service.jpg)    | ![fsdaf](./readme/development/trait.jpg) | ![fsdaf](./readme/development/feature_test.jpg) | -->
+
+<br><br>
+
+<!-- AI-Powered APP -->
+<img src="./readme/title7.svg"/>
+
+<!-- ### Add Title Here
+
+- Description here. -->
+
+<!-- | Route                             | Service                           | Salary Prompt                    |
+| --------------------------------- | --------------------------------- | -------------------------------- |
+| ![Landing](./readme/ai/route.jpg) | ![fsdaf](./readme/ai/service.jpg) | ![fsdaf](./readme/ai/prompt.jpg) | -->
+
+| Route                             | Service                           |
+| --------------------------------- | --------------------------------- |
+| ![Landing](./readme/ai/route.jpg) | ![fsdaf](./readme/ai/service.jpg) |
+
+Salary Prompt
+![fsdaf](./readme/ai/prompt.jpg)
 
 <br><br>
 
 <!-- Deployment -->
-<img src="./readme/title7.svg"/>
+<img src="./readme/title8.svg"/>
 
-### Add Title Here
+<!-- ### Add Title Here
 
-- Description here.
+- Description here. -->
 
-| Postman API 1                           | Postman API 2                         | Postman API 3                         |
-| --------------------------------------- | ------------------------------------- | ------------------------------------- |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
+<!-- | Postman API 1                             | Postman API 2                           | Postman API 3                           |
+| ----------------------------------------- | --------------------------------------- | --------------------------------------- |
+| ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) | ![fsdaf](./readme/postman/postman3.png) | -->
+
+| Postman API 1                             | Postman API 2                           |
+| ----------------------------------------- | --------------------------------------- |
+| ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) |
+
+Postman API 3
+![fsdaf](./readme/postman/postman3.png)
+
+Deployment Pipeline Diagram
+![Landing](./readme/demo/Deployment-Pipeline-Diagram.jpg)
 
 <br><br>

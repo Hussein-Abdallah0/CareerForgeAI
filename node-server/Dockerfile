@@ -7,8 +7,8 @@ COPY ./package*.json /app/
 RUN npm install
 
 # Use build arguments for environment variables
-ARG NODE_API_TOKEN
-ENV NODE_API_TOKEN=$NODE_API_TOKEN
+ARG OPENAI_API_KEY
+ENV OPENAI_API_KEY=$NODE_API_TOKEN
 
 ENV PORT=3001
 
