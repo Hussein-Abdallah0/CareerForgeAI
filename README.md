@@ -108,7 +108,7 @@ Salary Prompt
 <!-- ### Add Title Here
 
 - Description here. -->
-
+EC2 Server: http://63.178.150.203
 <!-- | Postman API 1                             | Postman API 2                           | Postman API 3                           |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- |
 | ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) | ![fsdaf](./readme/postman/postman3.png) | -->
