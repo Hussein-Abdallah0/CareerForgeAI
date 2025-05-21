@@ -72,40 +72,47 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            set -euo pipefail
-            cd /var/www/fullstack-staging
+            # Bootstrap (run once)
+            if [ ! -d /var/www/fullstack-staging/.git ]; then
+              echo "Running initial server setup…"
 
-            # Create environment file with all variables
-            sudo tee .env <<EOF
+              # Install prerequisites
+              sudo apt-get update
+              sudo apt-get install -y git curl software-properties-common
+
+              # Trust GitHub host key
+              mkdir -p ~/.ssh
+              ssh-keyscan github.com >> ~/.ssh/known_hosts
+              chmod 600 ~/.ssh/known_hosts
+
+              # Clean up and clone the setup repo
+              sudo rm -rf /tmp/setup
+              git clone --branch staging git@github.com:Hussein-Abdallah0/CareerForgeAI.git /tmp/setup
+
+              # Run your install script (Docker & Docker-Compose)
+              sudo bash /tmp/setup/server-setup.sh
+
+              # **Prepare the webroot folder with correct ownership**
+              sudo mkdir -p /var/www/fullstack-staging
+              sudo chown $USER:$USER /var/www/fullstack-staging
+
+              # Clone *your app* there as ubuntu (no sudo)
+              git clone --branch staging git@github.com:Hussein-Abdallah0/CareerForgeAI.git /var/www/fullstack-staging
+            fi
+
+            # Regular deployment 
+            cd /var/www/fullstack-staging
+            git pull origin staging
+
+            cat >/var/www/fullstack-staging/.env <<EOF
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
-            BACKEND_IMAGE=${{ secrets.DOCKER_HUB_USERNAME }}/laravel-app-backend
-            FRONTEND_IMAGE=${{ secrets.DOCKER_HUB_USERNAME }}/laravel-app-frontend
-            NODE_IMAGE=${{ secrets.DOCKER_HUB_USERNAME }}/laravel-app-node
-            TAG=staging
-            NODE_API_TOKEN=${{ secrets.NODE_API_TOKEN }}
-            # Add MySQL variables
-            MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }}
-            MYSQL_DATABASE=careerForgeDB
             EOF
 
-            # Graceful shutdown with timeout
-            sudo docker-compose down --timeout 30
-
-            # Pull new images with cleanup
+            sudo docker-compose down
             sudo docker-compose pull
+            sudo docker-compose up -d
 
-            # Start services with resource limits
-            sudo docker-compose up -d \
-              --scale backend=2 \
-              --scale nodejs=2 \
-              --no-recreate
+            sudo docker-compose exec -T backend composer install --no-interaction --prefer-dist --optimize-autoloader
 
-            # Wait for MySQL readiness
-            sudo docker-compose exec -T mysql bash -c 'while ! mysqladmin ping -uroot -p"$$MYSQL_ROOT_PASSWORD" --silent; do sleep 2; done'
-
-            # Run migrations
             sudo docker-compose exec -T backend php artisan migrate --force
-
-            # Cleanup old images
-            sudo docker image prune -af

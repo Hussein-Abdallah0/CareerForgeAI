@@ -31,32 +31,3 @@ echo "docker-compose version: $(docker-compose --version)"
 sudo usermod -aG docker $USER
 newgrp docker
 
-exec sg docker newgrp `id -gn`
-
-# Add system optimizations AFTER Docker installation
-echo "Configuring system limits..."
-sudo tee -a /etc/sysctl.conf <<EOF
-vm.max_map_count=262144
-fs.file-max=65536
-EOF
-sudo sysctl -p
-
-# Configure Docker logging (prevent disk filling)
-sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json <<EOF
-{
-  "log-driver": "json-file",
-  "log-opts": {
-    "max-size": "10m",
-    "max-file": "3"
-  }
-}
-EOF
-
-# Enable Docker on boot
-sudo systemctl enable docker
-sudo systemctl restart docker
-
-# Verify installation
-docker --version
-docker-compose --version
