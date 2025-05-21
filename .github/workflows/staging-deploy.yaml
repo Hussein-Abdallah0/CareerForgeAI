@@ -115,7 +115,7 @@ jobs:
 
             git reset --hard HEAD
             git clean -fd
-            git pull origin staging --force
+            git pull origin staging --no-rebase
 
             cat > .env <<EOF
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
