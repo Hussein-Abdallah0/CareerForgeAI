@@ -108,17 +108,20 @@ Salary Prompt
 <!-- ### Add Title Here
 
 - Description here. -->
+
+
 EC2 Server: http://63.178.150.203
+
+
 <!-- | Postman API 1                             | Postman API 2                           | Postman API 3                           |
 | ----------------------------------------- | --------------------------------------- | --------------------------------------- |
 | ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) | ![fsdaf](./readme/postman/postman3.png) | -->
 
 | Postman API 1                             | Postman API 2                           |
 | ----------------------------------------- | --------------------------------------- |
-| ![Landing](./readme/postman/postman1.png) | ![fsdaf](./readme/postman/postman2.png) |
-
-Postman API 3
-![fsdaf](./readme/postman/postman3.png)
+| ![Landing](./readme/postman/postman1.jpg) | ![fsdaf](./readme/postman/postman2.jpg) |
+| Postman API 3                             | Postman API 4                           |
+| ![Landing](./readme/postman/postman3.jpg) | ![fsdaf](./readme/postman/postman4.jpg) |
 
 Deployment Pipeline Diagram
 ![Landing](./readme/demo/Deployment-Pipeline-Diagram.jpg)
