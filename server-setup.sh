@@ -2,7 +2,7 @@
 
 # Create directory
 sudo mkdir -p /var/www/fullstack-staging
-sudo chown -R $USER:$USER /var/www/fullstack-staging
+sudo chown -R $(whoami):$(whoami) /var/www/fullstack-staging
 
 # Install Docker
 sudo apt-get update
