@@ -112,6 +112,7 @@ jobs:
             # Regular deployment
             cd /var/www/fullstack-staging
             git config --global --add safe.directory /var/www/fullstack-staging
+
             git reset --hard HEAD
             git clean -fd
             git pull origin staging --force
