@@ -132,4 +132,4 @@ jobs:
             sudo docker-compose up -d
 
             sleep 10  # Wait for services
-            sudo dc exec -T backend php artisan migrate --force
+            sudo docker-compose exec -T backend php artisan migrate --force
