@@ -127,9 +127,9 @@ jobs:
             NODE_API_TOKEN=${{ secrets.NODE_API_TOKEN }}
             EOF
 
-            sudo dc down --timeout 30
-            sudo dc pull
-            sudo dc up -d
+            sudo docker-compose down --timeout 30
+            sudo docker-compose pull
+            sudo docker-compose up -d
 
             sleep 10  # Wait for services
             sudo dc exec -T backend php artisan migrate --force
